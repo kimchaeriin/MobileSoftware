@@ -1,0 +1,9 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.PocketMate" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#000000</item>
+        <item name="colorOnBackground">#FDF6FE</item>
+    </style>
+
+    <style name="Theme.PocketMate" parent="Base.Theme.PocketMate" />
+</resources>

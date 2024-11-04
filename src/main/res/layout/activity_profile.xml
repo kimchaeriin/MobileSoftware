@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ProfileActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorOnBackground"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            app:titleCentered="true"
+            app:title="내 프로필"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ImageView
+        android:layout_margin="30dp"
+        android:id="@+id/image"
+        android:src="@drawable/ic_launcher_background"
+        android:layout_gravity="center"
+        android:layout_width="150dp"
+        android:layout_height="150dp"/>
+
+    <LinearLayout
+        android:layout_margin="50dp"
+        android:layout_gravity="center"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/nickname"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:hint="닉네임"
+            android:text="닉네임"/>
+
+        <Button
+            android:id="@+id/duplicateCheckBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="중복 확인"/>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_margin="30dp"
+        android:id="@+id/friendListBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="친구 리스트"/>
+
+    <Button
+        android:layout_margin="10dp"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+        android:id="@+id/logoutBtn"
+        android:text="로그아웃"
+        android:backgroundTint="?attr/colorOnBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:layout_margin="10dp"
+        android:layout_gravity="center"
+        android:id="@+id/withDrawBtn"
+        android:backgroundTint="?attr/colorOnBackground"
+        android:text="회원 탈퇴하기"
+        android:textColor="#FF0000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
