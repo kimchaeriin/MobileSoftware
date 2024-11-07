@@ -4,7 +4,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="120dp">
+
+        <ImageView
+            android:src="@drawable/ic_launcher_background"
+            android:layout_margin="10dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/boardImage" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_marginTop="14dp"
+                android:layout_marginLeft="5sp"
+                android:layout_marginRight="10dp"
+                android:text="LG Gram"
+                android:textSize="20sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"/>
+
+            <TextView
+                android:layout_marginLeft="5sp"
+                android:layout_marginTop="10dp"
+                android:text="@string/lorem_ipsum"
+                android:textSize="15sp"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:layout_marginRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+    </LinearLayout>
 
     <fragment
         android:id="@+id/nav_host_fragment_content_main"
