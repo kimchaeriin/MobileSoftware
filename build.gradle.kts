@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.practice.android.pocketmate"
-        minSdk = 21
+        minSdk = 24
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -40,7 +40,8 @@ android {
 }
 
 dependencies {
-
+    implementation("com.google.firebase:firebase-auth")
+    implementation(platform("com.google.firebase:firebase-bom:33.3.0"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
