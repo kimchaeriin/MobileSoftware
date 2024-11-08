@@ -24,12 +24,13 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ImageView
+    <ImageButton
         android:layout_margin="30dp"
-        android:id="@+id/image"
+        android:id="@+id/profileImageBtn"
         android:src="@drawable/ic_launcher_background"
         android:layout_gravity="center"
         android:layout_width="150dp"
+        android:background="tranparent"
         android:layout_height="150dp"/>
 
     <LinearLayout
