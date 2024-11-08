@@ -1,4 +1,4 @@
-package com.practice.android.pocketmate
+package com.practice.android.pocketmate.Model
 
 data class BoardModel (
     val title : String = "",
