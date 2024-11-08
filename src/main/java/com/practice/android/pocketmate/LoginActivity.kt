@@ -18,13 +18,5 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
-            if (error != null) {
-                Log.e("KakaoLogin", "로그인 실패", error)
-            }
-            else if (token != null) {
-                Log.i("KakaoLogin", "로그인 성공 ${token.accessToken}")
-            }
-        }
     }
 }
