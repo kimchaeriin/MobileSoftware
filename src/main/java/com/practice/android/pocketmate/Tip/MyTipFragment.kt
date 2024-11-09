@@ -1,11 +1,20 @@
 package com.practice.android.pocketmate.Tip
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.practice.android.pocketmate.Adapter.BoardAdapter
+import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.databinding.FragmentMyTipBinding
+import com.practice.android.pocketmate.util.FBRef
+import kotlinx.coroutines.NonCancellable.children
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -35,31 +44,28 @@ class MyTipFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentMyTipBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+        val itemList = mutableListOf<BoardModel>()
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MyTipFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MyTipFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        FBRef.tipRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                itemList.clear()
+
+                for (data in dataSnapshot.children) {
+                    val item = data.getValue(BoardModel::class.java)
+                    itemList.add(item!!)
                 }
+                binding.recycler.adapter?.notifyDataSetChanged()
             }
+
+            override fun onCancelled(error: DatabaseError) {
+                //읽기 실패
+            }
+        })
+
+        binding.recycler.adapter = BoardAdapter(itemList)
+        binding.recycler.layoutManager = LinearLayoutManager(context)
+
+        return binding.root
     }
 }

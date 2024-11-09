@@ -11,44 +11,32 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.kakao.sdk.user.UserApiClient
-import com.practice.android.pocketmate.databinding.ActivityLoginBinding
+import com.practice.android.pocketmate.databinding.ActivityJoinBinding
 import com.practice.android.pocketmate.util.FBAuth.Companion.auth
 
-class LoginActivity : AppCompatActivity() {
+class JoinActivity : AppCompatActivity() {
 
-    lateinit var binding : ActivityLoginBinding
+    lateinit var binding : ActivityJoinBinding
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
+        binding = ActivityJoinBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         auth = Firebase.auth
 
         binding.joinBtn.setOnClickListener {
-            val intent = Intent(this, JoinActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-
-        binding.loginBtn.setOnClickListener {
-            val email = binding.emailArea.text.toString().trim()
-            val password = binding.passwordArea.text.toString().trim()
-
-            auth.signInWithEmailAndPassword(email, password)
+            val email = binding.emailArea.text.toString()
+            val password = binding.passwordArea.text.toString()
+            auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        val intent = Intent(this, MainActivity::class.java)
+                        val intent = Intent(this, LoginActivity::class.java)
                         startActivity(intent)
                         finish()
                     } else {
-                        Toast.makeText(
-                            baseContext,
-                            "Authentication failed.",
-                            Toast.LENGTH_SHORT,
-                        ).show()
+                        Toast.makeText(this, "회원가입에 실패하였습니다.", Toast.LENGTH_LONG).show()
                     }
                 }
         }

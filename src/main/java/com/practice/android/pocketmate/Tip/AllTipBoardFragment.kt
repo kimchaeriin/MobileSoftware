@@ -5,7 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.practice.android.pocketmate.Adapter.BoardAdapter
+import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.databinding.FragmentAllTipBoardBinding
+import com.practice.android.pocketmate.util.FBRef
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,6 +39,28 @@ class AllTipBoardFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentAllTipBoardBinding.inflate(inflater, container, false)
+
+        val itemList = mutableListOf<BoardModel>()
+
+        FBRef.tipRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                itemList.clear()
+
+                for (data in dataSnapshot.children) {
+                    val item = data.getValue(BoardModel::class.java)
+                    itemList.add(item!!)
+                }
+                binding.recycler.adapter?.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                //읽기 실패
+            }
+        })
+
+        binding.recycler.adapter = BoardAdapter(itemList)
+        binding.recycler.layoutManager = LinearLayoutManager(context)
+
         return binding.root
     }
 
@@ -43,28 +72,4 @@ class AllTipBoardFragment : Fragment() {
 //        }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AllTipBoardFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AllTipBoardFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }

@@ -45,4 +45,5 @@
     </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="NATIVE_APP_KEY">faf4d36560ab4d829c6f4ba0b0b6e96f</string>
 </resources>

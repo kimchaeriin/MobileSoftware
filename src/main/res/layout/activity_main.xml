@@ -22,6 +22,24 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <Button
+        android:text="소비 계획 쓰러 가기"
+        android:id="@+id/writePocketBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:text="오늘의 글"
+        android:id="@+id/todayTipBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:text="프로필"
+        android:id="@+id/profileBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <include layout="@layout/content_main" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
