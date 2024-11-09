@@ -1,9 +1,10 @@
 package com.practice.android.pocketmate.Model
 
 data class BoardModel (
-    val title : String = "",
-    val content : String = "",
-    val image : Int = 0
+    var user : String = "",
+    var title : String = "",
+    var content : String = "",
+    var image : Int = 0
 )
 
 //<com.google.android.material.floatingactionbutton.FloatingActionButton
