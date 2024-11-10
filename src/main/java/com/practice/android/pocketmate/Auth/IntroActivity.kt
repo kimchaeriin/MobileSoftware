@@ -1,24 +1,13 @@
-package com.practice.android.pocketmate
+package com.practice.android.pocketmate.Auth
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.kakao.sdk.auth.model.OAuthToken
-import com.kakao.sdk.common.model.ClientError
-import com.kakao.sdk.common.model.ClientErrorCause
-import com.kakao.sdk.user.UserApiClient
-import com.practice.android.pocketmate.Tip.WriteTipActivity
+import com.practice.android.pocketmate.MainActivity
 import com.practice.android.pocketmate.databinding.ActivityIntroBinding
-import com.practice.android.pocketmate.util.FBAuth.Companion.auth
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class IntroActivity : AppCompatActivity() {
 

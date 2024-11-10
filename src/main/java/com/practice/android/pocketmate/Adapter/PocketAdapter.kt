@@ -3,7 +3,8 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.secondproject.databinding.ItemPocketBinding
+import com.practice.android.pocketmate.databinding.ItemPocketBinding
+
 
 class PocketViewHolder(val binding: ItemPocketBinding):
     RecyclerView.ViewHolder(binding.root){

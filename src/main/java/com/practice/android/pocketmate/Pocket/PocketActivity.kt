@@ -1,6 +1,7 @@
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.secondproject.databinding.ActivityPocketBinding
+import com.practice.android.pocketmate.databinding.ActivityPocketBinding
+
 
 class PocketActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
