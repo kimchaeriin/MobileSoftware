@@ -19,13 +19,13 @@
 
             <EditText
                 android:id="@+id/emailArea"
-                android:layout_width="150dp"
+                android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:hint="이메일" />
 
             <EditText
                 android:id="@+id/passwordArea"
-                android:layout_width="150dp"
+                android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:hint="비밀번호" />
 

@@ -63,6 +63,10 @@ class ProfileActivity : AppCompatActivity() {
                 }
             }
 
+            val intent = Intent(this, IntroActivity::class.java)
+            startActivity(intent)
+            finish()
+
         }
 
         binding.withDrawBtn.setOnClickListener {
