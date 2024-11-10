@@ -14,6 +14,8 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.ktx.auth
@@ -32,72 +34,92 @@ class ProfileActivity : AppCompatActivity() {
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
-        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         binding.uid.text = FBAuth.getUid()
 
         binding.profileImageBtn.setOnClickListener {
+            //프로필 이미지 바꾸기
+        }
 
+        binding.changeBtn.setOnClickListener {
+            //닉네임 바꾸기
         }
 
         binding.copyBtn.setOnClickListener {
-            val clip: ClipData = ClipData.newPlainText("회원 아이디", binding.uid.text.toString())
-            clipboard.setPrimaryClip(clip)
+            copyUid()
         }
 
         binding.friendListBtn.setOnClickListener {
-            val intent = Intent(this, SearchIDActivity::class.java)
-            startActivity(intent)
-            finish()
+            switchScreen(this, SearchIDActivity::class.java)
         }
 
         binding.logoutBtn.setOnClickListener {
-            //파이어베이스와 카카오톡 계정 로그아웃 방식 분리
             Firebase.auth.signOut()
-
-            UserApiClient.instance.logout { error ->
-                if (error != null) {
-                    Log.e("kakaoLogout", "로그아웃 실패. SDK에서 토큰 삭제됨", error)
-                }
-                else {
-                    Log.i("kakaoLogout", "로그아웃 성공. SDK에서 토큰 삭제됨")
-                }
+            logoutWithKakao()
+            if (Firebase.auth.currentUser == null) {
+                switchScreen(this, IntroActivity::class.java)
             }
-
-            val intent = Intent(this, IntroActivity::class.java)
-            startActivity(intent)
-            finish()
-
         }
 
         binding.withDrawBtn.setOnClickListener {
-            //파이어베이스와 카카오톡 계정 회원 탈퇴 방식 분리
+            if (signOutWithFirebase() || signOutWithKakao()) {
+                switchScreen(this, IntroActivity::class.java)
+            }
+        }
+    }
 
-            val user = Firebase.auth.currentUser!!
+    fun logoutWithKakao() {
+        UserApiClient.instance.logout { error ->
+            if (error != null) {
+                Log.e("kakaoLogout", "로그아웃 실패. SDK에서 토큰 삭제됨", error)
+            }
+            else {
+                Log.i("kakaoLogout", "로그아웃 성공. SDK에서 토큰 삭제됨")
+            }
+        }
+    }
 
-            user.delete()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val intent = Intent(this, IntroActivity::class.java)
-                        startActivity(intent)
-                        finish()
+    fun signOutWithKakao() : Boolean {
+        var success = false
 
-                        //회원 탈퇴 팝업 or IntroActivity에 Toast 메세지
-
-                    }
-                }
-
-            UserApiClient.instance.unlink { error ->
-                if (error != null) {
-                    Log.e("kakaoSignOut", "연결 끊기 실패", error)
-                }
-                else {
-                    Log.i("kakaoSignOut", "연결 끊기 성공. SDK에서 토큰 삭제 됨")
-                    val intent = Intent(this, IntroActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
+        UserApiClient.instance.unlink { error ->
+            if (error != null) {
+                Log.e("kakaoSignOut", "연결 끊기 실패", error)
+            }
+            else {
+                Log.i("kakaoSignOut", "연결 끊기 성공. SDK에서 토큰 삭제 됨")
+                success = true
             }
         }
 
+        return success
+    }
+
+    fun signOutWithFirebase() : Boolean {
+        var success = false
+        val user = Firebase.auth.currentUser!!
+
+        user.delete()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    //회원 탈퇴 팝업 or IntroActivity에 Toast 메세지
+                    success = true
+                }
+            }
+
+        return success
+    }
+
+    fun copyUid() {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip: ClipData = ClipData.newPlainText("회원 아이디", binding.uid.text.toString())
+        clipboard.setPrimaryClip(clip)
+    }
+
+    fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
+        val intent = Intent(from, to)
+        startActivity(intent)
+        finish()
     }
 }

@@ -32,23 +32,23 @@ class IntroActivity : AppCompatActivity() {
 
         auth = Firebase.auth
         val currentUser = auth.currentUser
-        if (currentUser != null) {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-        else {
-            binding.kakaoLogin.setOnClickListener {
-                val intent = Intent(this, AuthCodeHandlerActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
 
-            binding.emailLogin.setOnClickListener {
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
+        if (currentUser != null) {
+            switchScreen(this, MainActivity::class.java)
         }
+
+        binding.kakaoLogin.setOnClickListener {
+            switchScreen(this, AuthCodeHandlerActivity::class.java)
+        }
+
+        binding.emailLogin.setOnClickListener {
+            switchScreen(this, LoginActivity::class.java)
+        }
+
+    }
+
+    fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
+        val intent = Intent(from, to)
+        from.startActivity(intent)
     }
 }
