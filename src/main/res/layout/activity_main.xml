@@ -1,55 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:title="함께 만드는 소비습관, PocketMate"
+            app:expandedTitleTextColor="@color/white"
+            android:background="@color/black">
+
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/toolbar">
+
+            </androidx.appcompat.widget.Toolbar>
+
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <com.google.android.material.navigation.NavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:fitsSystemWindows="true">
+        android:id="@+id/navigation"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/navigation_header"
+        app:menu="@menu/menu_navigation">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" />
+    </com.google.android.material.navigation.NavigationView>
 
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <Button
-        android:text="소비 계획 쓰러 가기"
-        android:id="@+id/writePocketBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:text="오늘의 글"
-        android:id="@+id/todayTipBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:text="프로필"
-        android:id="@+id/profileBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <include layout="@layout/content_main" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:contentDescription="어쩌고"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_marginBottom="16dp"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        android:orientation="vertical">
 
-</LinearLayout>
+        <Button
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            android:id="@+id/writePocketBtn"
+            android:backgroundTint="#787676"
+            android:text="소비 계획 쓰러 가기"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="280dp"
+            android:layout_gravity="center">
+        </Button>
+
+        <Button
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            android:id="@+id/profileBtn"
+            android:backgroundTint="#787676"
+            android:text="프로필"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_gravity="center">
+        </Button>
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/ic_launcher_background"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"/>
+
+
+    </LinearLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>

@@ -15,13 +15,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PocketMate"
         tools:targetApi="31">
-        <activity
-            android:name=".JoinActivity"
-            android:exported="false" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="faf4d36560ab4d829c6f4ba0b0b6e96f" />
+
+        <activity
+            android:parentActivityName=".LoginActivity"
+            android:name=".JoinActivity"
+            android:exported="false" />
 
         <activity
             android:name=".AuthCodeHandlerActivity"
@@ -39,6 +41,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:parentActivityName=".IntroActivity"
             android:name=".LoginActivity"
             android:exported="false" />
         <activity

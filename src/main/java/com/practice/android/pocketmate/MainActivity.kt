@@ -14,37 +14,38 @@ import android.view.MenuItem
 import com.kakao.sdk.common.util.Utility
 import com.practice.android.pocketmate.Tip.TipBoardActivity
 import com.practice.android.pocketmate.Tip.WriteTipActivity
-
 import com.practice.android.pocketmate.databinding.ActivityMainBinding
+import androidx.appcompat.app.ActionBarDrawerToggle
+
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
+    lateinit var toggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-//        var keyHash = Utility.getKeyHash(this)
-//        Log.d("KaKao", keyHash)
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setSupportActionBar(binding.toolbar)
 
-        binding.todayTipBtn.setOnClickListener {
-            val intent = Intent(this, WriteTipActivity::class.java)
+        toggle = ActionBarDrawerToggle(this, binding.drawerMain, R.string.drawer_opened, R.string.drawer_closed)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toggle.syncState()
+
+        binding.writePocketBtn.setOnClickListener(){
+            val intent: Intent = Intent(this, JoinActivity::class.java)
             startActivity(intent)
-            finish()
         }
 
-        binding.profileBtn.setOnClickListener {
-            val intent = Intent(this, ProfileActivity::class.java)
+        binding.profileBtn.setOnClickListener(){
+            val intent: Intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
-            finish()
         }
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (toggle.onOptionsItemSelected(item))
+            return true
+        return super.onOptionsItemSelected(item)
     }
 
 }

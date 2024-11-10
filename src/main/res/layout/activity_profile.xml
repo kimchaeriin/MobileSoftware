@@ -34,7 +34,8 @@
         android:layout_height="150dp"/>
 
     <LinearLayout
-        android:layout_margin="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="20dp"
         android:layout_gravity="center"
         android:layout_width="250dp"
         android:layout_height="wrap_content">
@@ -45,8 +46,7 @@
             android:layout_weight="1"
             android:layout_width="100dp"
             android:layout_height="50dp"
-            android:hint="닉네임"
-            android:text="닉네임"/>
+            android:hint="닉네임"/>
 
         <Button
             android:id="@+id/duplicateCheckBtn"
@@ -65,13 +65,13 @@
             android:layout_gravity="center"
             android:id="@+id/uid"
             android:text="아이디"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <ImageButton
             android:background="?attr/colorOnBackground"
-            android:src="@drawable/ic_launcher_foreground"
+            android:src="@drawable/baseline_content_copy_24"
             android:text="복사"
             android:layout_marginLeft="20dp"
             android:id="@+id/copyBtn"
@@ -81,7 +81,7 @@
     </LinearLayout>
 
     <Button
-        android:layout_margin="40dp"
+        android:layout_marginTop="40dp"
         android:id="@+id/friendListBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -99,13 +99,12 @@
         android:layout_height="wrap_content"/>
 
     <Button
-        android:layout_margin="10dp"
         android:layout_gravity="center"
         android:id="@+id/withDrawBtn"
         android:backgroundTint="?attr/colorOnBackground"
         android:text="회원 탈퇴하기"
         android:textColor="#FF0000"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_width="150dp"
+        android:layout_height="50dp"/>
 
 </LinearLayout>

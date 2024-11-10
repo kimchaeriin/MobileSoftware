@@ -13,7 +13,6 @@ class TipBoardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityTipBoardBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//
 //        setSupportActionBar(binding.toolbar)
 
         binding.writeTipBtn.setOnClickListener {

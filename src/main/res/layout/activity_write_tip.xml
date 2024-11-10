@@ -16,6 +16,7 @@
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.MaterialToolbar
+            app:titleCentered="true"
             app:title="팁 올리기"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -24,11 +25,12 @@
     </com.google.android.material.appbar.AppBarLayout>
 
         <EditText
+            android:background="@null"
             android:textSize="25sp"
             android:layout_margin="30dp"
             android:layout_gravity="center"
             android:id="@+id/title"
-            android:text="제목"
+            android:hint="제목"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -40,11 +42,13 @@
 
         <EditText
             android:textSize="20sp"
-            android:text="내용"
+            android:hint="내용"
+            android:background="@null"
             android:id="@+id/content"
             android:layout_margin="30dp"
             android:layout_width="match_parent"
-            android:layout_height="200dp"/>
+            android:layout_height="200dp"
+            />
 
         <Button
             android:id="@+id/postBtn"
