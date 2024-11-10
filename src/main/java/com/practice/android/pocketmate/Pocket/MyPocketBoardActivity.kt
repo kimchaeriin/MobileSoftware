@@ -5,7 +5,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.secondproject.databinding.ActivityMyPocketBoardBinding
+import com.practice.android.pocketmate.Pocket.WritePocketBoardActivity
+import com.practice.android.pocketmate.R
+import com.practice.android.pocketmate.databinding.ActivityMyPocketBoardBinding
 
 class MyPocketBoardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,7 +19,7 @@ class MyPocketBoardActivity : AppCompatActivity() {
 
         val items = mutableListOf<PocketData>() //input data
         for(i in 1..5){
-            items.add(PocketData("제목","내용",R.drawable.ic_launcher_background))
+            items.add(PocketData("제목","내용", R.drawable.ic_launcher_background))
         }
         binding.recyclerView.layoutManager= LinearLayoutManager(this)
         binding.recyclerView.adapter = PocketAdapter(items)
@@ -41,7 +43,7 @@ class MyPocketBoardActivity : AppCompatActivity() {
         }
 
         binding.fbtn2.setOnClickListener(){
-            val intent: Intent = Intent(this,WritePocketBoardActivity::class.java)
+            val intent: Intent = Intent(this, WritePocketBoardActivity::class.java)
             startActivity(intent)
         }
 

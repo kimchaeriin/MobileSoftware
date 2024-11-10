@@ -1,3 +1,7 @@
+package com.practice.android.pocketmate.Pocket
+
+import MyPocketBoardActivity
+import PocketAdapter
 import PocketData
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +11,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.secondproject.databinding.ActivityPocketBoardBinding
+import com.practice.android.pocketmate.R
+import com.practice.android.pocketmate.databinding.ActivityPocketBoardBinding
 
 class PocketBoardActivity : AppCompatActivity() {
     lateinit var toggle: ActionBarDrawerToggle
@@ -18,13 +23,13 @@ class PocketBoardActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        toggle = ActionBarDrawerToggle(this,binding.drawer,R.string.drawer_opened,R.string.drawer_closed)
+        toggle = ActionBarDrawerToggle(this,binding.drawer, R.string.drawer_opened,R.string.drawer_closed)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toggle.syncState()
 
         val items = mutableListOf<PocketData>() //input data
         for(i in 1..5){
-            items.add(PocketData("제목","내용",R.drawable.ic_launcher_background))
+            items.add(PocketData("제목","내용", R.drawable.ic_launcher_background))
         }
         binding.recyclerView.layoutManager=LinearLayoutManager(this)
         binding.recyclerView.adapter = PocketAdapter(items)
@@ -47,12 +52,12 @@ class PocketBoardActivity : AppCompatActivity() {
         }
 
         binding.fbtn2.setOnClickListener(){
-            val intent: Intent = Intent(this,WritePocketBoardActivity::class.java)
+            val intent: Intent = Intent(this, WritePocketBoardActivity::class.java)
             startActivity(intent)
         }
 
         binding.fbtn4.setOnClickListener(){
-            val intent: Intent = Intent(this,MyPocketBoardActivity::class.java)
+            val intent: Intent = Intent(this, MyPocketBoardActivity::class.java)
             startActivity(intent)
         }
     }

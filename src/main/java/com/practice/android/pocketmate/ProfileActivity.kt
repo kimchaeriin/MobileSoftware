@@ -4,23 +4,13 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.user.UserApiClient
+import com.practice.android.pocketmate.Auth.IntroActivity
 import com.practice.android.pocketmate.databinding.ActivityProfileBinding
 import com.practice.android.pocketmate.util.FBAuth
 
