@@ -1,9 +1,13 @@
 package com.practice.android.pocketmate.Adapter
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.practice.android.pocketmate.Model.BoardModel
+import com.practice.android.pocketmate.Tip.TipActivity
 import com.practice.android.pocketmate.databinding.ItemBoardBinding
 
 class BoardViewHolder(val binding: ItemBoardBinding) : RecyclerView.ViewHolder(binding.root)
