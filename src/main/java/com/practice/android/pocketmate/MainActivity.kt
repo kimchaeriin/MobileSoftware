@@ -40,6 +40,15 @@ class MainActivity : AppCompatActivity() {
             val intent: Intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
+
+        binding.tipBoardBtn.setOnClickListener(){
+            switchScreen(this, TipBoardActivity::class.java)
+        }
+    }
+
+    fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
+        val intent = Intent(from, to)
+        from.startActivity(intent)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -13,6 +13,7 @@
         <action
             android:id="@+id/action_AllTipBoardFragment_to_MyTipFragment"
             app:destination="@id/MyTipFragment" />
+
     </fragment>
 
     <fragment

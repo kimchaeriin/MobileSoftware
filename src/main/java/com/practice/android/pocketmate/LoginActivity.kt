@@ -62,6 +62,5 @@ class LoginActivity : AppCompatActivity() {
     fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
         val intent = Intent(from, to)
         from.startActivity(intent)
-        from.finish()
     }
 }
