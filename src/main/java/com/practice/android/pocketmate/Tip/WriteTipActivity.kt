@@ -44,7 +44,8 @@ class WriteTipActivity : AppCompatActivity() {
         }
         else {
             val tip = BoardModel(user, title, content, image)
-            FBRef.tipRef.push().setValue(tip)
+            val key = FBRef.tipRef.push().key.toString()
+            FBRef.tipRef.child(key).setValue(tip)
             switchScreen(this, TipBoardActivity::class.java)
         }
     }
