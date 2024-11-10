@@ -16,9 +16,13 @@ class TipBoardActivity : AppCompatActivity() {
 //        setSupportActionBar(binding.toolbar)
 
         binding.writeTipBtn.setOnClickListener {
-            val intent = Intent(this, WriteTipActivity::class.java)
-            startActivity(intent)
+            switchScreen(this, WriteTipActivity::class.java)
         }
+    }
 
+    fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
+        val intent = Intent(from, to)
+        from.startActivity(intent)
+        from.finish()
     }
 }

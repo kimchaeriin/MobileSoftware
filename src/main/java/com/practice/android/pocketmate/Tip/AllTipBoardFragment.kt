@@ -37,15 +37,23 @@ class AllTipBoardFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentAllTipBoardBinding.inflate(inflater, container, false)
 
-        val itemList = mutableListOf<BoardModel>()
+        val tipList = getTipList()
+        binding.recycler.adapter = BoardAdapter(tipList)
+        binding.recycler.layoutManager = LinearLayoutManager(context)
+
+        return binding.root
+    }
+
+    fun getTipList() : MutableList<BoardModel> {
+        val tipList = mutableListOf<BoardModel>()
 
         FBRef.tipRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                itemList.clear()
+                tipList.clear()
 
                 for (data in dataSnapshot.children) {
-                    val item = data.getValue(BoardModel::class.java)
-                    itemList.add(item!!)
+                    val tip = data.getValue(BoardModel::class.java)
+                    tipList.add(tip!!)
                 }
                 binding.recycler.adapter?.notifyDataSetChanged()
             }
@@ -55,10 +63,7 @@ class AllTipBoardFragment : Fragment() {
             }
         })
 
-        binding.recycler.adapter = BoardAdapter(itemList)
-        binding.recycler.layoutManager = LinearLayoutManager(context)
-
-        return binding.root
+        return tipList
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

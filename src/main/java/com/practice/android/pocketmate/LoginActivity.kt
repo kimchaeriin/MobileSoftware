@@ -24,34 +24,44 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
 
         auth = Firebase.auth
 
         binding.joinBtn.setOnClickListener {
-            val intent = Intent(this, JoinActivity::class.java)
-            startActivity(intent)
-            finish()
+            switchScreen(this, JoinActivity::class.java)
         }
 
         binding.loginBtn.setOnClickListener {
-            val email = binding.emailArea.text.toString().trim()
-            val password = binding.passwordArea.text.toString().trim()
-
-            auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        Toast.makeText(
-                            baseContext,
-                            "Authentication failed.",
-                            Toast.LENGTH_SHORT,
-                        ).show()
-                    }
-                }
+            login()
+            if (auth.currentUser != null) {
+                switchScreen(this, MainActivity::class.java)
+            }
         }
+    }
 
+    fun login() {
+        val email = binding.emailArea.text.toString().trim()
+        val password = binding.passwordArea.text.toString().trim()
+
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+
+                } else {
+                    Toast.makeText(
+                        baseContext,
+                        "Authentication failed.",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                }
+            }
+    }
+
+    fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
+        val intent = Intent(from, to)
+        from.startActivity(intent)
+        from.finish()
     }
 }

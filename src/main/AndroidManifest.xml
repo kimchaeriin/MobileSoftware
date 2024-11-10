@@ -24,7 +24,6 @@
             android:parentActivityName=".LoginActivity"
             android:name=".JoinActivity"
             android:exported="false" />
-
         <activity
             android:name=".AuthCodeHandlerActivity"
             android:exported="false" />
@@ -41,9 +40,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:parentActivityName=".IntroActivity"
             android:name=".LoginActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".IntroActivity" />
         <activity
             android:name=".Tip.WriteTipActivity"
             android:exported="false"
@@ -54,7 +53,9 @@
             android:parentActivityName=".ProfileActivity" />
         <activity
             android:name=".ProfileActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity">
+        </activity>
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">

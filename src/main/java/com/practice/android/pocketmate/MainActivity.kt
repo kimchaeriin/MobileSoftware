@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         toggle.syncState()
 
         binding.writePocketBtn.setOnClickListener(){
-            val intent: Intent = Intent(this, JoinActivity::class.java)
+            val intent: Intent = Intent(this, WriteTipActivity::class.java)
             startActivity(intent)
         }
 
