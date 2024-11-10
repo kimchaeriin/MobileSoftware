@@ -1,7 +1,10 @@
+package com.practice.android.pocketmate.Adapter
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.practice.android.mobilesoftware.databinding.ItemBoardBinding //패키지 이름 필요시 변경
+import com.practice.android.pocketmate.Model.BoardModel
+import com.practice.android.pocketmate.databinding.ItemBoardBinding
 
 class BoardViewHolder(val binding: ItemBoardBinding) : RecyclerView.ViewHolder(binding.root)
 
