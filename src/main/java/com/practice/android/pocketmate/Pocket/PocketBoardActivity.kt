@@ -2,7 +2,6 @@ package com.practice.android.pocketmate.Pocket
 
 import MyPocketBoardActivity
 import PocketAdapter
-import PocketData
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -11,6 +10,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.practice.android.pocketmate.Model.PocketModel
 import com.practice.android.pocketmate.R
 import com.practice.android.pocketmate.databinding.ActivityPocketBoardBinding
 
@@ -23,17 +23,17 @@ class PocketBoardActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        toggle = ActionBarDrawerToggle(this,binding.drawer, R.string.drawer_opened,R.string.drawer_closed)
+        toggle = ActionBarDrawerToggle(this, binding.drawer, R.string.drawer_opened, R.string.drawer_closed)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toggle.syncState()
 
-        val items = mutableListOf<PocketData>() //input data
+        val items = mutableListOf<PocketModel>() //input data
         for(i in 1..5){
-            items.add(PocketData("제목","내용", R.drawable.ic_launcher_background))
+            items.add(PocketModel("제목", "내용", R.drawable.ic_launcher_background))
         }
-        binding.recyclerView.layoutManager=LinearLayoutManager(this)
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = PocketAdapter(items)
-        binding.recyclerView.addItemDecoration(DividerItemDecoration(this,LinearLayoutManager.VERTICAL))
+        binding.recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
 
         binding.fbtn1.setOnClickListener(){
             if(binding.fbtn1.text == "+"){
