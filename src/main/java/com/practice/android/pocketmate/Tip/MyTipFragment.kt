@@ -13,6 +13,7 @@ import com.google.firebase.database.ValueEventListener
 import com.practice.android.pocketmate.Adapter.BoardAdapter
 import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.databinding.FragmentMyTipBinding
+import com.practice.android.pocketmate.util.FBAuth
 import com.practice.android.pocketmate.util.FBRef
 import kotlinx.coroutines.NonCancellable.children
 
@@ -62,7 +63,9 @@ class MyTipFragment : Fragment() {
 
                 for (data in dataSnapshot.children) {
                     val tip = data.getValue(BoardModel::class.java)
-                    tipList.add(tip!!)
+                    if (tip!!.user.equals(FBAuth.getUid())) {
+                        tipList.add(tip)
+                    }
                 }
                 binding.recycler.adapter?.notifyDataSetChanged()
             }

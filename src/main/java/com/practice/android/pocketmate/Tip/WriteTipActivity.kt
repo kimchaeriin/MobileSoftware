@@ -24,8 +24,7 @@ class WriteTipActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.postBtn.setOnClickListener {
-            post()
-            switchScreen(this, TipBoardActivity::class.java)
+            postAndSwitchScreen()
         }
     }
 
@@ -34,7 +33,7 @@ class WriteTipActivity : AppCompatActivity() {
         from.startActivity(intent)
     }
 
-    fun post() {
+    fun postAndSwitchScreen() {
         val user = FBAuth.getUid()
         val title = binding.title.text.toString()
         val content = binding.content.text.toString()
@@ -45,7 +44,8 @@ class WriteTipActivity : AppCompatActivity() {
         }
         else {
             val tip = BoardModel(user, title, content, image)
-            FBRef.tipRef.setValue(tip)
+            FBRef.tipRef.push().setValue(tip)
+            switchScreen(this, TipBoardActivity::class.java)
         }
     }
 

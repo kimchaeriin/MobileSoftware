@@ -58,10 +58,21 @@
 
         <Button
             android:layout_width="300dp"
-            android:layout_height="150dp"
+            android:layout_height="50dp"
             android:id="@+id/profileBtn"
             android:backgroundTint="#787676"
             android:text="프로필"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_gravity="center">
+        </Button>
+
+        <Button
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:id="@+id/tipBoardBtn"
+            android:backgroundTint="#787676"
+            android:text="팁 게시판"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_gravity="center">
