@@ -36,7 +36,7 @@
 
         <ImageView
             android:layout_gravity="center"
-            android:src="@drawable/ic_launcher_background"
+            android:src="@drawable/baseline_add_a_photo_24"
             android:layout_width="240dp"
             android:layout_height="240dp"/>
 

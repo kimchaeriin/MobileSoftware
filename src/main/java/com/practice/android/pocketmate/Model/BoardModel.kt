@@ -1,7 +1,7 @@
 package com.practice.android.pocketmate.Model
 
 data class BoardModel (
-    var user : String = "",
+    var writer : String = "",
     var title : String = "",
     var content : String = "",
     var image : Int = 0
