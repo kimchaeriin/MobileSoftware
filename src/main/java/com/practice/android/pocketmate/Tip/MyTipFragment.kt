@@ -1,5 +1,6 @@
 package com.practice.android.pocketmate.Tip
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -47,9 +48,14 @@ class MyTipFragment : Fragment() {
         _binding = FragmentMyTipBinding.inflate(inflater, container, false)
 
         val tipList = getMyTipList()
+        val boardKeyList = mutableListOf<String>()
 
         binding.recycler.adapter = BoardAdapter(tipList)
         binding.recycler.layoutManager = LinearLayoutManager(context)
+
+        binding.recycler.setRecyclerListener {
+
+        }
 
         return binding.root
     }
@@ -63,7 +69,7 @@ class MyTipFragment : Fragment() {
 
                 for (data in dataSnapshot.children) {
                     val tip = data.getValue(BoardModel::class.java)
-                    if (tip!!.user.equals(FBAuth.getUid())) {
+                    if (tip!!.writer.equals(FBAuth.getUid())) {
                         tipList.add(tip)
                     }
                 }

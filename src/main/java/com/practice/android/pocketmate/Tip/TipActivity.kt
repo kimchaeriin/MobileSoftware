@@ -44,7 +44,7 @@ class tipAdapter(val tipList : MutableList<BoardModel>) : BaseAdapter() {
         val content = view?.findViewById<TextView>(R.id.content)
         content?.text = tipList[position].content
         val user = view?.findViewById<TextView>(R.id.nickname)
-        user!!.text = tipList[position].user
+        user!!.text = tipList[position].writer
 
         return view!!
     }
@@ -71,9 +71,6 @@ class TipActivity : AppCompatActivity() {
                 for (data in dataSnapshot.children) {
                     if (data.key == key) {
                         val tip = data.getValue(BoardModel::class.java)
-                        binding.nickname.text = tip!!.user
-                        binding.title.text = tip.title
-                        binding.content.text = tip.content
                     }
                 }
             }

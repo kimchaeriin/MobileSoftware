@@ -30,7 +30,7 @@ class PocketAdapter(val Items:MutableList<PocketModel>):
         val binding = (holder as PocketViewHolder).binding
         binding.title.text = Items[position].title
         binding.contetnt.text = Items[position].content
-        binding.pocketImg.setImageResource(Items[position].img)
+        binding.pocketImg.setImageResource(Items[position].image)
     }
 
 }
