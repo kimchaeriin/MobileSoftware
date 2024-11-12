@@ -3,6 +3,7 @@ package com.practice.android.pocketmate.Adapter
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
@@ -22,8 +23,12 @@ class BoardAdapter (val context: Context, val items: MutableList<BoardModel>, va
         val binding = (holder as BoardViewHolder).binding
         binding.boardTitle.text = items[position].title
         binding.boardContent.text = items[position].content
-        binding.boardImage.setImageResource(items[position].image)
-
+        if (items[position].image == 0) {
+            binding.boardImage.visibility = View.GONE
+        }
+        else {
+            binding.boardImage.setImageResource(items[position].image)
+        }
         binding.root.setOnClickListener {
             val intent = Intent(context, TipActivity::class.java).apply {
                 putExtra("key", keyList[position])
