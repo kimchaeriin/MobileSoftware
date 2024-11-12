@@ -28,12 +28,7 @@ class WriteTipActivity : AppCompatActivity() {
         }
     }
 
-    fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
-        val intent = Intent(from, to)
-        from.startActivity(intent)
-    }
-
-    fun postAndSwitchScreen() {
+    private fun postAndSwitchScreen() {
         val user = FBAuth.getUid()
         val title = binding.title.text.toString()
         val content = binding.content.text.toString()
@@ -50,5 +45,8 @@ class WriteTipActivity : AppCompatActivity() {
         }
     }
 
-
+    private fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
+        val intent = Intent(from, to)
+        from.startActivity(intent)
+    }
 }

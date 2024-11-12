@@ -39,13 +39,15 @@ class AllTipBoardFragment : Fragment() {
         _binding = FragmentAllTipBoardBinding.inflate(inflater, container, false)
 
         val tipList = getTipList()
-        binding.recycler.adapter = BoardAdapter(tipList)
+        val keyList = getKeyList()
+
+        binding.recycler.adapter = BoardAdapter(requireContext(), tipList, keyList)
         binding.recycler.layoutManager = LinearLayoutManager(context)
 
         return binding.root
     }
 
-    fun getTipList() : MutableList<BoardModel> {
+    private fun getTipList() : MutableList<BoardModel> {
         val tipList = mutableListOf<BoardModel>()
 
         FBRef.tipRef.addValueEventListener(object : ValueEventListener {
@@ -65,6 +67,26 @@ class AllTipBoardFragment : Fragment() {
         })
 
         return tipList
+    }
+
+    private fun getKeyList() : MutableList<String> {
+        val keyList = mutableListOf<String>()
+
+        FBRef.tipRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                keyList.clear()
+                for (data in dataSnapshot.children) {
+                    keyList.add(data.key.toString())
+                }
+                binding.recycler.adapter?.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                //읽기 실패
+            }
+        })
+
+        return keyList
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -40,15 +40,18 @@ class TipBoardActivity : AppCompatActivity() {
         binding.fabMine.setOnClickListener {
             navController.navigate(R.id.action_AllTipBoardFragment_to_MyTipFragment)
         }
+
     }
 
     fun toggleFab() {
         if (isFabOpen) {
+            ObjectAnimator.ofFloat(binding.fabMine, "translationX", -200f).apply { start() }
             ObjectAnimator.ofFloat(binding.fabMine, "translationY", -200f).apply { start() }
             ObjectAnimator.ofFloat(binding.fabWrite, "translationY", -400f).apply { start() }
             binding.fabMain.setImageResource(R.drawable.baseline_close_24)
             // 플로팅 액션 버튼 열기 - 닫혀있는 플로팅 버튼 꺼내는 애니메이션 세팅
         } else {
+            ObjectAnimator.ofFloat(binding.fabMine, "translationX", 0f).apply { start() }
             ObjectAnimator.ofFloat(binding.fabMine, "translationY", 0f).apply { start() }
             ObjectAnimator.ofFloat(binding.fabWrite, "translationY", 0f).apply { start() }
             binding.fabMain.setImageResource(R.drawable.baseline_add_24)
