@@ -13,6 +13,7 @@ import com.kakao.sdk.user.UserApiClient
 import com.practice.android.pocketmate.Auth.IntroActivity
 import com.practice.android.pocketmate.databinding.ActivityProfileBinding
 import com.practice.android.pocketmate.util.FBAuth
+import com.practice.android.pocketmate.util.FBRef
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -59,7 +60,7 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-    fun logoutWithKakao() {
+    private fun logoutWithKakao() { //안될 것 같다
         UserApiClient.instance.logout { error ->
             if (error != null) {
                 Log.e("kakaoLogout", "로그아웃 실패. SDK에서 토큰 삭제됨", error)
@@ -70,7 +71,7 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-    fun signOutWithKakao() : Boolean {
+    private fun signOutWithKakao() : Boolean {
         var success = false
 
         UserApiClient.instance.unlink { error ->
@@ -86,7 +87,7 @@ class ProfileActivity : AppCompatActivity() {
         return success
     }
 
-    fun signOutWithFirebase() : Boolean {
+    private fun signOutWithFirebase() : Boolean {
         var success = false
         val user = Firebase.auth.currentUser!!
 
@@ -101,13 +102,13 @@ class ProfileActivity : AppCompatActivity() {
         return success
     }
 
-    fun copyUid() {
+    private fun copyUid() {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip: ClipData = ClipData.newPlainText("회원 아이디", binding.uid.text.toString())
         clipboard.setPrimaryClip(clip)
     }
 
-    fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
+    private fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
         val intent = Intent(from, to)
         startActivity(intent)
         finish()

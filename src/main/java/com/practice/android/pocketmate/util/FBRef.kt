@@ -12,6 +12,7 @@ class FBRef {
         val pocketRef = database.getReference("PocketBoard")
         val friendsRef = database.getReference("FriendsList")
         val commentRef = database.getReference("Comments")
+        val nicknameRef = database.getReference("Nicknames")
 
     }
 }

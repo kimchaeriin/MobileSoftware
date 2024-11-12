@@ -50,16 +50,19 @@ class AuthCodeHandlerActivity : AppCompatActivity() {
                     UserApiClient.instance.me { user, error ->
                         if (user != null) {
                             // 로그인 성공 시 Firebase와 연결
-                            linkToFirebase(user.id.toString())
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
                             finish()
+                            linkToFirebase(user.id.toString())
                         }
                     }
                 }
             }
         } else {
             UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 

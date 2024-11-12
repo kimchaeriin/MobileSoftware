@@ -27,7 +27,6 @@ class MyTipFragment : Fragment() {
     private var param2: String? = null
 
     private var _binding: FragmentMyTipBinding? = null
-
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -48,28 +47,44 @@ class MyTipFragment : Fragment() {
         _binding = FragmentMyTipBinding.inflate(inflater, container, false)
 
         val tipList = getMyTipList()
-        val boardKeyList = mutableListOf<String>()
+        val keyList = getMyTipKeyList()
 
-        binding.recycler.adapter = BoardAdapter(tipList)
+        binding.recycler.adapter = BoardAdapter(requireContext(), tipList, keyList)
         binding.recycler.layoutManager = LinearLayoutManager(context)
-
-        binding.recycler.setRecyclerListener {
-
-        }
 
         return binding.root
     }
 
-    fun getMyTipList() : MutableList<BoardModel> {
-        val tipList = mutableListOf<BoardModel>()
-
+    private fun getMyTipKeyList(): MutableList<String> {
+        val keyList = mutableListOf<String>()
         FBRef.tipRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                tipList.clear()
+                keyList.clear()
 
                 for (data in dataSnapshot.children) {
                     val tip = data.getValue(BoardModel::class.java)
                     if (tip!!.writer.equals(FBAuth.getUid())) {
+                        keyList.add(data.key.toString())
+                    }
+                }
+                binding.recycler.adapter?.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                //읽기 실패
+            }
+        })
+        return keyList
+    }
+
+    private fun getMyTipList() : MutableList<BoardModel> {
+        val tipList = mutableListOf<BoardModel>()
+        FBRef.tipRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                tipList.clear()
+                for (data in dataSnapshot.children) {
+                    val tip = data.getValue(BoardModel::class.java)
+                    if (tip!!.writer == FBAuth.getUid()) {
                         tipList.add(tip)
                     }
                 }
