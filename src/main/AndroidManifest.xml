@@ -24,6 +24,32 @@
             android:value="faf4d36560ab4d829c6f4ba0b0b6e96f" />
 
         <activity
+            android:name=".FriendsListActivity"
+            android:exported="false"
+            android:parentActivityName=".PocketBoardActivity"/>
+        <activity
+            android:name=".MyPocketFragment"
+            android:exported="false" />
+        <activity
+            android:name=".PocketActivity"
+            android:exported="false"
+            android:parentActivityName=".PocketBoardActivity" />
+        <activity
+            android:name=".MyPocketBoardActivity"
+            android:exported="false"
+            android:parentActivityName=".PocketBoardActivity" />
+        <activity
+            android:name=".WritePocketBoardActivity"
+            android:exported="false"
+            android:parentActivityName=".PocketBoardActivity" />
+        <activity
+            android:name=".PocketAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".PocketBoardActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".Auth.JoinActivity"
             android:exported="false"
             android:parentActivityName=".Auth.LoginActivity" />
