@@ -23,34 +23,8 @@ class WriteTipActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val key = intent.getStringExtra("isEdit")
-
-        if (key == null) {
-            binding.postBtn.setOnClickListener {
-                postAndSwitchScreen()
-            }
-        }
-        else {
-            binding.postBtn.text = "수정하기"
-            binding.postBtn.setOnClickListener {
-                editAndSwitchScreen(key)
-            }
-        }
-    }
-
-    private fun editAndSwitchScreen(key: String) {
-        val title = binding.title.text.toString()
-        val content = binding.content.text.toString()
-        val image = 0 //null일 때와 아닐 때 분리 필요
-        val user = FBAuth.getUid()
-
-        if (title.isEmpty() || content.isEmpty()) {
-            Toast.makeText(this, "제목과 내용은 한 글자 이상 작성해야 합니다.", Toast.LENGTH_SHORT).show()
-        }
-        else {
-            val tip = BoardModel(user, title, content, image)
-            FBRef.tipRef.child(key).setValue(tip)
-            switchScreen(this, TipBoardActivity::class.java)
+        binding.postBtn.setOnClickListener {
+            postAndSwitchScreen()
         }
     }
 

@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Tip.WriteTipActivity">
+    tools:context=".Tip.EditTipActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -61,7 +61,7 @@
                 />
 
             <Button
-                android:id="@+id/postBtn"
+                android:id="@+id/editBtn"
                 android:text="올리기"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"

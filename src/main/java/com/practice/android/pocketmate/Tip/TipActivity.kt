@@ -1,28 +1,17 @@
 package com.practice.android.pocketmate.Tip
 
-import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.TextView
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.practice.android.pocketmate.Adapter.BoardAdapter
+import com.practice.android.pocketmate.Adapter.CommentAdapter
 import com.practice.android.pocketmate.Model.BoardModel
-import com.practice.android.pocketmate.R
+import com.practice.android.pocketmate.Model.CommentModel
 import com.practice.android.pocketmate.databinding.ActivityTipBinding
 import com.practice.android.pocketmate.util.FBAuth
 import com.practice.android.pocketmate.util.FBRef
@@ -30,6 +19,7 @@ import com.practice.android.pocketmate.util.FBRef
 class TipActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityTipBinding
+    val commentList = mutableListOf<CommentModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,13 +29,21 @@ class TipActivity : AppCompatActivity() {
         val key = intent.getStringExtra("key").toString()
 
         getTipData(key)
+        getCommentData(key)
 
+        binding.commentArea.adapter = CommentAdapter(commentList)
+        binding.commentArea.layoutManager = LinearLayoutManager(this)
+
+        binding.writeCommentBtn.setOnClickListener {
+            writeComment(key)
+            binding.writeCommentArea.text.clear()
+        }
         binding.editOrDeleteBtn.setOnClickListener {
             editOrDeleteDialog(key)
         }
     }
 
-    fun getTipData(key : String) {
+    private fun getTipData(key : String) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val tip = dataSnapshot.getValue(BoardModel::class.java)!!
@@ -67,6 +65,34 @@ class TipActivity : AppCompatActivity() {
         FBRef.tipRef.child(key).addValueEventListener(postListener)
     }
 
+    private fun getCommentData(key: String) {
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                commentList.clear()
+
+                for (data in dataSnapshot.children) {
+                    val comment = data.getValue(CommentModel::class.java)!!
+                    binding.emptyCommentText.visibility = View.GONE
+                    commentList.add(comment!!)
+                }
+                binding.commentArea.adapter?.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+            }
+        }
+        FBRef.commentRef.child(key).addValueEventListener(postListener)
+    }
+
+    private fun writeComment(key: String) {
+        val commentKey = FBRef.commentRef.child(key).push().key.toString()
+        val commentContent = binding.writeCommentArea.text.toString()
+        val comment = CommentModel(0, FBAuth.getUid(), commentContent)
+        FBRef.commentRef.child(key).child(commentKey).setValue(comment)
+    }
+
     private fun editOrDeleteDialog(key: String) {
         MaterialAlertDialogBuilder(this)
             .setMessage("해당 게시글을 수정하거나 삭제하시겠습니까?")
@@ -74,8 +100,8 @@ class TipActivity : AppCompatActivity() {
                 // Respond to neutral button press
             }
             .setNegativeButton("수정") { dialog, which -> //수정 필요
-                val intent = Intent(this, WriteTipActivity::class.java)
-                intent.putExtra("isEdit", key)
+                val intent = Intent(this, EditTipActivity::class.java)
+                intent.putExtra("key", key)
                 startActivity(intent)
             }
             .setPositiveButton("삭제") { dialog, which ->
