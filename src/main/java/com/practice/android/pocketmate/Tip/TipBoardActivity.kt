@@ -43,7 +43,7 @@ class TipBoardActivity : AppCompatActivity() {
 
     }
 
-    fun toggleFab() {
+    private fun toggleFab() {
         if (isFabOpen) {
             ObjectAnimator.ofFloat(binding.fabMine, "translationX", -200f).apply { start() }
             ObjectAnimator.ofFloat(binding.fabMine, "translationY", -200f).apply { start() }
@@ -59,7 +59,7 @@ class TipBoardActivity : AppCompatActivity() {
         isFabOpen = !isFabOpen
     }
 
-    fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
+    private fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
         val intent = Intent(from, to)
         from.startActivity(intent)
     }

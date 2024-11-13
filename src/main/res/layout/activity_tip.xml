@@ -9,6 +9,7 @@
     tools:context=".Tip.TipActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -35,58 +36,124 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="10dp"
-            android:background="@null"
-            android:text="제목"
-            android:textSize="25sp" />
-
-        <LinearLayout
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_gravity="end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/writer"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
-                android:background="@null"
-                android:text="닉네임"
-                android:textSize="15sp" />
-
-            <Button
-                android:id = "@+id/editOrDeleteBtn"
-                android:visibility = "gone"
-                android:text = "수정 / 삭제"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/image"
-            android:layout_width="240dp"
-            android:layout_height="240dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_launcher_background" />
-
-        <TextView
-            android:id="@+id/content"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_margin="30dp"
-            android:background="@null"
-            android:text="내용"
-            android:textSize="20sp" />
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@null"
+                    android:text="제목"
+                    android:textSize="25sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp">
+
+                    <TextView
+                        android:id="@+id/writer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="15dp"
+                        android:background="@null"
+                        android:text="닉네임"
+                        android:textSize="15sp" />
+
+                    <Button
+                        android:id="@+id/editOrDeleteBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="수정 / 삭제"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="240dp"
+                    android:layout_height="240dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_launcher_background" />
+
+                <TextView
+                    android:id="@+id/content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="30dp"
+                    android:background="@null"
+                    android:text="내용"
+                    android:textSize="20sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_margin="10dp"
+                    android:background="@color/black" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:background="@color/colorOnComment"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/emptyCommentText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="첫 번째 댓글을 달아주세요!" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/commentArea"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorOnComment" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:background="@color/colorOnComment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_margin="10dp"
+            android:background="?attr/colorOnBackground"
+            android:id="@+id/writeCommentArea"
+            android:layout_width="330dp"
+            android:layout_height="50dp" />
+
+        <ImageButton
+            android:id="@+id/writeCommentBtn"
+            android:layout_gravity="center"
+            android:background="@drawable/baseline_near_me_24"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
 
     </LinearLayout>
 
