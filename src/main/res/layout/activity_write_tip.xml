@@ -24,39 +24,52 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-        <EditText
-            android:background="@null"
-            android:textSize="25sp"
-            android:layout_margin="30dp"
-            android:layout_gravity="center"
-            android:id="@+id/title"
-            android:hint="제목"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_gravity="center"
-            android:src="@drawable/ic_launcher_background"
-            android:layout_width="240dp"
-            android:layout_height="240dp"/>
-
-        <EditText
-            android:textSize="20sp"
-            android:hint="내용"
-            android:background="@null"
-            android:id="@+id/content"
-            android:layout_margin="30dp"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            />
+            android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/postBtn"
-            android:text="올리기"
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_height="50dp"/>
+            <EditText
+                android:background="@null"
+                android:textSize="25sp"
+                android:layout_margin="30dp"
+                android:layout_gravity="center"
+                android:id="@+id/title"
+                android:hint="제목"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:layout_gravity="center"
+                android:src="@drawable/baseline_add_a_photo_24"
+                android:layout_width="240dp"
+                android:layout_height="240dp"/>
+
+            <EditText
+                android:textSize="20sp"
+                android:hint="내용"
+                android:background="@null"
+                android:id="@+id/content"
+                android:layout_margin="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                />
+
+            <Button
+                android:id="@+id/postBtn"
+                android:text="올리기"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_height="50dp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

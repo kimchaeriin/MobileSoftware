@@ -1,5 +1,6 @@
 package com.practice.android.pocketmate.Tip
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ import com.google.firebase.database.ValueEventListener
 import com.practice.android.pocketmate.Adapter.BoardAdapter
 import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.databinding.FragmentMyTipBinding
+import com.practice.android.pocketmate.util.FBAuth
 import com.practice.android.pocketmate.util.FBRef
 import kotlinx.coroutines.NonCancellable.children
 
@@ -25,7 +27,6 @@ class MyTipFragment : Fragment() {
     private var param2: String? = null
 
     private var _binding: FragmentMyTipBinding? = null
-
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -45,15 +46,47 @@ class MyTipFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentMyTipBinding.inflate(inflater, container, false)
 
-        val itemList = mutableListOf<BoardModel>()
+        val tipList = getMyTipList()
+        val keyList = getMyTipKeyList()
 
+        binding.recycler.adapter = BoardAdapter(requireContext(), tipList, keyList)
+        binding.recycler.layoutManager = LinearLayoutManager(context)
+
+        return binding.root
+    }
+
+    private fun getMyTipKeyList(): MutableList<String> {
+        val keyList = mutableListOf<String>()
         FBRef.tipRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                itemList.clear()
+                keyList.clear()
 
                 for (data in dataSnapshot.children) {
-                    val item = data.getValue(BoardModel::class.java)
-                    itemList.add(item!!)
+                    val tip = data.getValue(BoardModel::class.java)
+                    if (tip!!.writer.equals(FBAuth.getUid())) {
+                        keyList.add(data.key.toString())
+                    }
+                }
+                binding.recycler.adapter?.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                //읽기 실패
+            }
+        })
+        return keyList
+    }
+
+    private fun getMyTipList() : MutableList<BoardModel> {
+        val tipList = mutableListOf<BoardModel>()
+        FBRef.tipRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                tipList.clear()
+                for (data in dataSnapshot.children) {
+                    val tip = data.getValue(BoardModel::class.java)
+                    if (tip!!.writer == FBAuth.getUid()) {
+                        tipList.add(tip)
+                    }
                 }
                 binding.recycler.adapter?.notifyDataSetChanged()
             }
@@ -63,9 +96,6 @@ class MyTipFragment : Fragment() {
             }
         })
 
-        binding.recycler.adapter = BoardAdapter(itemList)
-        binding.recycler.layoutManager = LinearLayoutManager(context)
-
-        return binding.root
+        return tipList
     }
 }

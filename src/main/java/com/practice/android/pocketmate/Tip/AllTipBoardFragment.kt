@@ -1,6 +1,7 @@
 package com.practice.android.pocketmate.Tip
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -37,15 +38,25 @@ class AllTipBoardFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentAllTipBoardBinding.inflate(inflater, container, false)
 
-        val itemList = mutableListOf<BoardModel>()
+        val tipList = getTipList()
+        val keyList = getKeyList()
+
+        binding.recycler.adapter = BoardAdapter(requireContext(), tipList, keyList)
+        binding.recycler.layoutManager = LinearLayoutManager(context)
+
+        return binding.root
+    }
+
+    private fun getTipList() : MutableList<BoardModel> {
+        val tipList = mutableListOf<BoardModel>()
 
         FBRef.tipRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                itemList.clear()
+                tipList.clear()
 
                 for (data in dataSnapshot.children) {
-                    val item = data.getValue(BoardModel::class.java)
-                    itemList.add(item!!)
+                    val tip = data.getValue(BoardModel::class.java)
+                    tipList.add(tip!!)
                 }
                 binding.recycler.adapter?.notifyDataSetChanged()
             }
@@ -55,10 +66,27 @@ class AllTipBoardFragment : Fragment() {
             }
         })
 
-        binding.recycler.adapter = BoardAdapter(itemList)
-        binding.recycler.layoutManager = LinearLayoutManager(context)
+        return tipList
+    }
 
-        return binding.root
+    private fun getKeyList() : MutableList<String> {
+        val keyList = mutableListOf<String>()
+
+        FBRef.tipRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                keyList.clear()
+                for (data in dataSnapshot.children) {
+                    keyList.add(data.key.toString())
+                }
+                binding.recycler.adapter?.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                //읽기 실패
+            }
+        })
+
+        return keyList
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
