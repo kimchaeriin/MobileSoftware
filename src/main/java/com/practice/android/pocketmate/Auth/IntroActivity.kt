@@ -36,7 +36,7 @@ class IntroActivity : AppCompatActivity() {
 
     }
 
-    fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
+    private fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
         val intent = Intent(from, to)
         from.startActivity(intent)
     }
