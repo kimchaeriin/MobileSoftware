@@ -22,20 +22,23 @@ class JoinActivity : AppCompatActivity() {
         auth = Firebase.auth
 
         binding.joinBtn.setOnClickListener {
-            val email = binding.emailArea.text.toString()
-            val password = binding.passwordArea.text.toString()
-            auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        val intent = Intent(this, LoginActivity::class.java)
-                        intent.putExtra("join", "join")
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        Toast.makeText(this, "회원가입에 실패하였습니다.", Toast.LENGTH_LONG).show()
-                    }
-                }
+            join()
         }
+    }
 
+    private fun join() {
+        val email = binding.emailArea.text.toString()
+        val password = binding.passwordArea.text.toString()
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val intent = Intent(this, LoginActivity::class.java)
+                    intent.putExtra("join", "join")
+                    startActivity(intent)
+                    finish()
+                } else {
+                    Toast.makeText(this, "회원가입에 실패하였습니다.", Toast.LENGTH_LONG).show()
+                }
+            }
     }
 }

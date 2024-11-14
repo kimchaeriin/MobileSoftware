@@ -1,11 +1,7 @@
-package com.practice.android.pocketmate.Tip
+package com.practice.android.pocketmate
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.practice.android.pocketmate.R
 import com.practice.android.pocketmate.databinding.ActivityIntroBinding
 
 class IntroActivity : AppCompatActivity() {
