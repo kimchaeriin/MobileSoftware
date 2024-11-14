@@ -1,7 +1,9 @@
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
-import com.example.secondproject.databinding.ActivityFriendsListBinding
+import com.practice.android.pocketmate.R
+import com.practice.android.pocketmate.databinding.ActivityFriendsListBinding
+
 
 class FriendsListActivity : AppCompatActivity() {
     lateinit var binding: ActivityFriendsListBinding

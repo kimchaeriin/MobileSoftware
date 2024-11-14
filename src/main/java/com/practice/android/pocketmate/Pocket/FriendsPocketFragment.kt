@@ -6,13 +6,13 @@ import android.view.ViewGroup
 
 class FriendsPocketFragment : Fragment() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        return inflater.inflate(R.layout.fragment_friends_pocket, container, false)
-    }
+//    override fun onCreateView(
+//        inflater: LayoutInflater, container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//
+//        return inflater.inflate(R.layout.fragment_friends_pocket, container, false)
+//    }
 
 
 }
