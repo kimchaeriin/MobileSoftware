@@ -23,10 +23,17 @@
             android:text="닉네임을 정해주세요!" />
 
         <EditText
+            android:hint="닉네임 입력"
             android:id="@+id/writeNicknameArea"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1" />
+
+        <Button
+            android:id="@+id/writeNicknameBtn"
+            android:text="결정"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
