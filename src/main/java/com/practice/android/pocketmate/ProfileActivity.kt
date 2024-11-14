@@ -46,9 +46,7 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         binding.changeBtn.setOnClickListener {
-            val newNickname = binding.nickname.text.toString()
-            FBRef.nicknameRef.child(uid).setValue(newNickname)
-            Toast.makeText(this, "닉네임이 변경되었습니다.", Toast.LENGTH_LONG).show()
+            changeNickname()
         }
 
         binding.copyBtn.setOnClickListener {
@@ -71,6 +69,17 @@ class ProfileActivity : AppCompatActivity() {
             if (signOutWithFirebase() || signOutWithKakao()) {
                 switchScreen(this, IntroActivity::class.java)
             }
+        }
+    }
+
+    private fun changeNickname() {
+        val uid = FBAuth.getUid()
+        val newNickname = binding.nickname.text.toString()
+        if (newNickname.length < 1) {
+            Toast.makeText(this, "닉네임은 한 글자 이상이어야 합니다.", Toast.LENGTH_LONG).show()
+        } else {
+            FBRef.nicknameRef.child(uid).setValue(newNickname)
+            Toast.makeText(this, "닉네임이 변경되었습니다.", Toast.LENGTH_LONG).show()
         }
     }
 

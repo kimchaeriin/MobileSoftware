@@ -24,6 +24,7 @@ class IntroActivity : AppCompatActivity() {
 
         if (currentUser != null) {
             switchScreen(this, MainActivity::class.java)
+            finish()
         }
 
         binding.kakaoLogin.setOnClickListener {
@@ -33,7 +34,6 @@ class IntroActivity : AppCompatActivity() {
         binding.emailLogin.setOnClickListener {
             switchScreen(this, LoginActivity::class.java)
         }
-
     }
 
     private fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
