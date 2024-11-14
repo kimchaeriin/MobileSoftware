@@ -3,8 +3,12 @@ package com.practice.android.pocketmate.Tip
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.practice.android.pocketmate.Model.BoardModel
@@ -29,7 +33,6 @@ class WriteTipActivity : AppCompatActivity() {
     }
 
     private fun postAndSwitchScreen() {
-        val user = FBAuth.getUid()
         val title = binding.title.text.toString()
         val content = binding.content.text.toString()
         val image = 0 //null일 때와 아닐 때 분리 필요
@@ -40,11 +43,28 @@ class WriteTipActivity : AppCompatActivity() {
             Toast.makeText(this, "제목과 내용은 한 글자 이상 작성해야 합니다.", Toast.LENGTH_SHORT).show()
         }
         else {
-            val tip = BoardModel(user, title, content, image, agree, disagree)
-            val key = FBRef.tipRef.push().key.toString()
-            FBRef.tipRef.child(key).setValue(tip)
+            getNickname{ nickname ->
+                val key = FBRef.tipRef.push().key.toString()
+                val tip = BoardModel(nickname, title, content, image, agree, disagree)
+                FBRef.tipRef.child(key).setValue(tip)
+            }
             switchScreen(this, TipBoardActivity::class.java)
         }
+    }
+
+    private fun getNickname(callback: (String) -> Unit) {
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val nickname = dataSnapshot.getValue(String::class.java) ?: ""
+                callback(nickname)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                callback("") // 에러가 발생한 경우 빈 문자열을 콜백으로 전달
+            }
+        }
+        FBRef.nicknameRef.child(FBAuth.getUid()).addListenerForSingleValueEvent(postListener)
     }
 
     private fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
