@@ -2,13 +2,17 @@ package com.practice.android.pocketmate.Tip
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.practice.android.pocketmate.Adapter.CommentAdapter
 import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.Model.CommentModel
@@ -20,6 +24,8 @@ class TipActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityTipBinding
     val commentList = mutableListOf<CommentModel>()
+    var agreed = false
+    var disagreed = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,19 +48,83 @@ class TipActivity : AppCompatActivity() {
             editOrDeleteDialog(key)
         }
         binding.agreeBtn.setOnClickListener {
-            raiseAgree(key)
+            if (agreed) {
+                reduceAgree(key)
+            }
+            else {
+                raiseAgree(key)
+            }
+            agreed = !agreed
         }
         binding.disagreeBtn.setOnClickListener {
-            raiseDisagree(key)
+            if (disagreed) {
+                reduceDisagree(key)
+            }
+            else{
+                raiseDisagree(key)
+            }
+            disagreed = !disagreed
         }
     }
 
     private fun raiseAgree(key: String) {
+        val agree = binding.agreeNumber.text.toString().toInt() + 1
+        val childUpdates = hashMapOf<String, Any>(
+                "/TipBoard/$key/agree" to agree,
+            )
+        val databaseRef = Firebase.database.reference
+        databaseRef.updateChildren(childUpdates).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                binding.agreeNumber.text = agree.toString()
+            } else {
+                Log.e("TipActivity", "Failed to update agree count.")
+            }
+        }
+    }
 
+    private fun reduceAgree(key: String) {
+        val agree = binding.agreeNumber.text.toString().toInt() - 1
+        val childUpdates = hashMapOf<String, Any>(
+            "/TipBoard/$key/agree" to agree,
+        )
+        val databaseRef = Firebase.database.reference
+        databaseRef.updateChildren(childUpdates).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                binding.agreeNumber.text = agree.toString()
+            } else {
+                Log.e("TipActivity", "Failed to update agree count.")
+            }
+        }
     }
 
     private fun raiseDisagree(key: String) {
+        val disagree = binding.disagreeNumber.text.toString().toInt() + 1
+        val childUpdates = hashMapOf<String, Any>(
+            "/TipBoard/$key/disagree" to disagree,
+        )
+        val databaseRef = Firebase.database.reference
+        databaseRef.updateChildren(childUpdates).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                binding.disagreeNumber.text = disagree.toString()
+            } else {
+                Log.e("TipActivity", "Failed to update agree count.")
+            }
+        }
+    }
 
+    private fun reduceDisagree(key: String) {
+        val disagree = binding.disagreeNumber.text.toString().toInt() - 1
+        val childUpdates = hashMapOf<String, Any>(
+            "/TipBoard/$key/disagree" to disagree,
+        )
+        val databaseRef = Firebase.database.reference
+        databaseRef.updateChildren(childUpdates).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                binding.disagreeNumber.text = disagree.toString()
+            } else {
+                Log.e("TipActivity", "Failed to update agree count.")
+            }
+        }
     }
 
     private fun getTipData(key : String) {
@@ -72,7 +142,7 @@ class TipActivity : AppCompatActivity() {
                 }
 
                 getNickname { nickname ->
-                    if (tip.nickname == nickname) {
+                    if (tip.uid == FBAuth.getUid()) {
                         binding.editOrDeleteBtn.visibility = View.VISIBLE
                     }
                 }
