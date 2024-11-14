@@ -51,6 +51,7 @@
             android:parentActivityName=".Auth.IntroActivity" />
         <activity
             android:name=".Tip.TipBoardActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".Tip.WriteTipActivity"

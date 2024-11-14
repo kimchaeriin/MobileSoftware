@@ -11,9 +11,9 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/commentLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -31,110 +31,107 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                app:layout_scrollFlags="scroll|enterAlways"
                 app:title="팁"
                 app:titleCentered="true" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:background="@null"
+                android:text="제목"
+                android:textSize="25sp"
+                app:layout_scrollFlags="scroll|enterAlways" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp">
 
                 <TextView
-                    android:id="@+id/title"
+                    android:id="@+id/writer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="15dp"
                     android:background="@null"
-                    android:text="제목"
-                    android:textSize="25sp" />
+                    android:text="닉네임"
+                    android:textSize="15sp"
+                    app:layout_scrollFlags="scroll|enterAlways" />
 
-                <LinearLayout
+                <Button
+                    android:id="@+id/editOrDeleteBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp">
-
-                    <TextView
-                        android:id="@+id/writer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="15dp"
-                        android:background="@null"
-                        android:text="닉네임"
-                        android:textSize="15sp" />
-
-                    <Button
-                        android:id="@+id/editOrDeleteBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="수정 / 삭제"
-                        android:visibility="gone" />
-
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/image"
-                    android:layout_width="240dp"
-                    android:layout_height="240dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_launcher_background" />
-
-                <TextView
-                    android:id="@+id/content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="30dp"
-                    android:background="@null"
-                    android:text="내용"
-                    android:textSize="20sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_margin="10dp"
-                    android:background="@color/black" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:background="@color/colorOnComment"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/emptyCommentText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="첫 번째 댓글을 달아주세요!" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/commentArea"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/colorOnComment" />
-
-                </LinearLayout>
+                    android:text="수정 / 삭제"
+                    android:visibility="gone"
+                    app:layout_scrollFlags="scroll|enterAlways" />
 
             </LinearLayout>
 
-        </ScrollView>
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="240dp"
+                android:layout_height="240dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_launcher_background"
+                app:layout_scrollFlags="scroll|enterAlways" />
+
+            <TextView
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="30dp"
+                android:background="@null"
+                android:text="내용"
+                android:textSize="20sp"
+                app:layout_scrollFlags="scroll|enterAlways" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_margin="10dp"
+                android:background="@color/black" />
+
+            <TextView
+                android:id="@+id/emptyCommentText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="첫 번째 댓글을 달아주세요!" />
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/commentArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </androidx.core.widget.NestedScrollView>
+
+        </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/commentLayout"
+        android:background="?attr/colorOnBackground"
         android:orientation="horizontal"
-        android:background="@color/colorOnComment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -142,10 +139,12 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:layout_margin="10dp"
+            android:hint="댓글을 입력해주세요"
+            android:padding="10dp"
+            android:layout_weight="1"
             android:background="?attr/colorOnBackground"
             android:id="@+id/writeCommentArea"
-            android:layout_width="330dp"
+            android:layout_width="0dp"
             android:layout_height="50dp" />
 
         <ImageButton
