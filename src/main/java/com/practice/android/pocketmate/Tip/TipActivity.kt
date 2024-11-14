@@ -41,6 +41,28 @@ class TipActivity : AppCompatActivity() {
         binding.editOrDeleteBtn.setOnClickListener {
             editOrDeleteDialog(key)
         }
+        binding.agreeBtn.setOnClickListener {
+            raiseAgree(key)
+        }
+        binding.disagreeBtn.setOnClickListener {
+            raiseDisagree(key)
+        }
+    }
+
+    private fun raiseAgree(key: String) {
+        val agreeNumber = binding.agreeNumber.text.toString().toInt() + 1
+        val board = BoardModel(binding.writer.text.toString(), binding.title.text.toString(),
+            binding.content.text.toString(), binding.image.id, agreeNumber,
+            binding.disagreeNumber.text.toString().toInt())
+        FBRef.tipRef.child(key).setValue(board)
+    }
+
+    private fun raiseDisagree(key: String) {
+        val disagreeNumber = binding.disagreeNumber.text.toString().toInt() + 1
+        val board = BoardModel(binding.writer.text.toString(), binding.title.text.toString(),
+            binding.content.text.toString(), binding.image.id, binding.agreeNumber.toString().toInt(),
+            disagreeNumber)
+        FBRef.tipRef.child(key).setValue(board)
     }
 
     private fun getTipData(key : String) {
@@ -50,6 +72,9 @@ class TipActivity : AppCompatActivity() {
                 binding.title.text = tip.title
                 binding.content.text = tip.content
                 binding.writer.text = tip.writer
+                binding.agreeNumber.text = tip.agree.toString()
+                binding.disagreeNumber.text = tip.disagree.toString()
+
                 if (tip.image == 0) {
                     binding.image.visibility = View.GONE
                 }
