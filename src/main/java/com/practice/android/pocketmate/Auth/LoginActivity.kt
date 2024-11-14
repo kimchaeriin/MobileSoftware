@@ -9,6 +9,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.practice.android.pocketmate.MainActivity
 import com.practice.android.pocketmate.databinding.ActivityLoginBinding
+import kotlinx.coroutines.Dispatchers.Main
 
 class LoginActivity : AppCompatActivity() {
 
@@ -21,6 +22,11 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        var moveToActivity : Class<out AppCompatActivity> = MainActivity::class.java
+        val isJoin = intent.getStringExtra("join")
+        if (isJoin.equals("join")) {
+            moveToActivity = SettingActivity::class.java
+        }
 
         auth = Firebase.auth
 
@@ -31,12 +37,12 @@ class LoginActivity : AppCompatActivity() {
         binding.loginBtn.setOnClickListener {
             login()
             if (auth.currentUser != null) {
-                switchScreen(this, MainActivity::class.java)
+                switchScreen(this, moveToActivity)
             }
         }
     }
 
-    fun login() {
+    private fun login() {
         val email = binding.emailArea.text.toString().trim()
         val password = binding.passwordArea.text.toString().trim()
 
@@ -54,7 +60,7 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
-    fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
+    private fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
         val intent = Intent(from, to)
         from.startActivity(intent)
     }

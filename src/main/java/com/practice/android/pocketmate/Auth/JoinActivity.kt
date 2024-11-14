@@ -28,6 +28,7 @@ class JoinActivity : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         val intent = Intent(this, LoginActivity::class.java)
+                        intent.putExtra("join", "join")
                         startActivity(intent)
                         finish()
                     } else {
