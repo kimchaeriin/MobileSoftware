@@ -1,5 +1,7 @@
 package com.practice.android.pocketmate.Model
 
+import com.google.firebase.database.Exclude
+
 data class BoardModel (
     var uid : String = "",
     var nickname: String = "",
@@ -8,14 +10,17 @@ data class BoardModel (
     var image : Int = 0,
     var agree : Int = 0,
     var disagree : Int = 0
-)
-
-//<com.google.android.material.floatingactionbutton.FloatingActionButton
-//android:id="@+id/fab"
-//android:contentDescription="어쩌고"
-//android:layout_width="wrap_content"
-//android:layout_height="wrap_content"
-//android:layout_gravity="bottom|end"
-//android:layout_marginEnd="@dimen/fab_margin"
-//android:layout_marginBottom="16dp"
-//app:srcCompat="@android:drawable/ic_dialog_email" />
+) {
+    @Exclude
+    fun toMap(): Map<String, Any?> {
+        return mapOf(
+            "uid" to uid,
+            "nickname" to nickname,
+            "title" to title,
+            "content" to content,
+            "image" to image,
+            "agree" to agree,
+            "disagree" to disagree,
+        )
+    }
+}
