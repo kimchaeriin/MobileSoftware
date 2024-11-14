@@ -3,7 +3,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.secondproject.databinding.ActivityMyPocketFragmentBinding
+import com.practice.android.pocketmate.databinding.ActivityMyPocketFragmentBinding
+
 
 class MyPocketFragment : Fragment() {
     lateinit var binding: ActivityMyPocketFragmentBinding
