@@ -151,6 +151,7 @@
             android:id="@+id/writeCommentBtn"
             android:layout_gravity="center"
             android:background="@drawable/baseline_near_me_24"
+            android:layout_margin="5dp"
             android:layout_width="50dp"
             android:layout_height="50dp"/>
 
