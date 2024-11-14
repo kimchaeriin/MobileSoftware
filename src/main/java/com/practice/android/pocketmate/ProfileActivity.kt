@@ -7,7 +7,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.play.integrity.internal.k
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -44,7 +46,9 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         binding.changeBtn.setOnClickListener {
-            //닉네임 바꾸기
+            val newNickname = binding.nickname.text.toString()
+            FBRef.nicknameRef.child(uid).setValue(newNickname)
+            Toast.makeText(this, "닉네임이 변경되었습니다.", Toast.LENGTH_LONG).show()
         }
 
         binding.copyBtn.setOnClickListener {
