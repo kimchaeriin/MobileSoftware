@@ -33,6 +33,7 @@ class WriteTipActivity : AppCompatActivity() {
     }
 
     private fun postAndSwitchScreen() {
+        val user = FBAuth.getUid()
         val title = binding.title.text.toString()
         val content = binding.content.text.toString()
         val image = 0 //null일 때와 아닐 때 분리 필요
@@ -43,16 +44,16 @@ class WriteTipActivity : AppCompatActivity() {
             Toast.makeText(this, "제목과 내용은 한 글자 이상 작성해야 합니다.", Toast.LENGTH_SHORT).show()
         }
         else {
-            getNickname{ nickname ->
+            getNickname(user) { nickname ->
                 val key = FBRef.tipRef.push().key.toString()
-                val tip = BoardModel(nickname, title, content, image, agree, disagree)
+                val tip = BoardModel(user, nickname, title, content, image, agree, disagree)
                 FBRef.tipRef.child(key).setValue(tip)
             }
             switchScreen(this, TipBoardActivity::class.java)
         }
     }
 
-    private fun getNickname(callback: (String) -> Unit) {
+    private fun getNickname(user: String, callback: (String) -> Unit) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val nickname = dataSnapshot.getValue(String::class.java) ?: ""
@@ -64,7 +65,7 @@ class WriteTipActivity : AppCompatActivity() {
                 callback("") // 에러가 발생한 경우 빈 문자열을 콜백으로 전달
             }
         }
-        FBRef.nicknameRef.child(FBAuth.getUid()).addListenerForSingleValueEvent(postListener)
+        FBRef.nicknameRef.child(user).addListenerForSingleValueEvent(postListener)
     }
 
     private fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
