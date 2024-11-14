@@ -55,6 +55,7 @@ class AllTipBoardFragment : Fragment() {
                 tipList.clear()
 
                 for (data in dataSnapshot.children) {
+                    binding.noTipText.visibility = View.GONE
                     val tip = data.getValue(BoardModel::class.java)
                     tipList.add(tip!!)
                 }

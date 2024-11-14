@@ -55,6 +55,29 @@ class MyTipFragment : Fragment() {
         return binding.root
     }
 
+    private fun getMyTipList() : MutableList<BoardModel> {
+        val tipList = mutableListOf<BoardModel>()
+        FBRef.tipRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                tipList.clear()
+                for (data in dataSnapshot.children) {
+                    binding.noTipText.visibility = View.GONE
+                    val tip = data.getValue(BoardModel::class.java)
+                    if (tip!!.uid == FBAuth.getUid()) {
+                        tipList.add(tip)
+                    }
+                }
+                binding.recycler.adapter?.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                //읽기 실패
+            }
+        })
+
+        return tipList
+    }
+
     private fun getMyTipKeyList(): MutableList<String> {
         val keyList = mutableListOf<String>()
         FBRef.tipRef.addValueEventListener(object : ValueEventListener {
@@ -75,27 +98,5 @@ class MyTipFragment : Fragment() {
             }
         })
         return keyList
-    }
-
-    private fun getMyTipList() : MutableList<BoardModel> {
-        val tipList = mutableListOf<BoardModel>()
-        FBRef.tipRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                tipList.clear()
-                for (data in dataSnapshot.children) {
-                    val tip = data.getValue(BoardModel::class.java)
-                    if (tip!!.uid == FBAuth.getUid()) {
-                        tipList.add(tip)
-                    }
-                }
-                binding.recycler.adapter?.notifyDataSetChanged()
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                //읽기 실패
-            }
-        })
-
-        return tipList
     }
 }
