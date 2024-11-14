@@ -33,12 +33,14 @@ class WriteTipActivity : AppCompatActivity() {
         val title = binding.title.text.toString()
         val content = binding.content.text.toString()
         val image = 0 //null일 때와 아닐 때 분리 필요
+        val agree = 0
+        val disagree = 0
 
         if (title.isEmpty() || content.isEmpty()) {
             Toast.makeText(this, "제목과 내용은 한 글자 이상 작성해야 합니다.", Toast.LENGTH_SHORT).show()
         }
         else {
-            val tip = BoardModel(user, title, content, image)
+            val tip = BoardModel(user, title, content, image, agree, disagree)
             val key = FBRef.tipRef.push().key.toString()
             FBRef.tipRef.child(key).setValue(tip)
             switchScreen(this, TipBoardActivity::class.java)
