@@ -78,8 +78,11 @@ class TipActivity : AppCompatActivity() {
                 if (tip.image == 0) {
                     binding.image.visibility = View.GONE
                 }
-                if (tip.writer == FBAuth.getUid()) {
-                    binding.editOrDeleteBtn.visibility = View.VISIBLE
+
+                getNickname { nickname ->
+                    if (tip.writer == nickname) {
+                        binding.editOrDeleteBtn.visibility = View.VISIBLE
+                    }
                 }
             }
 
@@ -88,6 +91,21 @@ class TipActivity : AppCompatActivity() {
             }
         }
         FBRef.tipRef.child(key).addValueEventListener(postListener)
+    }
+
+    private fun getNickname(callback: (String) -> Unit) {
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val nickname = dataSnapshot.getValue(String::class.java) ?: ""
+                callback(nickname)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                callback("") // 에러가 발생한 경우 빈 문자열을 콜백으로 전달
+            }
+        }
+        FBRef.nicknameRef.child(FBAuth.getUid()).addListenerForSingleValueEvent(postListener)
     }
 
     private fun getCommentData(key: String) {
@@ -114,8 +132,11 @@ class TipActivity : AppCompatActivity() {
     private fun writeComment(key: String) {
         val commentKey = FBRef.commentRef.child(key).push().key.toString()
         val commentContent = binding.writeCommentArea.text.toString()
-        val comment = CommentModel(0, FBAuth.getUid(), commentContent)
-        FBRef.commentRef.child(key).child(commentKey).setValue(comment)
+
+        getNickname { nickname ->
+            val comment = CommentModel(0, nickname, commentContent)
+            FBRef.commentRef.child(key).child(commentKey).setValue(comment)
+        }
     }
 
     private fun editOrDeleteDialog(key: String) {
