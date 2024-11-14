@@ -65,7 +65,7 @@ class EditTipActivity : AppCompatActivity() {
         }
         else {
             getNickname { nickname ->
-                val tip = BoardModel(nickname, user, title, content, image, agree, disagree)
+                val tip = BoardModel(user, nickname, title, content, image, agree, disagree)
                 FBRef.tipRef.child(key).setValue(tip)
             }
             switchScreen(this, TipBoardActivity::class.java)
@@ -90,5 +90,6 @@ class EditTipActivity : AppCompatActivity() {
     private fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
         val intent = Intent(from, to)
         from.startActivity(intent)
+        finish()
     }
 }
