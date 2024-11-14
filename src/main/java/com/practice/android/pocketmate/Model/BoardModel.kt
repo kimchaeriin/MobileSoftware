@@ -5,8 +5,8 @@ data class BoardModel (
     var title : String = "",
     var content : String = "",
     var image : Int = 0,
-    var agree : Int = 0,
-    var disagree : Int = 0
+    var agree : String = "",
+    var disagree : String = ""
 )
 
 //<com.google.android.material.floatingactionbutton.FloatingActionButton
