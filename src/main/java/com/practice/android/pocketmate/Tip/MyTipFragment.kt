@@ -63,7 +63,7 @@ class MyTipFragment : Fragment() {
 
                 for (data in dataSnapshot.children) {
                     val tip = data.getValue(BoardModel::class.java)
-                    if (tip!!.writer.equals(FBAuth.getUid())) {
+                    if (tip!!.uid.equals(FBAuth.getUid())) {
                         keyList.add(data.key.toString())
                     }
                 }
@@ -84,7 +84,7 @@ class MyTipFragment : Fragment() {
                 tipList.clear()
                 for (data in dataSnapshot.children) {
                     val tip = data.getValue(BoardModel::class.java)
-                    if (tip!!.writer == FBAuth.getUid()) {
+                    if (tip!!.uid == FBAuth.getUid()) {
                         tipList.add(tip)
                     }
                 }
