@@ -50,19 +50,11 @@ class TipActivity : AppCompatActivity() {
     }
 
     private fun raiseAgree(key: String) {
-        val agreeNumber = binding.agreeNumber.text.toString().toInt() + 1
-        val board = BoardModel(binding.writer.text.toString(), binding.title.text.toString(),
-            binding.content.text.toString(), binding.image.id, agreeNumber,
-            binding.disagreeNumber.text.toString().toInt())
-        FBRef.tipRef.child(key).setValue(board)
+
     }
 
     private fun raiseDisagree(key: String) {
-        val disagreeNumber = binding.disagreeNumber.text.toString().toInt() + 1
-        val board = BoardModel(binding.writer.text.toString(), binding.title.text.toString(),
-            binding.content.text.toString(), binding.image.id, binding.agreeNumber.toString().toInt(),
-            disagreeNumber)
-        FBRef.tipRef.child(key).setValue(board)
+
     }
 
     private fun getTipData(key : String) {
@@ -71,7 +63,7 @@ class TipActivity : AppCompatActivity() {
                 val tip = dataSnapshot.getValue(BoardModel::class.java)!!
                 binding.title.text = tip.title
                 binding.content.text = tip.content
-                binding.writer.text = tip.writer
+                binding.writer.text = tip.nickname
                 binding.agreeNumber.text = tip.agree.toString()
                 binding.disagreeNumber.text = tip.disagree.toString()
 
@@ -80,7 +72,7 @@ class TipActivity : AppCompatActivity() {
                 }
 
                 getNickname { nickname ->
-                    if (tip.writer == nickname) {
+                    if (tip.nickname == nickname) {
                         binding.editOrDeleteBtn.visibility = View.VISIBLE
                     }
                 }
