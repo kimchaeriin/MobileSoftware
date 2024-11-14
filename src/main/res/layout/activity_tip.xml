@@ -111,6 +111,13 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"/>
 
+                <TextView
+                    android:id="@+id/agreeNumber"
+                    android:text="숫자"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
                 <ImageButton
                     android:id="@+id/disagreeBtn"
                     android:layout_gravity="end"
@@ -118,6 +125,13 @@
                     android:src="@drawable/baseline_sentiment_very_dissatisfied_24"
                     android:layout_width="50dp"
                     android:layout_height="50dp"/>
+
+                <TextView
+                    android:id="@+id/disagreeNumber"
+                    android:text="숫자"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
