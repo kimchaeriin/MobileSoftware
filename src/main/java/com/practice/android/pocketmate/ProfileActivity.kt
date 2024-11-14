@@ -9,11 +9,14 @@ import android.text.Editable
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.ContextCompat.startActivity
 import com.google.android.play.integrity.internal.k
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.user.UserApiClient
 import com.practice.android.pocketmate.Auth.IntroActivity
@@ -78,9 +81,18 @@ class ProfileActivity : AppCompatActivity() {
         if (newNickname.length < 1) {
             Toast.makeText(this, "닉네임은 한 글자 이상이어야 합니다.", Toast.LENGTH_LONG).show()
         } else {
-            FBRef.nicknameRef.child(uid).setValue(newNickname)
-            Toast.makeText(this, "닉네임이 변경되었습니다.", Toast.LENGTH_LONG).show()
+            val childUpdates = hashMapOf<String, Any>("/Nicknames/$uid" to newNickname)
+            val databaseRef = Firebase.database.reference
+            databaseRef.updateChildren(childUpdates).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    FBRef.nicknameRef.child(uid).setValue(newNickname)
+                    Toast.makeText(this, "닉네임이 변경되었습니다.", Toast.LENGTH_LONG).show()
+                } else {
+                    Log.e("TipActivity", "Failed to update agree count.")
+                }
+            }
         }
+
     }
 
     private fun getNickname(callback: (String) -> Unit) {
