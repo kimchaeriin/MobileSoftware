@@ -26,9 +26,9 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         toggle = ActionBarDrawerToggle(this, binding.drawerMain, R.string.drawer_opened, R.string.drawer_closed)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toggle.syncState()
 
         binding.writePocketBtn.setOnClickListener(){
