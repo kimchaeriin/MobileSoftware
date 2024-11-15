@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.database.DataSnapshot
@@ -40,6 +39,10 @@ class TipActivity : AppCompatActivity() {
         binding.commentArea.adapter = CommentAdapter(commentList)
         binding.commentArea.layoutManager = LinearLayoutManager(this)
 
+        handleBtns(key)
+    }
+
+    private fun handleBtns(key: String) {
         binding.writeCommentBtn.setOnClickListener {
             writeComment(key)
             binding.writeCommentArea.text.clear()
