@@ -37,11 +37,11 @@ class TipBoardActivity : AppCompatActivity() {
             switchScreen(this, WriteTipActivity::class.java)
         }
 
-        //AlltipBoardFragment일 때만
         binding.fabMine.setOnClickListener {
-            navController.navigate(R.id.action_AllTipBoardFragment_to_MyTipFragment)
+            if (navController.currentDestination?.id == R.id.AllTipBoardFragment) {
+                navController.navigate(R.id.action_AllTipBoardFragment_to_MyTipFragment)
+            }
         }
-
     }
 
     private fun toggleFab() {
