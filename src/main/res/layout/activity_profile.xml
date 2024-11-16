@@ -25,7 +25,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <ImageButton
-        android:layout_margin="30dp"
+        android:layout_marginTop="30dp"
         android:id="@+id/profileImageBtn"
         android:src="@drawable/baseline_face_24"
         android:layout_gravity="center"
@@ -57,7 +57,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:background="@color/colorOnComment"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -72,8 +71,8 @@
             android:layout_height="wrap_content"/>
 
         <ImageButton
-            android:background="@color/colorOnComment"
             android:src="@drawable/baseline_content_copy_24"
+            android:background="@null"
             android:text="복사"
             android:layout_marginLeft="5dp"
             android:id="@+id/copyBtn"
