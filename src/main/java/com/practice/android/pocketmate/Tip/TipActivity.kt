@@ -47,7 +47,10 @@ class TipActivity : AppCompatActivity() {
             writeComment(key)
             binding.writeCommentArea.text.clear()
         }
-        binding.editOrDeleteBtn.setOnClickListener {
+        binding.editBtn.setOnClickListener {
+            editOrDeleteDialog(key)
+        }
+        binding.deleteBtn.setOnClickListener {
             editOrDeleteDialog(key)
         }
         binding.agreeBtn.setOnClickListener {
@@ -145,8 +148,10 @@ class TipActivity : AppCompatActivity() {
                 }
 
                 getNickname { nickname ->
-                    if (tip.uid == FBAuth.getUid()) {
-                        binding.editOrDeleteBtn.visibility = View.VISIBLE
+                    if (tip.uid != FBAuth.getUid()) {
+                        binding.writer.visibility = View.VISIBLE
+                        binding.editBtn.visibility = View.GONE
+                        binding.deleteBtn.visibility = View.GONE
                     }
                 }
             }
