@@ -46,7 +46,6 @@ class TipBoardActivity : AppCompatActivity() {
 
     private fun toggleFab() {
         if (isFabOpen) {
-            ObjectAnimator.ofFloat(binding.fabMine, "translationX", -200f).apply { start() }
             ObjectAnimator.ofFloat(binding.fabMine, "translationY", -200f).apply { start() }
             ObjectAnimator.ofFloat(binding.fabWrite, "translationY", -400f).apply { start() }
             binding.fabMain.setImageResource(R.drawable.baseline_close_24)
