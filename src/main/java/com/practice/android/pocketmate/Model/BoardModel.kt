@@ -7,6 +7,7 @@ data class BoardModel (
     var date: String = "",
     var title : String = "",
     var content : String = "",
+    var color: Int = 0,
     var image : Int = 0,
     var agree : Int = 0,
     var disagree : Int = 0
@@ -18,6 +19,7 @@ data class BoardModel (
             "date" to date,
             "title" to title,
             "content" to content,
+            "color" to color,
             "image" to image,
             "agree" to agree,
             "disagree" to disagree,
