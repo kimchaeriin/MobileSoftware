@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -15,8 +16,10 @@ import com.google.firebase.ktx.Firebase
 import com.practice.android.pocketmate.Adapter.CommentAdapter
 import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.Model.CommentModel
+import com.practice.android.pocketmate.R
 import com.practice.android.pocketmate.databinding.ActivityTipBinding
 import com.practice.android.pocketmate.util.FBAuth
+import com.practice.android.pocketmate.util.FBAuth.Companion.getNickname
 import com.practice.android.pocketmate.util.FBRef
 
 class TipActivity : AppCompatActivity() {
@@ -30,16 +33,46 @@ class TipActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityTipBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val key = intent.getStringExtra("key").toString()
 
         getTipData(key)
         getCommentData(key)
+        handleBtns(key)
 
         binding.commentArea.adapter = CommentAdapter(commentList)
         binding.commentArea.layoutManager = LinearLayoutManager(this)
+    }
 
-        handleBtns(key)
+    private fun getTipData(key : String) {
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val tip = dataSnapshot.getValue(BoardModel::class.java)!!
+                binding.title.text = tip.title
+                binding.date.text = tip.date
+                binding.content.text = tip.content
+                getNickname(FBAuth.getUid()) { nickname -> binding.writer.text = nickname }
+                binding.agreeNumber.text = tip.agree.toString()
+                binding.disagreeNumber.text = tip.disagree.toString()
+
+                if (tip.image == 0) {
+                    binding.image.visibility = View.GONE
+                }
+                if (tip.uid != FBAuth.getUid()) {
+                    binding.writer.visibility = View.VISIBLE
+                    binding.editBtn.visibility = View.GONE
+                    binding.deleteBtn.visibility = View.GONE
+                }
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+            }
+        }
+        FBRef.tipRef.child(key).addValueEventListener(postListener)
     }
 
     private fun handleBtns(key: String) {
@@ -48,10 +81,10 @@ class TipActivity : AppCompatActivity() {
             binding.writeCommentArea.text.clear()
         }
         binding.editBtn.setOnClickListener {
-            editOrDeleteDialog(key)
+            showEditDialog(key)
         }
         binding.deleteBtn.setOnClickListener {
-            editOrDeleteDialog(key)
+            showDeleteDialog(key)
         }
         binding.agreeBtn.setOnClickListener {
             if (agreed) {
@@ -71,6 +104,33 @@ class TipActivity : AppCompatActivity() {
             }
             disagreed = !disagreed
         }
+    }
+
+    private fun showEditDialog(key: String) {
+        MaterialAlertDialogBuilder(this)
+            .setMessage("수정하시겠습니까?")
+            .setNegativeButton("취소") { dialog, which ->
+                //do nothing.
+            }
+            .setPositiveButton("수정") { dialog, which ->
+                val intent = Intent(this, EditTipActivity::class.java)
+                intent.putExtra("key", key)
+                startActivity(intent)
+            }
+            .show()
+    }
+
+    private fun showDeleteDialog(key: String) {
+        MaterialAlertDialogBuilder(this)
+            .setMessage("삭제하시겠습니까?")
+            .setNegativeButton("취소") { dialog, which ->
+                //do nothing.
+            }
+            .setPositiveButton("삭제") { dialog, which ->
+                FBRef.tipRef.child(key).removeValue()
+                switchScreen(this, TipBoardActivity::class.java)
+            }
+            .show()
     }
 
     private fun raiseAgree(key: String) {
@@ -133,60 +193,17 @@ class TipActivity : AppCompatActivity() {
         }
     }
 
-    private fun getTipData(key : String) {
-        val postListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val tip = dataSnapshot.getValue(BoardModel::class.java)!!
-                binding.title.text = tip.title
-                binding.content.text = tip.content
-                binding.writer.text = tip.nickname
-                binding.agreeNumber.text = tip.agree.toString()
-                binding.disagreeNumber.text = tip.disagree.toString()
-
-                if (tip.image == 0) {
-                    binding.image.visibility = View.GONE
-                }
-
-                getNickname { nickname ->
-                    if (tip.uid != FBAuth.getUid()) {
-                        binding.writer.visibility = View.VISIBLE
-                        binding.editBtn.visibility = View.GONE
-                        binding.deleteBtn.visibility = View.GONE
-                    }
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Getting Post failed, log a message
-            }
-        }
-        FBRef.tipRef.child(key).addValueEventListener(postListener)
-    }
-
-    private fun getNickname(callback: (String) -> Unit) {
-        val postListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val nickname = dataSnapshot.getValue(String::class.java) ?: ""
-                callback(nickname)
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Getting Post failed, log a message
-                callback("") // 에러가 발생한 경우 빈 문자열을 콜백으로 전달
-            }
-        }
-        FBRef.nicknameRef.child(FBAuth.getUid()).addListenerForSingleValueEvent(postListener)
-    }
-
     private fun getCommentData(key: String) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-
                 commentList.clear()
 
                 for (data in dataSnapshot.children) {
                     val comment = data.getValue(CommentModel::class.java)!!
                     binding.emptyCommentText.visibility = View.GONE
+                    getNickname(FBAuth.getUid()) { nickname ->
+                        binding.writer.text = nickname
+                    }
                     commentList.add(comment!!)
                 }
                 binding.commentArea.adapter?.notifyDataSetChanged()
@@ -202,34 +219,12 @@ class TipActivity : AppCompatActivity() {
     private fun writeComment(key: String) {
         val commentKey = FBRef.commentRef.child(key).push().key.toString()
         val commentContent = binding.writeCommentArea.text.toString()
-
-        getNickname { nickname ->
-            val comment = CommentModel(0, nickname, commentContent)
-            FBRef.commentRef.child(key).child(commentKey).setValue(comment)
-        }
-    }
-
-    private fun editOrDeleteDialog(key: String) {
-        MaterialAlertDialogBuilder(this)
-            .setMessage("해당 게시글을 수정하거나 삭제하시겠습니까?")
-            .setNeutralButton("취소") { dialog, which ->
-                // Respond to neutral button press
-            }
-            .setNegativeButton("수정") { dialog, which -> //수정 필요
-                val intent = Intent(this, EditTipActivity::class.java)
-                intent.putExtra("key", key)
-                startActivity(intent)
-            }
-            .setPositiveButton("삭제") { dialog, which ->
-                FBRef.tipRef.child(key).removeValue()
-                switchScreen(this, TipBoardActivity::class.java)
-            }
-            .show()
+        val comment = CommentModel(0, FBAuth.getUid(), commentContent)
+        FBRef.commentRef.child(key).child(commentKey).setValue(comment)
     }
 
     private fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
         val intent = Intent(from, to)
         from.startActivity(intent)
     }
-
 }
