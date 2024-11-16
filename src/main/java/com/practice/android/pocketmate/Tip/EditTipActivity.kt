@@ -36,6 +36,8 @@ class EditTipActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEditTipBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
+
         tipBinding = ActivityTipBinding.inflate(layoutInflater)
         AndroidThreeTen.init(this)
 
@@ -121,42 +123,36 @@ class EditTipActivity : AppCompatActivity() {
     }
 
     private fun editAndSwitchScreen(key: String) {
-        val uid = FBAuth.getUid()
         val title = binding.title.text.toString()
-        val date = LocalDate.now().toString()
         val content = binding.content.text.toString()
+        val color = binding.content.currentTextColor
         val image = 0
-        val agree = getAgree()
-        val disagree = getDisagree()
 
         if (title.isEmpty() || content.isEmpty()) {
             Toast.makeText(this, "제목과 내용은 한 글자 이상 작성해야 합니다.", Toast.LENGTH_SHORT).show()
         }
         else {
-            val tip = BoardModel(uid, date, title, content, image, agree, disagree)
-            val tipValues = tip.toMap()
-
             val childUpdates = hashMapOf<String, Any>(
-                "/TipBoard/$key" to tipValues,
+                "/TipBoard/$key/title" to title,
+                "/TipBoard/$key/content" to content,
+                "/TipBoard/$key/color" to color,
+                "/TipBoard/$key/image" to image,
             )
             val databaseRef = Firebase.database.reference
             databaseRef.updateChildren(childUpdates)
-
-            switchScreen(this, TipBoardActivity::class.java)
+            databaseRef.child("TipBoard").child(key).child("title").setValue(title)
+            databaseRef.child("TipBoard").child(key).child("content").setValue(content)
+            databaseRef.child("TipBoard").child(key).child("color").setValue(color)
+            databaseRef.child("TipBoard").child(key).child("image").setValue(image)
+                .addOnSuccessListener {
+                    val intent = Intent(this, TipActivity::class.java)
+                    intent.putExtra("key", key)
+                    startActivity(intent)
+                    finish()
+                }
+                .addOnFailureListener {
+                    Log.d("EditTipActivity", "Failed update tip")
+                }
         }
-    }
-
-    private fun getAgree(): Int {
-        return tipBinding.agreeNumber.toString().toInt()
-    }
-
-    private fun getDisagree() : Int {
-        return tipBinding.disagreeNumber.toString().toInt()
-    }
-
-    private fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
-        val intent = Intent(from, to)
-        from.startActivity(intent)
-        finish()
     }
 }
