@@ -68,6 +68,7 @@ class MyTipFragment : Fragment() {
                     }
                 }
                 binding.recycler.adapter?.notifyDataSetChanged()
+                tipList.reverse()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -91,6 +92,7 @@ class MyTipFragment : Fragment() {
                     }
                 }
                 binding.recycler.adapter?.notifyDataSetChanged()
+                keyList.reverse()
             }
 
             override fun onCancelled(error: DatabaseError) {
