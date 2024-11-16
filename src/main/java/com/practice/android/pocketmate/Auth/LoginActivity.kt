@@ -22,19 +22,22 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        auth = Firebase.auth
-
         var moveToActivity : Class<out AppCompatActivity> = MainActivity::class.java
         val isJoin = intent.getStringExtra("join")
         if (isJoin.equals("join")) {
             moveToActivity = SettingActivity::class.java
         }
 
+        auth = Firebase.auth
         if (auth.currentUser != null) {
             switchScreen(this, moveToActivity)
             finish()
         }
 
+        handleBtns()
+    }
+
+    private fun handleBtns() {
         binding.joinBtn.setOnClickListener {
             switchScreen(this, JoinActivity::class.java)
         }
