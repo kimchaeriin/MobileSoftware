@@ -53,6 +53,7 @@ class TipActivity : AppCompatActivity() {
                 binding.title.text = tip.title
                 binding.date.text = tip.date
                 binding.content.text = tip.content
+                binding.content.setTextColor(tip.color)
                 getNickname(FBAuth.getUid()) { nickname -> binding.writer.text = nickname }
                 binding.agreeNumber.text = tip.agree.toString()
                 binding.disagreeNumber.text = tip.disagree.toString()
@@ -116,6 +117,7 @@ class TipActivity : AppCompatActivity() {
                 val intent = Intent(this, EditTipActivity::class.java)
                 intent.putExtra("key", key)
                 startActivity(intent)
+                finish()
             }
             .show()
     }
@@ -127,8 +129,9 @@ class TipActivity : AppCompatActivity() {
                 //do nothing.
             }
             .setPositiveButton("삭제") { dialog, which ->
-                FBRef.tipRef.child(key).removeValue()
                 switchScreen(this, TipBoardActivity::class.java)
+                FBRef.tipRef.child(key).removeValue()
+                finish()
             }
             .show()
     }
