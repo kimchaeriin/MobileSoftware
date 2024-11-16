@@ -42,6 +42,7 @@ android {
 }
 
 dependencies {
+    implementation ("com.jakewharton.threetenabp:threetenabp:1.3.0")
     implementation("com.google.firebase:firebase-database")
     implementation ("com.kakao.sdk:v2-user:2.20.6") // 카카오 로그인 API 모듈
     implementation ("com.kakao.sdk:v2-talk:2.20.6") // 카카오톡 채널, 카카오톡 소셜, 카카오톡 메시지 API 모듈
