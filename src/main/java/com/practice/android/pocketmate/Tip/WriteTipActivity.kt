@@ -34,6 +34,8 @@ class WriteTipActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityWriteTipBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         AndroidThreeTen.init(this)
         handleBtns()
     }
@@ -41,11 +43,6 @@ class WriteTipActivity : AppCompatActivity() {
     private fun handleBtns() {
         binding.postBtn.setOnClickListener {
             postAndSwitchScreen()
-        }
-
-        binding.exitBtn.setOnClickListener {
-            switchScreen(this, TipBoardActivity::class.java)
-            finish()
         }
 
         binding.textColorChange.setOnClickListener {
@@ -98,6 +95,7 @@ class WriteTipActivity : AppCompatActivity() {
         val date = LocalDate.now().toString()
         val title = binding.title.text.toString()
         val content = binding.content.text.toString()
+        val color = binding.content.currentTextColor ?: R.color.black
         val image = 0 //null일 때와 아닐 때 분리 필요
         val agree = 0
         val disagree = 0
@@ -107,7 +105,7 @@ class WriteTipActivity : AppCompatActivity() {
         }
         else {
             val key = FBRef.tipRef.push().key.toString()
-            val tip = BoardModel(user, date, title, content, image, agree, disagree)
+            val tip = BoardModel(user, date, title, content, color, image, agree, disagree)
             FBRef.tipRef.child(key).setValue(tip)
 
             switchScreen(this, TipBoardActivity::class.java)
