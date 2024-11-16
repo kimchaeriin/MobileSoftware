@@ -36,38 +36,75 @@
             <EditText
                 android:background="@null"
                 android:textSize="25sp"
-                android:layout_margin="30dp"
+                android:layout_margin="10dp"
                 android:layout_gravity="center"
                 android:id="@+id/title"
                 android:hint="제목"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <ImageView
-                android:id="@+id/image"
-                android:layout_gravity="center"
-                android:src="@drawable/baseline_add_a_photo_24"
-                android:layout_width="240dp"
-                android:layout_height="240dp"/>
-
             <EditText
                 android:textSize="20sp"
                 android:hint="내용"
                 android:background="@null"
                 android:id="@+id/content"
-                android:layout_margin="30dp"
+                android:layout_margin="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 />
 
-            <Button
-                android:id="@+id/editBtn"
-                android:text="올리기"
-                android:layout_gravity="center"
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/image"
+                android:layout_margin="10dp"
+                android:layout_gravity="start|center"
+                android:layout_width="100dp"
+                android:layout_height="100dp"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_height="50dp"/>
+                android:layout_height="50dp">
+
+                <ImageButton
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/imageBtn"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="?attr/colorOnBackground"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/baseline_add_a_photo_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/textColorChange"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/baseline_circle_text_color"
+                    android:padding="12dp"
+                    android:scaleType="fitXY"
+                    android:text="T"
+                    android:textSize="20sp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageBtn"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/editBtn"
+                    android:layout_width="120dp"
+                    android:layout_height="50dp"
+                    android:text="수정하기"
+                    android:layout_marginRight="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 
