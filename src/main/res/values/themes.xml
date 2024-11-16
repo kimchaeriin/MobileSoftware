@@ -3,7 +3,7 @@
     <style name="Base.Theme.PocketMate" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">#000000</item>
         <item name="colorOnBackground">#FDF6FE</item>
-        <item name="actionBarSize">35dp</item>
+        <item name="actionBarSize">40dp</item>
     </style>
 
     <style name="Theme.PocketMate" parent="Base.Theme.PocketMate" />
