@@ -60,6 +60,7 @@ class AllTipBoardFragment : Fragment() {
                     tipList.add(tip!!)
                 }
                 binding.recycler.adapter?.notifyDataSetChanged()
+                tipList.reverse()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -80,6 +81,7 @@ class AllTipBoardFragment : Fragment() {
                     keyList.add(data.key.toString())
                 }
                 binding.recycler.adapter?.notifyDataSetChanged()
+                keyList.reverse()
             }
 
             override fun onCancelled(error: DatabaseError) {
