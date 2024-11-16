@@ -4,7 +4,7 @@ import com.google.firebase.database.Exclude
 
 data class BoardModel (
     var uid : String = "",
-    var nickname: String = "",
+    var date: String = "",
     var title : String = "",
     var content : String = "",
     var image : Int = 0,
@@ -15,7 +15,7 @@ data class BoardModel (
     fun toMap(): Map<String, Any?> {
         return mapOf(
             "uid" to uid,
-            "nickname" to nickname,
+            "date" to date,
             "title" to title,
             "content" to content,
             "image" to image,
