@@ -63,6 +63,7 @@
 
                 <TextView
                     android:id="@+id/writer"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -70,14 +71,6 @@
                     android:background="@null"
                     android:text="닉네임"
                     android:textSize="15sp"
-                    app:layout_scrollFlags="scroll|enterAlways" />
-
-                <Button
-                    android:id="@+id/editOrDeleteBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="수정 / 삭제"
-                    android:visibility="gone"
                     app:layout_scrollFlags="scroll|enterAlways" />
 
             </LinearLayout>
@@ -132,6 +125,32 @@
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    android:layout_marginRight="15dp"
+                    android:gravity="end"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageButton
+                        android:src="@drawable/baseline_mode_edit_24"
+                        android:background="@drawable/baseline_circle_24"
+                        android:id="@+id/editBtn"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginRight="10dp"
+                        app:layout_scrollFlags="scroll|enterAlways" />
+
+                    <ImageButton
+                        android:src="@drawable/baseline_delete_24"
+                        android:id="@+id/deleteBtn"
+                        android:background="@drawable/baseline_circle_24"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:text="삭제"
+                        app:layout_scrollFlags="scroll|enterAlways" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
