@@ -9,9 +9,10 @@
 
     <TextView
         android:layout_gravity="center"
+        android:gravity="center"
         android:id="@+id/noTipText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:text="아직 글이 없어요. 첫 번째 팁을 남겨주세요!" />
 
 
