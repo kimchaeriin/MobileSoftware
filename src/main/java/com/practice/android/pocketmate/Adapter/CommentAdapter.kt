@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.practice.android.pocketmate.Model.CommentModel
 import com.practice.android.pocketmate.databinding.ItemCommentBinding
+import com.practice.android.pocketmate.util.FBAuth
 
 class CommentViewHolder(val binding: ItemCommentBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -15,12 +16,13 @@ class CommentAdapter(val comments: MutableList<CommentModel>) : RecyclerView.Ada
 
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
         holder.binding.comment.text = comments[position].comment
-        holder.binding.nickname.text = comments[position].nickname
-        //이미지
+        val uid = comments[position].uid
+        FBAuth.getNickname(uid) { nickname ->
+            holder.binding.nickname.text = nickname
+        }
     }
 
     override fun getItemCount(): Int {
         return comments.size
     }
-
 }
