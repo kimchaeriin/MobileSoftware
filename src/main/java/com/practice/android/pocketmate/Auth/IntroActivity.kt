@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.practice.android.pocketmate.MainActivity
@@ -21,12 +22,15 @@ class IntroActivity : AppCompatActivity() {
 
         auth = Firebase.auth
         val currentUser = auth.currentUser
-
         if (currentUser != null) {
             switchScreen(this, MainActivity::class.java)
             finish()
         }
 
+        handleBtns()
+    }
+
+    private fun handleBtns() {
         binding.kakaoLogin.setOnClickListener {
             switchScreen(this, AuthCodeHandlerActivity::class.java)
         }
