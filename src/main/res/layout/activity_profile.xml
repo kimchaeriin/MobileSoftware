@@ -18,6 +18,7 @@
         <com.google.android.material.appbar.MaterialToolbar
             app:titleCentered="true"
             app:title="내 프로필"
+            app:titleTextAppearance="@style/CustomToolbarTitleSize"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize" />

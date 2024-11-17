@@ -18,8 +18,8 @@
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
+                app:titleTextAppearance="@style/CustomToolbarTitleSize"
                 android:layout_height="?attr/actionBarSize"
-                android:layout_marginTop="10dp"
                 app:title="팁 올리기"
                 app:titleCentered="true" />
 
