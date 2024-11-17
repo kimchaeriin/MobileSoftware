@@ -11,50 +11,85 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.kakao.sdk.common.util.Utility
 import com.practice.android.pocketmate.Tip.TipBoardActivity
 import com.practice.android.pocketmate.Tip.WriteTipActivity
 import com.practice.android.pocketmate.databinding.ActivityMainBinding
 import androidx.appcompat.app.ActionBarDrawerToggle
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.practice.android.pocketmate.Model.BoardModel
+import com.practice.android.pocketmate.Pocket.PocketBoardActivity
+import com.practice.android.pocketmate.Tip.TipActivity
+import com.practice.android.pocketmate.util.AppUtils
+import com.practice.android.pocketmate.util.AppUtils.Companion.setBottomNavigationBar
+import com.practice.android.pocketmate.util.FBAuth
+import com.practice.android.pocketmate.util.FBAuth.Companion.getNickname
+import com.practice.android.pocketmate.util.FBRef
 
 
 class MainActivity : AppCompatActivity() {
-    lateinit var toggle: ActionBarDrawerToggle
+
+    lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        toggle = ActionBarDrawerToggle(this, binding.drawerMain, R.string.drawer_opened, R.string.drawer_closed)
-        toggle.syncState()
+        getRecentTip()
+        getRecentPocket()
+        setClickTextView()
 
-        binding.writePocketBtn.setOnClickListener(){
-            val intent: Intent = Intent(this, WriteTipActivity::class.java)
+        AppUtils.setBottomNavigationBar(this, binding.navigation)
+    }
+
+    private fun getRecentTip() {
+        FBRef.tipRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (data in dataSnapshot.children.reversed()) {
+                    val tip = data.getValue(BoardModel::class.java)
+                    binding.tipTitle.text = tip?.title
+                    binding.tipContent.text = tip?.content
+                    break
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                //읽기 실패
+            }
+        })
+    }
+
+    private fun getRecentPocket() {
+        FBRef.pocketRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (data in dataSnapshot.children.reversed()) {
+                    val tip = data.getValue(BoardModel::class.java)
+                    binding.pocketTitle.text = tip?.title
+                    binding.pocketContent.text = tip?.content
+                    break
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                //읽기 실패
+            }
+        })
+    }
+
+    private fun setClickTextView() {
+        binding.pocket.setOnClickListener(){
+            val intent: Intent = Intent(this, PocketBoardActivity::class.java)
+            startActivity(intent)
+
+        }
+        binding.tip.setOnClickListener(){
+            val intent: Intent = Intent(this, TipBoardActivity::class.java)
             startActivity(intent)
         }
-
-        binding.profileBtn.setOnClickListener(){
-            val intent: Intent = Intent(this, ProfileActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.tipBoardBtn.setOnClickListener(){
-            switchScreen(this, TipBoardActivity::class.java)
-        }
     }
 
-    fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
-        val intent = Intent(from, to)
-        from.startActivity(intent)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (toggle.onOptionsItemSelected(item))
-            return true
-        return super.onOptionsItemSelected(item)
-    }
 
 }
