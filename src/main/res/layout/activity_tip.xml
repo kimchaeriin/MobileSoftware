@@ -21,7 +21,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorOnBackground"
+            android:background="@color/colorBackgroundWhite"
             android:fitsSystemWindows="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -120,7 +120,7 @@
 
                 <ImageButton
                     android:id="@+id/agreeBtn"
-                    android:background="?attr/colorOnBackground"
+                    android:background="@color/colorBackgroundWhite"
                     android:src="@drawable/baseline_sentiment_very_satisfied_24"
                     android:layout_width="50dp"
                     android:layout_height="50dp"/>
@@ -135,7 +135,7 @@
                 <ImageButton
                     android:id="@+id/disagreeBtn"
                     android:layout_gravity="end"
-                    android:background="?attr/colorOnBackground"
+                    android:background="@color/colorBackgroundWhite"
                     android:src="@drawable/baseline_sentiment_very_dissatisfied_24"
                     android:layout_width="50dp"
                     android:layout_height="50dp"/>

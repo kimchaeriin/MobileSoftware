@@ -12,7 +12,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorOnBackground"
+        android:background="@color/colorBackgroundWhite"
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -73,7 +73,7 @@
                     android:id="@+id/imageBtn"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:background="?attr/colorOnBackground"
+                    android:background="@color/colorBackgroundWhite"
                     android:scaleType="fitXY"
                     android:src="@drawable/baseline_add_a_photo_24"
                     app:layout_constraintBottom_toBottomOf="parent"

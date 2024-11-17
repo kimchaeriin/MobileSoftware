@@ -12,7 +12,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorOnBackground"
+        android:background="@color/colorBackgroundWhite"
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -30,8 +30,9 @@
         android:id="@+id/profileImageBtn"
         android:src="@drawable/baseline_face_24"
         android:layout_gravity="center"
+        android:scaleType="fitXY"
         android:layout_width="150dp"
-        android:background="?attr/colorOnBackground"
+        android:background="@color/colorBackgroundWhite"
         android:layout_height="150dp"/>
 
     <LinearLayout
@@ -96,14 +97,14 @@
         android:textColor="@color/black"
         android:id="@+id/logoutBtn"
         android:text="로그아웃"
-        android:backgroundTint="?attr/colorOnBackground"
+        android:backgroundTint="@color/colorBackgroundWhite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <Button
         android:layout_gravity="center"
         android:id="@+id/withDrawBtn"
-        android:backgroundTint="?attr/colorOnBackground"
+        android:backgroundTint="@color/colorBackgroundWhite"
         android:text="회원 탈퇴하기"
         android:textColor="#FF0000"
         android:layout_width="150dp"

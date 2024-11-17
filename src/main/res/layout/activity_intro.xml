@@ -11,7 +11,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorOnBackground"
+        android:background="@color/colorBackgroundWhite"
         android:fitsSystemWindows="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:background="?attr/colorOnBackground"
+            android:background="@color/colorBackgroundWhite"
             android:contentDescription="카카오로 로그인"
             android:id="@+id/kakaoLogin"
             android:layout_width="300dp"

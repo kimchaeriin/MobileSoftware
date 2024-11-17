@@ -6,7 +6,7 @@
     <stroke android:width="0.5dp"
         android:color="@color/colorOnComment"/>
 
-    <solid android:color="#F8F8F8"/>
+    <solid android:color="#979797"/>
 
     <corners
         android:topLeftRadius="40dp"
