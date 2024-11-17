@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.practice.android.pocketmate.MainActivity
 import com.practice.android.pocketmate.R
 import com.practice.android.pocketmate.databinding.ActivitySettingBinding
+import com.practice.android.pocketmate.util.AppUtils
 import com.practice.android.pocketmate.util.FBAuth
 import com.practice.android.pocketmate.util.FBRef
 
@@ -23,7 +24,7 @@ class SettingActivity : AppCompatActivity() {
 
         binding.setNicknameBtn.setOnClickListener {
             setNickname()
-            switchScreen(this, MainActivity::class.java)
+            AppUtils.switchScreen(this, MainActivity::class.java)
             finish()
         }
     }
@@ -36,10 +37,5 @@ class SettingActivity : AppCompatActivity() {
         else {
         FBRef.nicknameRef.child(FBAuth.getUid()).setValue(binding.setNicknameArea.text.toString())
         }
-    }
-
-    private fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
-        val intent = Intent(from, to)
-        from.startActivity(intent)
     }
 }

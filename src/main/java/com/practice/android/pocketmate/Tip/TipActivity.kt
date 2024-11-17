@@ -18,6 +18,7 @@ import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.Model.CommentModel
 import com.practice.android.pocketmate.R
 import com.practice.android.pocketmate.databinding.ActivityTipBinding
+import com.practice.android.pocketmate.util.AppUtils
 import com.practice.android.pocketmate.util.FBAuth
 import com.practice.android.pocketmate.util.FBAuth.Companion.getNickname
 import com.practice.android.pocketmate.util.FBRef
@@ -130,7 +131,7 @@ class TipActivity : AppCompatActivity() {
                 //do nothing.
             }
             .setPositiveButton("삭제") { dialog, which ->
-                switchScreen(this, TipBoardActivity::class.java)
+                AppUtils.switchScreen(this, TipBoardActivity::class.java)
                 FBRef.tipRef.child(key).removeValue()
                 finish()
             }
@@ -225,10 +226,5 @@ class TipActivity : AppCompatActivity() {
         val commentContent = binding.writeCommentArea.text.toString().trim()
         val comment = CommentModel(0, FBAuth.getUid(), commentContent)
         FBRef.commentRef.child(key).child(commentKey).setValue(comment)
-    }
-
-    private fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
-        val intent = Intent(from, to)
-        from.startActivity(intent)
     }
 }

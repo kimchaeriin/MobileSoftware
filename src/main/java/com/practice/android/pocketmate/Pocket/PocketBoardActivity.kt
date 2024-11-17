@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.practice.android.pocketmate.Model.PocketModel
 import com.practice.android.pocketmate.R
 import com.practice.android.pocketmate.databinding.ActivityPocketBoardBinding
+import com.practice.android.pocketmate.util.AppUtils
 
 class PocketBoardActivity : AppCompatActivity() {
     lateinit var toggle: ActionBarDrawerToggle
@@ -22,6 +23,9 @@ class PocketBoardActivity : AppCompatActivity() {
         val binding = ActivityPocketBoardBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
+//        binding.navigation.selectedItemId = R.id.nav_pocket
+//        AppUtils.setBottomNavigationBar(this, binding.navigation)
+
 
         toggle = ActionBarDrawerToggle(this, binding.drawer, R.string.drawer_opened, R.string.drawer_closed)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

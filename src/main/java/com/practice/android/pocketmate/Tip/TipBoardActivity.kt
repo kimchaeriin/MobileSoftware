@@ -10,6 +10,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.practice.android.pocketmate.R
 import com.practice.android.pocketmate.databinding.ActivityTipBoardBinding
 import com.practice.android.pocketmate.databinding.ContentMainBinding
+import com.practice.android.pocketmate.util.AppUtils
 
 class TipBoardActivity : AppCompatActivity() {
 
@@ -22,6 +23,8 @@ class TipBoardActivity : AppCompatActivity() {
 
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
+        binding.navigation.selectedItemId = R.id.nav_tip
+        AppUtils.setBottomNavigationBar(this, binding.navigation)
 
         handleBtns()
     }
@@ -34,7 +37,7 @@ class TipBoardActivity : AppCompatActivity() {
         }
 
         binding.fabWrite.setOnClickListener {
-            switchScreen(this, WriteTipActivity::class.java)
+            AppUtils.switchScreen(this, WriteTipActivity::class.java)
         }
 
         binding.fabMine.setOnClickListener {
@@ -57,10 +60,5 @@ class TipBoardActivity : AppCompatActivity() {
             binding.fabMain.setImageResource(R.drawable.baseline_add_24)
         }
         isFabOpen = !isFabOpen
-    }
-
-    private fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
-        val intent = Intent(from, to)
-        from.startActivity(intent)
     }
 }

@@ -24,6 +24,7 @@ import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.user.UserApiClient
 import com.practice.android.pocketmate.Auth.IntroActivity
 import com.practice.android.pocketmate.databinding.ActivityProfileBinding
+import com.practice.android.pocketmate.util.AppUtils
 import com.practice.android.pocketmate.util.FBAuth
 import com.practice.android.pocketmate.util.FBRef
 
@@ -37,6 +38,8 @@ class ProfileActivity : AppCompatActivity() {
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
+        binding.navigation.selectedItemId = R.id.nav_profile
+        AppUtils.setBottomNavigationBar(this, binding.navigation)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
@@ -68,20 +71,20 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         binding.friendListBtn.setOnClickListener {
-            switchScreen(this, SearchIDActivity::class.java)
+            AppUtils.switchScreen(this, SearchIDActivity::class.java)
         }
 
         binding.logoutBtn.setOnClickListener {
             Firebase.auth.signOut()
             logoutWithKakao()
             if (Firebase.auth.currentUser == null) {
-                switchScreen(this, IntroActivity::class.java)
+                AppUtils.switchScreen(this, IntroActivity::class.java)
             }
         }
 
         binding.withDrawBtn.setOnClickListener {
             if (signOutWithFirebase() || signOutWithKakao()) {
-                switchScreen(this, IntroActivity::class.java)
+                AppUtils.switchScreen(this, IntroActivity::class.java)
             }
         }
     }
@@ -168,12 +171,6 @@ class ProfileActivity : AppCompatActivity() {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip: ClipData = ClipData.newPlainText("회원 아이디", binding.uid.text.toString())
         clipboard.setPrimaryClip(clip)
-    }
-
-    private fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
-        val intent = Intent(from, to)
-        startActivity(intent)
-        finish()
     }
 
     fun hideKeyBoard() {

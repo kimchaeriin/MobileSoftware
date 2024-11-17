@@ -23,6 +23,7 @@ import com.practice.android.pocketmate.databinding.ActivityWriteTipBinding
 import com.practice.android.pocketmate.util.FBAuth
 import com.practice.android.pocketmate.util.FBRef
 import com.jakewharton.threetenabp.AndroidThreeTen
+import com.practice.android.pocketmate.util.AppUtils
 import org.threeten.bp.LocalDate
 
 
@@ -108,12 +109,7 @@ class WriteTipActivity : AppCompatActivity() {
             val tip = BoardModel(user, date, title, content, color, image, agree, disagree)
             FBRef.tipRef.child(key).setValue(tip)
 
-            switchScreen(this, TipBoardActivity::class.java)
+            AppUtils.switchScreen(this, TipBoardActivity::class.java)
         }
-    }
-
-    private fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
-        val intent = Intent(from, to)
-        from.startActivity(intent)
     }
 }
