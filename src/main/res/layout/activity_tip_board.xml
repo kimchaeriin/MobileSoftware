@@ -19,6 +19,7 @@
             app:title="팁 게시판"
             app:titleCentered="true"
             android:id="@+id/toolbar"
+            app:titleTextAppearance="@style/CustomToolbarTitleSize"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize" />
 
