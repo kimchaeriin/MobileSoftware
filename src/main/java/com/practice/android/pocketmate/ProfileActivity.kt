@@ -88,7 +88,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun changeNickname() {
         val uid = FBAuth.getUid()
-        val newNickname = binding.nickname.text.toString()
+        val newNickname = binding.nickname.text.toString().trim()
         if (newNickname.length < 1) {
             Toast.makeText(this, "닉네임은 한 글자 이상이어야 합니다.", Toast.LENGTH_LONG).show()
         } else {

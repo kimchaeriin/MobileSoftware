@@ -54,15 +54,16 @@ class TipActivity : AppCompatActivity() {
                 binding.date.text = tip.date
                 binding.content.text = tip.content
                 binding.content.setTextColor(tip.color)
-                getNickname(FBAuth.getUid()) { nickname -> binding.writer.text = nickname }
+                getNickname(FBAuth.getUid()) { nickname -> binding.nickname.text = nickname }
                 binding.agreeNumber.text = tip.agree.toString()
                 binding.disagreeNumber.text = tip.disagree.toString()
+                
+                //프로필 이미지
 
                 if (tip.image == 0) {
                     binding.image.visibility = View.GONE
                 }
                 if (tip.uid != FBAuth.getUid()) {
-                    binding.writer.visibility = View.VISIBLE
                     binding.editBtn.visibility = View.GONE
                     binding.deleteBtn.visibility = View.GONE
                 }
@@ -176,7 +177,7 @@ class TipActivity : AppCompatActivity() {
             if (task.isSuccessful) {
                 binding.disagreeNumber.text = disagree.toString()
             } else {
-                Log.e("TipActivity", "Failed to update agree count.")
+                Log.e("TipActivity", "Failed to update disagree count.")
             }
         }
     }
@@ -191,7 +192,7 @@ class TipActivity : AppCompatActivity() {
             if (task.isSuccessful) {
                 binding.disagreeNumber.text = disagree.toString()
             } else {
-                Log.e("TipActivity", "Failed to update agree count.")
+                Log.e("TipActivity", "Failed to update disagree count.")
             }
         }
     }
@@ -205,7 +206,7 @@ class TipActivity : AppCompatActivity() {
                     val comment = data.getValue(CommentModel::class.java)!!
                     binding.emptyCommentText.visibility = View.GONE
                     getNickname(FBAuth.getUid()) { nickname ->
-                        binding.writer.text = nickname
+                        binding.nickname.text = nickname
                     }
                     commentList.add(comment!!)
                 }
@@ -221,7 +222,7 @@ class TipActivity : AppCompatActivity() {
 
     private fun writeComment(key: String) {
         val commentKey = FBRef.commentRef.child(key).push().key.toString()
-        val commentContent = binding.writeCommentArea.text.toString()
+        val commentContent = binding.writeCommentArea.text.toString().trim()
         val comment = CommentModel(0, FBAuth.getUid(), commentContent)
         FBRef.commentRef.child(key).child(commentKey).setValue(comment)
     }
