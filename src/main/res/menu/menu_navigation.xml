@@ -8,7 +8,7 @@
     </item>
 
     <item
-        android:id="@+id/nav_schedule"
+        android:id="@+id/nav_pocket"
         android:title="오늘의 소비 계획"
         android:icon="@drawable/baseline_attach_money_24">
     </item>
@@ -16,7 +16,7 @@
     <item
         android:icon="@drawable/baseline_tips_and_updates_24"
         android:title="팁 게시판"
-        android:id="@+id/nav_board">
+        android:id="@+id/nav_tip">
     </item>
 
     <item
