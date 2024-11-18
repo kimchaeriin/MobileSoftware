@@ -25,6 +25,7 @@
             android:exported="false" />
         <activity
             android:name=".Tip.TipActivity"
+            android:parentActivityName=".Tip.TipBoardActivity"
             android:exported="false" />
 
         <meta-data
@@ -36,7 +37,7 @@
             android:exported="false"
             android:parentActivityName=".PocketBoardActivity" />
         <activity
-            android:name=".MyPocketFragment"
+            android:name=".Pocket.MyPocketFragment"
             android:exported="false" />
         <activity
             android:name=".PocketActivity"
