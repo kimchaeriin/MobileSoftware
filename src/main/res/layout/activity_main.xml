@@ -12,16 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageButton
-            android:layout_margin="10dp"
-            android:id="@+id/reverseBackgroundColor"
-            android:background="@null"
-            android:src="@drawable/baseline_lightbulb_circle_24"
-            android:layout_width="30dp"
-            android:layout_height="30dp"/>
-
         <TextView
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40dp"
             android:textSize="30sp"
             android:gravity="center"
             android:layout_gravity="center"
