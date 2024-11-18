@@ -26,39 +26,60 @@ class PocketBoardActivity : AppCompatActivity() {
         toggle = ActionBarDrawerToggle(this, binding.drawer, R.string.drawer_opened, R.string.drawer_closed)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toggle.syncState()
+        binding.drawerPocket.addDrawerListener(toggle)
 
-        val items = mutableListOf<PocketModel>() //input data
-        for(i in 1..5){
-            items.add(PocketModel("제목", "내용", R.drawable.ic_launcher_background))
-        }
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.adapter = PocketAdapter(items)
-        binding.recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
+        val fragment = PocketBoardFragment()
+        val fm:FragmentManager = supportFragmentManager
+        val transaction : FragmentTransaction = fm.beginTransaction()
+        transaction.add(binding.fragmentPocket.id,fragment)
+        transaction.commit()
 
-        binding.fbtn1.setOnClickListener(){
-            if(binding.fbtn1.text == "+"){
-                binding.fbtn2.visibility = View.VISIBLE
-                binding.fbtn3.visibility = View.VISIBLE
-                binding.fbtn4.visibility = View.VISIBLE
-                binding.fbtn1.text = "x"
+        binding.fbtnOrigin.setOnClickListener(){
+            if(binding.fbtnOrigin.text == "+"){
+                binding.fbtnWrite.visibility = View.VISIBLE
+                binding.fbtnFriend.visibility = View.VISIBLE
+                binding.fbtnMine.visibility = View.VISIBLE
+                binding.fbtnOrigin.text = "x"
             }
 
             else{
-                binding.fbtn2.visibility = View.GONE
-                binding.fbtn3.visibility = View.GONE
-                binding.fbtn4.visibility = View.GONE
-                binding.fbtn1.text = "+"
+                binding.fbtnWrite.visibility = View.GONE
+                binding.fbtnFriend.visibility = View.GONE
+                binding.fbtnMine.visibility = View.GONE
+                binding.fbtnOrigin.text = "+"
             }
         }
 
-        binding.fbtn2.setOnClickListener(){
-            val intent: Intent = Intent(this, WritePocketBoardActivity::class.java)
+        binding.fbtnWrite.setOnClickListener(){
+            val intent: Intent = Intent(this,WritePocketBoardActivity::class.java)
             startActivity(intent)
         }
 
-        binding.fbtn4.setOnClickListener(){
-            val intent: Intent = Intent(this, MyPocketBoardActivity::class.java)
-            startActivity(intent)
+        binding.fbtnMine.setOnClickListener(){
+            val fragment = MyPocketFragment()
+            val fm:FragmentManager = supportFragmentManager
+            val transaction : FragmentTransaction = fm.beginTransaction()
+            transaction.replace(binding.fragmentPocket.id,fragment)
+            transaction.commit()
+        }
+
+        binding.fbtnFriend.setOnClickListener(){
+            val fragment = FriendsPocketFragment()
+            val fm:FragmentManager = supportFragmentManager
+            val transaction : FragmentTransaction = fm.beginTransaction()
+            transaction.replace(binding.fragmentPocket.id,fragment)
+            transaction.commit()
+        }
+
+        binding.navigation.setNavigationItemSelectedListener{ menuItem->
+            Log.d("navigation","in")
+            when(menuItem.itemId){
+                R.id.menu_schedule -> navigateToMenuSchedule()
+                R.id.menu_board -> navigateToMenuBoard()
+                R.id.menu_profile -> navigateToMenuProfile()
+            }
+            binding.drawerPocket.closeDrawers()
+            true
         }
     }
 
@@ -66,6 +87,21 @@ class PocketBoardActivity : AppCompatActivity() {
         if(toggle.onOptionsItemSelected(item))
             return true
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun navigateToMenuSchedule(){
+        val intent: Intent = Intent(this,PocketBoardActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun navigateToMenuBoard(){
+        val intent: Intent = Intent(this,TipBoardActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun navigateToMenuProfile(){
+        val intent: Intent = Intent(this,ProfileActivity::class.java)
+        startActivity(intent)
     }
 
 }
