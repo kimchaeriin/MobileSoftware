@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_AllTipBoardFragment_to_MyTipFragment"
             app:destination="@id/MyTipFragment" />
+        <action
+            android:id="@+id/action_AllTipBoardFragment_to_tipSearchFragment"
+            app:destination="@id/tipSearchFragment" />
 
     </fragment>
 
@@ -24,6 +27,21 @@
         <action
             android:id="@+id/action_MyTipFragment_to_AllTipBoardFragment"
             app:destination="@id/AllTipBoardFragment" />
+        <action
+            android:id="@+id/action_MyTipFragment_to_tipSearchFragment"
+            app:destination="@id/tipSearchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tipSearchFragment"
+        android:name="com.practice.android.pocketmate.Tip.TipSearchFragment"
+        android:label="fragment_tip_search"
+        tools:layout="@layout/fragment_tip_search" >
+        <action
+            android:id="@+id/action_tipSearchFragment_to_AllTipBoardFragment"
+            app:destination="@id/AllTipBoardFragment" />
+        <action
+            android:id="@+id/action_tipSearchFragment_to_MyTipFragment"
+            app:destination="@id/MyTipFragment" />
     </fragment>
 
 </navigation>
