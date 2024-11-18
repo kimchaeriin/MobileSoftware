@@ -24,8 +24,8 @@ import com.google.firebase.database.ValueEventListener
 import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.Pocket.PocketBoardActivity
 import com.practice.android.pocketmate.Tip.TipActivity
-import com.practice.android.pocketmate.util.AppUtils
-import com.practice.android.pocketmate.util.AppUtils.Companion.setBottomNavigationBar
+import com.practice.android.pocketmate.util.ScreenUtils
+import com.practice.android.pocketmate.util.ScreenUtils.Companion.setBottomNavigationBar
 import com.practice.android.pocketmate.util.FBAuth
 import com.practice.android.pocketmate.util.FBAuth.Companion.getNickname
 import com.practice.android.pocketmate.util.FBRef
@@ -44,18 +44,17 @@ class MainActivity : AppCompatActivity() {
         getRecentPocket()
         setClickTextView()
 
-        AppUtils.setBottomNavigationBar(this, binding.navigation)
+        ScreenUtils.setBottomNavigationBar(this, binding.navigation)
     }
 
     private fun getRecentTip() {
         FBRef.tipRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (data in dataSnapshot.children.reversed()) {
-                    val tip = data.getValue(BoardModel::class.java)
-                    binding.tipTitle.text = tip?.title
-                    binding.tipContent.text = tip?.content
-                    break
-                }
+                val data = dataSnapshot.children.reversed()[0]
+                val tip = data.getValue(BoardModel::class.java)
+                binding.tipTitle.text = tip?.title
+                binding.tipContent.text = tip?.content
+
             }
             override fun onCancelled(error: DatabaseError) {
                 //읽기 실패

@@ -10,7 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.practice.android.pocketmate.MainActivity
 import com.practice.android.pocketmate.R
 import com.practice.android.pocketmate.databinding.ActivitySettingBinding
-import com.practice.android.pocketmate.util.AppUtils
+import com.practice.android.pocketmate.util.ScreenUtils
 import com.practice.android.pocketmate.util.FBAuth
 import com.practice.android.pocketmate.util.FBRef
 
@@ -24,7 +24,7 @@ class SettingActivity : AppCompatActivity() {
 
         binding.setNicknameBtn.setOnClickListener {
             setNickname()
-            AppUtils.switchScreen(this, MainActivity::class.java)
+            ScreenUtils.switchScreen(this, MainActivity::class.java)
             finish()
         }
     }

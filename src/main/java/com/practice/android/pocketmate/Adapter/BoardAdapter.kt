@@ -16,6 +16,7 @@ class BoardViewHolder(val binding: ItemBoardBinding) : RecyclerView.ViewHolder(b
 
 class BoardAdapter (val context: Context, val items: MutableList<BoardModel>, val keyList: MutableList<String>)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         BoardViewHolder(ItemBoardBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 

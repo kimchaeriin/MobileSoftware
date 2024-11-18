@@ -9,7 +9,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.practice.android.pocketmate.MainActivity
 import com.practice.android.pocketmate.databinding.ActivityLoginBinding
-import com.practice.android.pocketmate.util.AppUtils
+import com.practice.android.pocketmate.util.ScreenUtils
 import kotlinx.coroutines.Dispatchers.Main
 
 class LoginActivity : AppCompatActivity() {
@@ -31,7 +31,7 @@ class LoginActivity : AppCompatActivity() {
 
         auth = Firebase.auth
         if (auth.currentUser != null) {
-            AppUtils.switchScreen(this, moveToActivity)
+            ScreenUtils.switchScreen(this, moveToActivity)
             finish()
         }
 
@@ -40,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun handleBtns() {
         binding.joinBtn.setOnClickListener {
-            AppUtils.switchScreen(this, JoinActivity::class.java)
+            ScreenUtils.switchScreen(this, JoinActivity::class.java)
         }
         binding.loginBtn.setOnClickListener {
             login()

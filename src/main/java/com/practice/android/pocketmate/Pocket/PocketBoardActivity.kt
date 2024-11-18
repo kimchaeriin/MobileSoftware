@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.practice.android.pocketmate.Model.PocketModel
 import com.practice.android.pocketmate.R
 import com.practice.android.pocketmate.databinding.ActivityPocketBoardBinding
-import com.practice.android.pocketmate.util.AppUtils
 
 class PocketBoardActivity : AppCompatActivity() {
     lateinit var toggle: ActionBarDrawerToggle

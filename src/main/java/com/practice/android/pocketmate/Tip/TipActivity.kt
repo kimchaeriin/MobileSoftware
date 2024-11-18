@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -18,7 +19,8 @@ import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.Model.CommentModel
 import com.practice.android.pocketmate.R
 import com.practice.android.pocketmate.databinding.ActivityTipBinding
-import com.practice.android.pocketmate.util.AppUtils
+import com.practice.android.pocketmate.databinding.ItemCommentBinding
+import com.practice.android.pocketmate.util.ScreenUtils
 import com.practice.android.pocketmate.util.FBAuth
 import com.practice.android.pocketmate.util.FBAuth.Companion.getNickname
 import com.practice.android.pocketmate.util.FBRef
@@ -26,6 +28,7 @@ import com.practice.android.pocketmate.util.FBRef
 class TipActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityTipBinding
+    lateinit var commentBinding: ItemCommentBinding
     val commentList = mutableListOf<CommentModel>()
     var agreed = false
     var disagreed = false
@@ -33,6 +36,7 @@ class TipActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTipBinding.inflate(layoutInflater)
+        commentBinding = ItemCommentBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -109,6 +113,10 @@ class TipActivity : AppCompatActivity() {
         }
     }
 
+    private fun showDeleteCommentDialog(key: String, commentKey: String) {
+
+    }
+
     private fun showEditDialog(key: String) {
         MaterialAlertDialogBuilder(this)
             .setMessage("수정하시겠습니까?")
@@ -131,7 +139,7 @@ class TipActivity : AppCompatActivity() {
                 //do nothing.
             }
             .setPositiveButton("삭제") { dialog, which ->
-                AppUtils.switchScreen(this, TipBoardActivity::class.java)
+                ScreenUtils.switchScreen(this, TipBoardActivity::class.java)
                 FBRef.tipRef.child(key).removeValue()
                 finish()
             }
@@ -205,6 +213,10 @@ class TipActivity : AppCompatActivity() {
 
                 for (data in dataSnapshot.children) {
                     val comment = data.getValue(CommentModel::class.java)!!
+                    if (comment.uid != FBAuth.getUid()) {
+                        Log.d("Comment", "??")
+                            commentBinding.deleteBtn.visibility = View.GONE
+                    }
                     binding.emptyCommentText.visibility = View.GONE
                     getNickname(FBAuth.getUid()) { nickname ->
                         binding.nickname.text = nickname
@@ -222,9 +234,15 @@ class TipActivity : AppCompatActivity() {
     }
 
     private fun writeComment(key: String) {
-        val commentKey = FBRef.commentRef.child(key).push().key.toString()
-        val commentContent = binding.writeCommentArea.text.toString().trim()
-        val comment = CommentModel(0, FBAuth.getUid(), commentContent)
-        FBRef.commentRef.child(key).child(commentKey).setValue(comment)
+        val newComment = binding.writeCommentArea.text.toString().trim()
+        if (newComment.isEmpty()) {
+            Toast.makeText(this, "댓글을 입력해주세요.", Toast.LENGTH_SHORT).show()
+        }
+        else {
+            val commentKey = FBRef.commentRef.child(key).push().key.toString()
+            val commentContent = newComment
+            val comment = CommentModel(0, FBAuth.getUid(), commentContent)
+            FBRef.commentRef.child(key).child(commentKey).setValue(comment)
+        }
     }
 }

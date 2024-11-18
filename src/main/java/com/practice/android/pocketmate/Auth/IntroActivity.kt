@@ -9,7 +9,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.practice.android.pocketmate.MainActivity
 import com.practice.android.pocketmate.databinding.ActivityIntroBinding
-import com.practice.android.pocketmate.util.AppUtils
+import com.practice.android.pocketmate.util.ScreenUtils
 
 class IntroActivity : AppCompatActivity() {
 
@@ -24,7 +24,7 @@ class IntroActivity : AppCompatActivity() {
         auth = Firebase.auth
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            AppUtils.switchScreen(this, MainActivity::class.java)
+            ScreenUtils.switchScreen(this, MainActivity::class.java)
             finish()
         }
 
@@ -33,11 +33,11 @@ class IntroActivity : AppCompatActivity() {
 
     private fun handleBtns() {
         binding.kakaoLogin.setOnClickListener {
-            AppUtils.switchScreen(this, AuthCodeHandlerActivity::class.java)
+            ScreenUtils.switchScreen(this, AuthCodeHandlerActivity::class.java)
         }
 
         binding.emailLogin.setOnClickListener {
-            AppUtils.switchScreen(this, LoginActivity::class.java)
+            ScreenUtils.switchScreen(this, LoginActivity::class.java)
         }
     }
 

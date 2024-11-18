@@ -9,7 +9,7 @@ import com.practice.android.pocketmate.ProfileActivity
 import com.practice.android.pocketmate.R
 import com.practice.android.pocketmate.Tip.TipBoardActivity
 
-class AppUtils {
+class ScreenUtils {
 
     companion object {
 
