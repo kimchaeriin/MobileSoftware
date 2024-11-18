@@ -12,6 +12,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.practice.android.pocketmate.Adapter.BoardAdapter
+import com.practice.android.pocketmate.Adapter.SearchAdapter
 import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.databinding.FragmentMyTipBinding
 import com.practice.android.pocketmate.util.FBAuth
@@ -30,6 +31,8 @@ class MyTipFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    lateinit var boardAdapter: BoardAdapter
+    lateinit var searchAdapter: SearchAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,11 +51,17 @@ class MyTipFragment : Fragment() {
 
         val tipList = getMyTipList()
         val keyList = getMyTipKeyList()
+        boardAdapter = BoardAdapter(requireContext(), tipList, keyList)
+        searchAdapter = SearchAdapter(requireContext(), tipList, keyList)
 
-        binding.recycler.adapter = BoardAdapter(requireContext(), tipList, keyList)
+        binding.recycler.adapter = boardAdapter
         binding.recycler.layoutManager = LinearLayoutManager(context)
 
         return binding.root
+    }
+
+    fun filter(query: String) {
+        searchAdapter.filter(query)
     }
 
     private fun getMyTipList() : MutableList<BoardModel> {

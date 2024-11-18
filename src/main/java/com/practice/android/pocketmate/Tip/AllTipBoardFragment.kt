@@ -6,11 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.practice.android.pocketmate.Adapter.BoardAdapter
+import com.practice.android.pocketmate.Adapter.SearchAdapter
 import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.databinding.FragmentAllTipBoardBinding
 import com.practice.android.pocketmate.util.FBRef
@@ -30,6 +32,8 @@ class AllTipBoardFragment : Fragment() {
     private var _binding : FragmentAllTipBoardBinding? = null
 
     private val binding get() = _binding!!
+    lateinit var boardAdapter: BoardAdapter
+    lateinit var searchAdapter: SearchAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,11 +44,17 @@ class AllTipBoardFragment : Fragment() {
 
         val tipList = getTipList()
         val keyList = getKeyList()
+        boardAdapter = BoardAdapter(requireContext(), tipList, keyList)
+        searchAdapter = SearchAdapter(requireContext(), tipList, keyList)
 
-        binding.recycler.adapter = BoardAdapter(requireContext(), tipList, keyList)
+        binding.recycler.adapter = boardAdapter
         binding.recycler.layoutManager = LinearLayoutManager(context)
 
         return binding.root
+    }
+
+    fun filter(query: String) {
+        searchAdapter.filter(query)
     }
 
     private fun getTipList() : MutableList<BoardModel> {
