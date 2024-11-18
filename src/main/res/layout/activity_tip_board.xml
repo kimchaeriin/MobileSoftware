@@ -16,12 +16,23 @@
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
             app:title="팁 게시판"
             app:titleCentered="true"
-            android:id="@+id/toolbar"
-            app:titleTextAppearance="@style/CustomToolbarTitleSize"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" />
+            app:titleTextAppearance="@style/CustomToolbarTitleSize">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                app:queryHint="@string/main_search_hint"
+                app:queryBackground="@drawable/round_corner_rectangle"/>
+
+        </com.google.android.material.appbar.MaterialToolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
