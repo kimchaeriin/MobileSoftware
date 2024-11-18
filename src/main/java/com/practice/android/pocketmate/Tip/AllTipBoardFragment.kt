@@ -33,7 +33,6 @@ class AllTipBoardFragment : Fragment() {
 
     private val binding get() = _binding!!
     lateinit var boardAdapter: BoardAdapter
-    lateinit var searchAdapter: SearchAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,17 +43,15 @@ class AllTipBoardFragment : Fragment() {
 
         val tipList = getTipList()
         val keyList = getKeyList()
+        if (tipList.isNotEmpty()) {
+            binding.noTipText.visibility = View.GONE
+        }
         boardAdapter = BoardAdapter(requireContext(), tipList, keyList)
-        searchAdapter = SearchAdapter(requireContext(), tipList, keyList)
 
         binding.recycler.adapter = boardAdapter
         binding.recycler.layoutManager = LinearLayoutManager(context)
 
         return binding.root
-    }
-
-    fun filter(query: String) {
-        searchAdapter.filter(query)
     }
 
     private fun getTipList() : MutableList<BoardModel> {
