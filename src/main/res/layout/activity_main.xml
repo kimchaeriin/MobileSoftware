@@ -9,23 +9,46 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            app:title="함께 만드는 소비습관, PocketMate"
-            app:expandedTitleTextColor="@color/white"
-            android:background="@color/black">
+            android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/toolbar">
+                android:layout_height="250dp"
+                android:background="@color/black"
+                app:title=" ">
 
-            </androidx.appcompat.widget.Toolbar>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="함께 만드는 소비습관,"
+                    android:textColor="@color/white"
+                    android:textSize="25dp"
+                    android:textAlignment="center"
+                    android:layout_marginTop="90dp">
+                </TextView>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="PocketMate,"
+                    android:textColor="@color/white"
+                    android:textSize="25dp"
+                    android:textAlignment="center"
+                    android:layout_marginTop="130dp">
+                </TextView>
 
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+                <androidx.appcompat.widget.Toolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:id="@+id/toolbar_main"
+                    app:title=" ">
+                </androidx.appcompat.widget.Toolbar>
 
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+            
+        </com.google.android.material.appbar.AppBarLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -39,21 +62,23 @@
 
     </com.google.android.material.navigation.NavigationView>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:id="@+id/contentFrame"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <Button
             android:layout_width="300dp"
-            android:layout_height="150dp"
-            android:id="@+id/writePocketBtn"
+            android:layout_height="100dp"
+            android:id="@+id/btn"
             android:backgroundTint="#787676"
             android:text="소비 계획 쓰러 가기"
+            android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginTop="280dp"
-            android:layout_gravity="center">
+            android:layout_marginTop="290dp"
+            android:layout_marginLeft="60dp">
         </Button>
 
         <Button
@@ -64,7 +89,8 @@
             android:text="프로필"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_gravity="center">
+            android:layout_marginTop="410dp"
+            android:layout_marginLeft="60dp">
         </Button>
 
         <Button
@@ -75,17 +101,17 @@
             android:text="팁 게시판"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_gravity="center">
+            android:layout_marginTop="480dp"
+            android:layout_marginLeft="60dp">
         </Button>
 
         <ImageView
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:src="@drawable/ic_launcher_background"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"/>
+            android:layout_marginTop="550dp"
+            android:layout_marginLeft="140dp"/>
 
-
-    </LinearLayout>
-
+    </FrameLayout>
+      
 </androidx.drawerlayout.widget.DrawerLayout>
