@@ -3,14 +3,17 @@ package com.practice.android.pocketmate.Tip
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.practice.android.pocketmate.Adapter.BoardAdapter
 import com.practice.android.pocketmate.R
 import com.practice.android.pocketmate.databinding.ActivityTipBoardBinding
 import com.practice.android.pocketmate.databinding.ContentMainBinding
-import com.practice.android.pocketmate.util.AppUtils
+import com.practice.android.pocketmate.util.ScreenUtils
 
 class TipBoardActivity : AppCompatActivity() {
 
@@ -24,9 +27,31 @@ class TipBoardActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         binding.navigation.selectedItemId = R.id.nav_tip
-        AppUtils.setBottomNavigationBar(this, binding.navigation)
+        ScreenUtils.setBottomNavigationBar(this, binding.navigation)
+//        setOnQueryTextListener()
 
         handleBtns()
+    }
+
+    private fun setOnQueryTextListener() {
+        binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
+                val currentFragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
+
+                if (currentFragment is AllTipBoardFragment) {
+                    currentFragment.filter(newText.orEmpty())
+                } else if (currentFragment is MyTipFragment) {
+                    currentFragment.filter(newText.orEmpty())
+                }
+
+                return true
+            }
+        })
     }
 
     fun handleBtns() {
@@ -37,7 +62,7 @@ class TipBoardActivity : AppCompatActivity() {
         }
 
         binding.fabWrite.setOnClickListener {
-            AppUtils.switchScreen(this, WriteTipActivity::class.java)
+            ScreenUtils.switchScreen(this, WriteTipActivity::class.java)
         }
 
         binding.fabMine.setOnClickListener {
