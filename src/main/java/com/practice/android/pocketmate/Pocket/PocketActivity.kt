@@ -1,3 +1,5 @@
+package com.practice.android.pocketmate.Pocket
+
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.practice.android.pocketmate.databinding.ActivityPocketBinding

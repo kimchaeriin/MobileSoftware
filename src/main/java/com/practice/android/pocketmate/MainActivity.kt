@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         toggle = ActionBarDrawerToggle(this, binding.drawerMain, R.string.drawer_opened, R.string.drawer_closed)
+        binding.drawerMain.addDrawerListener(toggle)
         toggle.syncState()
 
         binding.writePocketBtn.setOnClickListener(){
@@ -44,6 +45,16 @@ class MainActivity : AppCompatActivity() {
         binding.tipBoardBtn.setOnClickListener(){
             switchScreen(this, TipBoardActivity::class.java)
         }
+
+        binding.navigation.setNavigationItemSelectedListener{ menuItem->
+            when(menuItem.itemId){
+                R.id.menu_schedule -> navigateToMenuSchedule()
+                R.id.menu_board -> navigateToMenuBoard()
+                R.id.menu_profile -> navigateToMenuProfile()
+            }
+            binding.drawerMain.closeDrawers()
+            true
+        }
     }
 
     fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
@@ -57,4 +68,18 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun navigateToMenuSchedule(){
+        val intent: Intent = Intent(this,PocketBoardActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun navigateToMenuBoard(){
+        val intent: Intent = Intent(this,TipBoardActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun navigateToMenuProfile(){
+        val intent: Intent = Intent(this,ProfileActivity::class.java)
+        startActivity(intent)
+    }
 }

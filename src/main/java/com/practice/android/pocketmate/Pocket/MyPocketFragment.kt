@@ -1,3 +1,5 @@
+package com.practice.android.pocketmate.Pocket
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
