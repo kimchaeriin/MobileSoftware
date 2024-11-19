@@ -12,10 +12,10 @@ import com.practice.android.pocketmate.Tip.TipBoardActivity
 class ScreenUtils {
 
     companion object {
-
         fun switchScreen(from: AppCompatActivity, to: Class<out AppCompatActivity>) {
             val intent = Intent(from, to)
             from.startActivity(intent)
+            from.overridePendingTransition(R.anim.loadfadein, R.anim.loadfadeout)
         }
 
         fun setBottomNavigationBar(currentActivity: AppCompatActivity, bottomNavigationView: BottomNavigationView) {

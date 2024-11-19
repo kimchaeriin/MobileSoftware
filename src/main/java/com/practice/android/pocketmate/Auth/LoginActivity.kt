@@ -54,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-
+                    ScreenUtils.switchScreen(this, MainActivity::class.java)
                 } else {
                     Toast.makeText(
                         baseContext,

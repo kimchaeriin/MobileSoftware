@@ -28,7 +28,6 @@ import com.jakewharton.threetenabp.AndroidThreeTen
 import org.threeten.bp.LocalDate
 
 class EditTipActivity : AppCompatActivity() {
-
     lateinit var binding : ActivityEditTipBinding
     lateinit var tipBinding: ActivityTipBinding
 

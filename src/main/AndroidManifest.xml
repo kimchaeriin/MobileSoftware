@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:name=".GlobalApplication"
@@ -16,7 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PocketMate"
         tools:targetApi="31">
-
+        <activity
+            android:name=".Pocket.EditPocketActivity"
+            android:exported="false" />
         <activity
             android:name=".Auth.SettingActivity"
             android:exported="false" />
@@ -25,8 +27,8 @@
             android:exported="false" />
         <activity
             android:name=".Tip.TipActivity"
-            android:parentActivityName=".Tip.TipBoardActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".Tip.TipBoardActivity" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
@@ -35,16 +37,9 @@
         <activity
             android:name=".friends.FriendsListActivity"
             android:exported="false"
-            android:parentActivityName=".PocketBoardActivity" />
+            android:parentActivityName=".Pocket.PocketBoardActivity" />
         <activity
-            android:name=".Pocket.MyPocketFragment"
-            android:exported="false" />
-        <activity
-            android:name=".PocketActivity"
-            android:exported="false"
-            android:parentActivityName=".PocketBoardActivity" />
-        <activity
-            android:name=".MyPocketBoardActivity"
+            android:name=".Pocket.PocketActivity"
             android:exported="false"
             android:parentActivityName=".Pocket.PocketBoardActivity" />
         <activity
@@ -52,10 +47,7 @@
             android:exported="false"
             android:parentActivityName=".Pocket.PocketBoardActivity" />
         <activity
-            android:name=".PocketAdapter"
-            android:exported="false" />
-        <activity
-            android:name=".PocketBoardActivity"
+            android:name=".Pocket.PocketBoardActivity"
             android:exported="false" />
         <activity
             android:name=".Auth.JoinActivity"
@@ -95,8 +87,8 @@
         <activity
             android:name=".ProfileActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">

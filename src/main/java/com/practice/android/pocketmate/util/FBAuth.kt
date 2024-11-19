@@ -6,9 +6,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
 class FBAuth {
-
     companion object {
-
         lateinit var auth : FirebaseAuth
 
         fun getUid() : String {

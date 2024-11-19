@@ -1,3 +1,6 @@
+package com.practice.android.pocketmate.friends
+
+import FriendsListFragment
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity

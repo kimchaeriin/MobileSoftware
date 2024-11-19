@@ -2,32 +2,15 @@ package com.practice.android.pocketmate
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import com.kakao.sdk.common.util.Utility
 import com.practice.android.pocketmate.Tip.TipBoardActivity
-import com.practice.android.pocketmate.Tip.WriteTipActivity
 import com.practice.android.pocketmate.databinding.ActivityMainBinding
-import androidx.appcompat.app.ActionBarDrawerToggle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.Pocket.PocketBoardActivity
-import com.practice.android.pocketmate.Tip.TipActivity
 import com.practice.android.pocketmate.util.ScreenUtils
-import com.practice.android.pocketmate.util.ScreenUtils.Companion.setBottomNavigationBar
-import com.practice.android.pocketmate.util.FBAuth
-import com.practice.android.pocketmate.util.FBAuth.Companion.getNickname
 import com.practice.android.pocketmate.util.FBRef
 
 
