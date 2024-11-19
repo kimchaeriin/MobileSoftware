@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_pocket"
+    app:startDestination="@id/allPocketFragment">
+
+    <fragment
+        android:id="@+id/friendsPocketFragment"
+        android:name="FriendsPocketFragment"
+        android:label="FriendsPocketFragment" >
+        <action
+            android:id="@+id/action_friendsPocketFragment_to_allPocketFragment"
+            app:destination="@id/allPocketFragment" />
+        <action
+            android:id="@+id/action_friendsPocketFragment_to_myPocketBoardFragment"
+            app:destination="@id/myPocketBoardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/allPocketFragment"
+        android:name="com.practice.android.pocketmate.Pocket.AllPocketFragment"
+        android:label="fragment_all_pocket"
+        tools:layout="@layout/fragment_all_pocket" >
+        <action
+            android:id="@+id/action_allPocketFragment_to_friendsPocketFragment"
+            app:destination="@id/friendsPocketFragment" />
+        <action
+            android:id="@+id/action_allPocketFragment_to_myPocketBoardFragment"
+            app:destination="@id/myPocketBoardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myPocketBoardFragment"
+        android:name="com.practice.android.pocketmate.Pocket.MyPocketBoardFragment"
+        android:label="MyPocketBoardFragment" >
+        <action
+            android:id="@+id/action_myPocketBoardFragment_to_allPocketFragment"
+            app:destination="@id/allPocketFragment" />
+        <action
+            android:id="@+id/action_myPocketBoardFragment_to_friendsPocketFragment"
+            app:destination="@id/friendsPocketFragment" />
+    </fragment>
+</navigation>

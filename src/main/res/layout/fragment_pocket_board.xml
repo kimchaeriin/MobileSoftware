@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_my_pocket"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MyPocketFragment"
+    android:orientation="vertical">
+
+    <include layout="@layout/item_pocket" android:id="@+id/item1"/>
+
+    <include layout="@layout/item_pocket" android:id="@+id/item2"/>
+
+    <include layout="@layout/item_pocket" android:id="@+id/item3"/>
+
+    <include layout="@layout/item_pocket" android:id="@+id/item4"/>
+
+    <include layout="@layout/item_pocket" android:id="@+id/item5"/>
+
+    <include layout="@layout/item_pocket" android:id="@+id/item6"/>
+
+    <include layout="@layout/item_pocket" android:id="@+id/item7"/>
+
+</LinearLayout>

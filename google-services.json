@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "121423765387",
+    "firebase_url": "https://pocketmate-91ea7-default-rtdb.firebaseio.com",
+    "project_id": "pocketmate-91ea7",
+    "storage_bucket": "pocketmate-91ea7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:121423765387:android:d1674febce534d6304d98e",
+        "android_client_info": {
+          "package_name": "com.practice.android.pocketmate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUJaGHdKGEiZqt1LcT9fA8B9xQphPGiDs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/AllTipBoardFragment">
+
+    <fragment
+        android:id="@+id/AllTipBoardFragment"
+        android:name="com.practice.android.pocketmate.Tip.AllTipBoardFragment"
+        tools:layout="@layout/fragment_all_tip_board">
+
+        <action
+            android:id="@+id/action_AllTipBoardFragment_to_MyTipFragment"
+            app:destination="@id/MyTipFragment" />
+        <action
+            android:id="@+id/action_AllTipBoardFragment_to_tipSearchFragment"
+            app:destination="@id/tipSearchFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/MyTipFragment"
+        android:name="com.practice.android.pocketmate.Tip.MyTipFragment"
+        tools:layout="@layout/fragment_my_tip">
+
+        <action
+            android:id="@+id/action_MyTipFragment_to_AllTipBoardFragment"
+            app:destination="@id/AllTipBoardFragment" />
+        <action
+            android:id="@+id/action_MyTipFragment_to_tipSearchFragment"
+            app:destination="@id/tipSearchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tipSearchFragment"
+        android:name="com.practice.android.pocketmate.Tip.TipSearchFragment"
+        android:label="fragment_tip_search"
+        tools:layout="@layout/fragment_tip_search" >
+        <action
+            android:id="@+id/action_tipSearchFragment_to_AllTipBoardFragment"
+            app:destination="@id/AllTipBoardFragment" />
+        <action
+            android:id="@+id/action_tipSearchFragment_to_MyTipFragment"
+            app:destination="@id/MyTipFragment" />
+    </fragment>
+
+</navigation>
