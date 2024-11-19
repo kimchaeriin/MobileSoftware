@@ -16,6 +16,7 @@ import com.google.firebase.ktx.Firebase
 import com.practice.android.pocketmate.Adapter.CommentAdapter
 import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.Model.CommentModel
+import com.practice.android.pocketmate.R
 import com.practice.android.pocketmate.databinding.ActivityPocketBinding
 import com.practice.android.pocketmate.databinding.ItemCommentBinding
 import com.practice.android.pocketmate.util.FBAuth
@@ -30,6 +31,7 @@ class PocketActivity : AppCompatActivity() {
     val commentList = mutableListOf<CommentModel>()
     var agreed = false
     var disagreed = false
+    var bookmarked = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,29 +84,45 @@ class PocketActivity : AppCompatActivity() {
             writeComment(key)
             binding.writeCommentArea.text.clear()
         }
+
         binding.editBtn.setOnClickListener {
             showEditDialog(key)
         }
+
         binding.deleteBtn.setOnClickListener {
             showDeleteDialog(key)
         }
+
         binding.agreeBtn.setOnClickListener {
-            if (agreed) {
-                reduceAgree(key)
+            if (disagreed) {
+                Toast.makeText(this, "추천과 비추천을 동시에 할 수 없습니다.", Toast.LENGTH_SHORT).show()
             }
             else {
-                raiseAgree(key)
+                if (agreed) {
+                    reduceAgree(key)
+                    binding.agreeBtn.setImageResource(R.drawable.baseline_thumb_up_border_24)
+                } else {
+                    raiseAgree(key)
+                    binding.agreeBtn.setImageResource(R.drawable.baseline_thumb_up_24)
+                }
+                agreed = !agreed
             }
-            agreed = !agreed
         }
+
         binding.disagreeBtn.setOnClickListener {
-            if (disagreed) {
-                reduceDisagree(key)
+            if (agreed) {
+                Toast.makeText(this, "추천과 비추천을 동시에 할 수 없습니다.", Toast.LENGTH_SHORT).show()
             }
-            else{
-                raiseDisagree(key)
+            else {
+                if (disagreed) {
+                    reduceDisagree(key)
+                    binding.agreeBtn.setImageResource(R.drawable.baseline_thumb_down_border_24)
+                } else {
+                    raiseDisagree(key)
+                    binding.agreeBtn.setImageResource(R.drawable.baseline_thumb_down_24)
+                }
+                disagreed = !disagreed
             }
-            disagreed = !disagreed
         }
     }
 

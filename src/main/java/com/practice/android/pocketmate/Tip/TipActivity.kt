@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.database.DataSnapshot
@@ -24,14 +25,13 @@ import com.practice.android.pocketmate.util.ScreenUtils
 import com.practice.android.pocketmate.util.FBAuth
 import com.practice.android.pocketmate.util.FBAuth.Companion.getNickname
 import com.practice.android.pocketmate.util.FBRef
+import kotlin.properties.Delegates
 
 class TipActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityTipBinding
     lateinit var commentBinding: ItemCommentBinding
     val commentList = mutableListOf<CommentModel>()
-    var agreed = false
-    var disagreed = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +42,8 @@ class TipActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val key = intent.getStringExtra("key").toString()
+        val agreed = checkAgreed(key)
+        val bookmarked = checkBookmarked(key)
 
         getTipData(key)
         getCommentData(key)
@@ -49,6 +51,11 @@ class TipActivity : AppCompatActivity() {
 
         binding.commentArea.adapter = CommentAdapter(commentList)
         binding.commentArea.layoutManager = LinearLayoutManager(this)
+    }
+
+    private fun checkAgreed(key: String): Boolean {
+        var agreed = false
+        return agreed
     }
 
     private fun getTipData(key : String) {
@@ -61,7 +68,6 @@ class TipActivity : AppCompatActivity() {
                 binding.content.setTextColor(tip.color)
                 getNickname(FBAuth.getUid()) { nickname -> binding.nickname.text = nickname }
                 binding.agreeNumber.text = tip.agree.toString()
-                binding.disagreeNumber.text = tip.disagree.toString()
                 
                 //프로필 이미지
 
@@ -72,7 +78,6 @@ class TipActivity : AppCompatActivity() {
                     binding.editBtn.visibility = View.GONE
                     binding.deleteBtn.visibility = View.GONE
                 }
-
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -83,6 +88,8 @@ class TipActivity : AppCompatActivity() {
     }
 
     private fun handleBtns(key: String) {
+        val agreed = checkAgreed(key)
+        val bookmarked = checkBookmarked(key)
         binding.writeCommentBtn.setOnClickListener {
             writeComment(key)
             binding.writeCommentArea.text.clear()
@@ -94,23 +101,66 @@ class TipActivity : AppCompatActivity() {
             showDeleteDialog(key)
         }
         binding.agreeBtn.setOnClickListener {
-            if (agreed) {
+            if (agreed) { //게시글에 나왔다 들어가면 다시 agree를 할 수 있는 오류 발생
                 reduceAgree(key)
+                binding.agreeBtn.setImageResource(R.drawable.baseline_thumb_up_border_24)
             }
             else {
                 raiseAgree(key)
+                binding.agreeBtn.setImageResource(R.drawable.baseline_thumb_up_24)
             }
-            agreed = !agreed
+            updateAgreed(key)
         }
-        binding.disagreeBtn.setOnClickListener {
-            if (disagreed) {
-                reduceDisagree(key)
+        binding.bookmarkBtn.setOnClickListener {
+            if (bookmarked) {
+                cancelBookmark(key)
+                binding.bookmarkBtn.setImageResource(R.drawable.baseline_not_bookmarked_24)
             }
-            else{
-                raiseDisagree(key)
+            else {
+                bookmark(key)
+                binding.bookmarkBtn.setImageResource(R.drawable.baseline_bookmarked_24)
             }
-            disagreed = !disagreed
+            updateBookmarked(key)
         }
+    }
+
+    private fun updateAgreed(key: String) {
+        //수정
+    }
+
+    private fun updateBookmarked(key: String) {
+        //수정
+    }
+
+    private fun bookmark(key: String) {
+        FBRef.bookmarkRef.child(FBAuth.getUid()).push().key
+    }
+
+    private fun cancelBookmark(key: String) {
+        FBRef.bookmarkRef.child(FBAuth.getUid()).child(key).removeValue()
+    }
+
+    private fun checkBookmarked(key: String): Boolean {
+        var bookmarked = false
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (data in dataSnapshot.children){
+                    Log.d("CheckBookmarked", "data.toString(): ${data}")
+                    if (data.toString() == key) {
+                        Log.d("CheckBookmarked", "data.toString(): ${data} key: ${key}")
+                        bookmarked = true
+                        break
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+            }
+        }
+        FBRef.bookmarkRef.child(FBAuth.getUid()).child(key).addValueEventListener(postListener)
+
+        return bookmarked
     }
 
     private fun showDeleteCommentDialog(key: String, commentKey: String) {
@@ -176,35 +226,7 @@ class TipActivity : AppCompatActivity() {
         }
     }
 
-    private fun raiseDisagree(key: String) {
-        val disagree = binding.disagreeNumber.text.toString().toInt() + 1
-        val childUpdates = hashMapOf<String, Any>(
-            "/TipBoard/$key/disagree" to disagree,
-        )
-        val databaseRef = Firebase.database.reference
-        databaseRef.updateChildren(childUpdates).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                binding.disagreeNumber.text = disagree.toString()
-            } else {
-                Log.e("TipActivity", "Failed to update disagree count.")
-            }
-        }
-    }
 
-    private fun reduceDisagree(key: String) {
-        val disagree = binding.disagreeNumber.text.toString().toInt() - 1
-        val childUpdates = hashMapOf<String, Any>(
-            "/TipBoard/$key/disagree" to disagree,
-        )
-        val databaseRef = Firebase.database.reference
-        databaseRef.updateChildren(childUpdates).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                binding.disagreeNumber.text = disagree.toString()
-            } else {
-                Log.e("TipActivity", "Failed to update disagree count.")
-            }
-        }
-    }
 
     private fun getCommentData(key: String) {
         val postListener = object : ValueEventListener {
