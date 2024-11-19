@@ -1,74 +1,107 @@
 package com.practice.android.pocketmate.Pocket
 
-import MyPocketBoardActivity
 import PocketAdapter
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.practice.android.pocketmate.Model.PocketModel
 import com.practice.android.pocketmate.R
+import com.practice.android.pocketmate.Tip.TipSearchFragment
+import com.practice.android.pocketmate.Tip.WriteTipActivity
 import com.practice.android.pocketmate.databinding.ActivityPocketBoardBinding
+import com.practice.android.pocketmate.databinding.ActivityTipBoardBinding
+import com.practice.android.pocketmate.util.ScreenUtils
 
 class PocketBoardActivity : AppCompatActivity() {
-    lateinit var toggle: ActionBarDrawerToggle
+
+    lateinit var binding : ActivityPocketBoardBinding
+    private var isFabOpen = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityPocketBoardBinding.inflate(layoutInflater)
+        binding = ActivityPocketBoardBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
-//        binding.navigation.selectedItemId = R.id.nav_pocket
-//        AppUtils.setBottomNavigationBar(this, binding.navigation)
+        binding.navigation.selectedItemId = R.id.nav_pocket
+        ScreenUtils.setBottomNavigationBar(this, binding.navigation)
+//        setOnQueryTextListener()
 
+        handleBtns()
+    }
 
-        toggle = ActionBarDrawerToggle(this, binding.drawer, R.string.drawer_opened, R.string.drawer_closed)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        toggle.syncState()
+//    private fun setOnQueryTextListener() {
+//        binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
+//                val currentFragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
+//
+//                if (currentFragment is PocketSearchFragment) {
+//                    currentFragment.filter(newText.orEmpty())
+//                }
+//                return true
+//            }
+//        })
+//    }
 
-        val items = mutableListOf<PocketModel>() //input data
-        for(i in 1..5){
-            items.add(PocketModel("제목", "내용", R.drawable.ic_launcher_background))
+    fun handleBtns() {
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
+
+        binding.fabMain.setOnClickListener {
+            toggleFab()
         }
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.adapter = PocketAdapter(items)
-        binding.recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
+//
+        binding.fabWrite.setOnClickListener {
+            ScreenUtils.switchScreen(this, WritePocketBoardActivity::class.java)
+            toggleFab()
+        }
 
-        binding.fbtn1.setOnClickListener(){
-            if(binding.fbtn1.text == "+"){
-                binding.fbtn2.visibility = View.VISIBLE
-                binding.fbtn3.visibility = View.VISIBLE
-                binding.fbtn4.visibility = View.VISIBLE
-                binding.fbtn1.text = "x"
+        binding.fabMine.setOnClickListener {
+            if (navController.currentDestination?.id == R.id.allPocketFragment) {
+                navController.navigate(R.id.action_AllTipBoardFragment_to_MyTipFragment)
             }
-
-            else{
-                binding.fbtn2.visibility = View.GONE
-                binding.fbtn3.visibility = View.GONE
-                binding.fbtn4.visibility = View.GONE
-                binding.fbtn1.text = "+"
+            else if (navController.currentDestination?.id == R.id.friendsPocketFragment) {
+                navController.navigate(R.id.action_friendsPocketFragment_to_myPocketBoardFragment)
             }
+            toggleFab()
         }
-
-        binding.fbtn2.setOnClickListener(){
-            val intent: Intent = Intent(this, WritePocketBoardActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.fbtn4.setOnClickListener(){
-            val intent: Intent = Intent(this, MyPocketBoardActivity::class.java)
-            startActivity(intent)
+        binding.fabFriends.setOnClickListener {
+            if (navController.currentDestination?.id == R.id.allPocketFragment) {
+                navController.navigate(R.id.action_allPocketFragment_to_friendsPocketFragment)
+            }
+            else if (navController.currentDestination?.id == R.id.myPocketBoardFragment) {
+                navController.navigate(R.id.action_MyTipFragment_to_tipSearchFragment)
+            }
+            toggleFab()
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(toggle.onOptionsItemSelected(item))
-            return true
-        return super.onOptionsItemSelected(item)
+    private fun toggleFab() {
+        if (isFabOpen) {
+            ObjectAnimator.ofFloat(binding.fabMine, "translationY", -200f).apply { start() }
+            ObjectAnimator.ofFloat(binding.fabFriends, "translationY", -400f).apply { start() }
+            ObjectAnimator.ofFloat(binding.fabWrite, "translationY", -600f).apply { start() }
+            binding.fabMain.setImageResource(R.drawable.baseline_close_24)
+            // 플로팅 액션 버튼 열기 - 닫혀있는 플로팅 버튼 꺼내는 애니메이션 세팅
+        } else {
+            ObjectAnimator.ofFloat(binding.fabMine, "translationY", 0f).apply { start() }
+            ObjectAnimator.ofFloat(binding.fabFriends, "translationY", 0f).apply { start() }
+            ObjectAnimator.ofFloat(binding.fabWrite, "translationY", 0f).apply { start() }
+            binding.fabMain.setImageResource(R.drawable.baseline_add_24)
+        }
+        isFabOpen = !isFabOpen
     }
-
 }
