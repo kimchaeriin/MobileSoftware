@@ -50,11 +50,12 @@ class MainActivity : AppCompatActivity() {
     private fun getRecentTip() {
         FBRef.tipRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val data = dataSnapshot.children.reversed()[0]
-                val tip = data.getValue(BoardModel::class.java)
-                binding.tipTitle.text = tip?.title
-                binding.tipContent.text = tip?.content
-
+                for (data in dataSnapshot.children.reversed()) {
+                    val tip = data.getValue(BoardModel::class.java)
+                    binding.tipTitle.text = tip?.title
+                    binding.tipContent.text = tip?.content
+                    break
+                }
             }
             override fun onCancelled(error: DatabaseError) {
                 //읽기 실패
@@ -66,9 +67,9 @@ class MainActivity : AppCompatActivity() {
         FBRef.pocketRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (data in dataSnapshot.children.reversed()) {
-                    val tip = data.getValue(BoardModel::class.java)
-                    binding.pocketTitle.text = tip?.title
-                    binding.pocketContent.text = tip?.content
+                    val pocket = data.getValue(BoardModel::class.java)
+                    binding.pocketTitle.text = pocket?.title
+                    binding.pocketContent.text = pocket?.content
                     break
                 }
             }
