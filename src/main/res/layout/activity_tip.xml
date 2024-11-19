@@ -108,9 +108,8 @@
             <ImageView
                 android:id="@+id/image"
                 android:layout_margin="15dp"
-                android:layout_width="240dp"
-                android:layout_height="240dp"
-                android:layout_gravity="center"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:src="@drawable/ic_launcher_background"
                 app:layout_scrollFlags="scroll|enterAlways" />
 
@@ -121,7 +120,7 @@
                 <ImageButton
                     android:id="@+id/agreeBtn"
                     android:background="@color/colorBackgroundWhite"
-                    android:src="@drawable/baseline_sentiment_very_satisfied_24"
+                    android:src="@drawable/baseline_thumb_up_border_24"
                     android:layout_width="50dp"
                     android:layout_height="50dp"/>
 
@@ -132,26 +131,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
-                <ImageButton
-                    android:id="@+id/disagreeBtn"
-                    android:layout_gravity="end"
-                    android:background="@color/colorBackgroundWhite"
-                    android:src="@drawable/baseline_sentiment_very_dissatisfied_24"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"/>
-
-                <TextView
-                    android:id="@+id/disagreeNumber"
-                    android:text="숫자"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
                 <LinearLayout
                     android:layout_marginRight="15dp"
                     android:gravity="end"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
+                    <ImageButton
+                        android:src="@drawable/baseline_not_bookmarked_24"
+                        android:background="@null"
+                        android:layout_marginRight="10dp"
+                        android:id="@+id/bookmarkBtn"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"/>
 
                     <ImageButton
                         android:src="@drawable/baseline_mode_edit_24"
