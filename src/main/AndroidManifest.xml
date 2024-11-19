@@ -17,6 +17,9 @@
         android:theme="@style/Theme.PocketMate"
         tools:targetApi="31">
         <activity
+            android:name=".Bookmark.BookmarkTipListActivity"
+            android:exported="false" />
+        <activity
             android:name=".Pocket.EditPocketActivity"
             android:exported="false" />
         <activity
