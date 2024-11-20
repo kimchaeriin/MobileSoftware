@@ -28,10 +28,10 @@ import com.practice.android.pocketmate.util.FBRef
 import kotlin.properties.Delegates
 
 class TipActivity : AppCompatActivity() {
-
     lateinit var binding : ActivityTipBinding
     lateinit var commentBinding: ItemCommentBinding
-    val commentList = mutableListOf<CommentModel>()
+    private val bookmarkedIdList = mutableListOf<String>()
+    private val commentList = mutableListOf<CommentModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,14 +43,24 @@ class TipActivity : AppCompatActivity() {
 
         val key = intent.getStringExtra("key").toString()
         val agreed = checkAgreed(key)
-        val bookmarked = checkBookmarked(key)
 
-        getTipData(key)
-        getCommentData(key)
+        bindItems(key)
         handleBtns(key)
 
         binding.commentArea.adapter = CommentAdapter(commentList)
         binding.commentArea.layoutManager = LinearLayoutManager(this)
+    }
+
+    private fun bindItems(key: String) {
+        bindTipData(key)
+        bindCommentData(key)
+        getBookmarkedIdList()
+        if (bookmarkedIdList.contains(key)) {
+            binding.bookmarkBtn.setImageResource(R.drawable.baseline_bookmarked_24)
+        }
+        else {
+            binding.bookmarkBtn.setImageResource(R.drawable.baseline_not_bookmarked_24)
+        }
     }
 
     private fun checkAgreed(key: String): Boolean {
@@ -58,7 +68,7 @@ class TipActivity : AppCompatActivity() {
         return agreed
     }
 
-    private fun getTipData(key : String) {
+    private fun bindTipData(key : String) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val tip = dataSnapshot.getValue(BoardModel::class.java)!!
@@ -66,10 +76,10 @@ class TipActivity : AppCompatActivity() {
                 binding.date.text = tip.date
                 binding.content.text = tip.content
                 binding.content.setTextColor(tip.color)
-                getNickname(FBAuth.getUid()) { nickname -> binding.nickname.text = nickname }
+                getNickname(FBAuth.getUid()) { nickname ->
+                    binding.nickname.text = nickname
+                }
                 binding.agreeNumber.text = tip.agree.toString()
-                
-                //프로필 이미지
 
                 if (tip.image == 0) {
                     binding.image.visibility = View.GONE
@@ -89,7 +99,6 @@ class TipActivity : AppCompatActivity() {
 
     private fun handleBtns(key: String) {
         val agreed = checkAgreed(key)
-        val bookmarked = checkBookmarked(key)
         binding.writeCommentBtn.setOnClickListener {
             writeComment(key)
             binding.writeCommentArea.text.clear()
@@ -112,7 +121,8 @@ class TipActivity : AppCompatActivity() {
             updateAgreed(key)
         }
         binding.bookmarkBtn.setOnClickListener {
-            if (bookmarked) {
+            //수정 필요
+            if (bookmarkedIdList.contains(key)) {
                 cancelBookmark(key)
                 binding.bookmarkBtn.setImageResource(R.drawable.baseline_not_bookmarked_24)
             }
@@ -120,7 +130,6 @@ class TipActivity : AppCompatActivity() {
                 bookmark(key)
                 binding.bookmarkBtn.setImageResource(R.drawable.baseline_bookmarked_24)
             }
-            updateBookmarked(key)
         }
     }
 
@@ -128,29 +137,21 @@ class TipActivity : AppCompatActivity() {
         //수정
     }
 
-    private fun updateBookmarked(key: String) {
-        //수정
-    }
-
     private fun bookmark(key: String) {
-        FBRef.bookmarkRef.child(FBAuth.getUid()).push().key
+        FBRef.bookmarkRef.child(FBAuth.getUid()).push().setValue(key)
     }
 
     private fun cancelBookmark(key: String) {
         FBRef.bookmarkRef.child(FBAuth.getUid()).child(key).removeValue()
     }
 
-    private fun checkBookmarked(key: String): Boolean {
-        var bookmarked = false
+    private fun getBookmarkedIdList() {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (data in dataSnapshot.children){
-                    Log.d("CheckBookmarked", "data.toString(): ${data}")
-                    if (data.toString() == key) {
-                        Log.d("CheckBookmarked", "data.toString(): ${data} key: ${key}")
-                        bookmarked = true
-                        break
-                    }
+                for (data in dataSnapshot.children) {
+                    val bookmarkedId = data.getValue().toString()
+
+                    bookmarkedIdList.add(bookmarkedId)
                 }
             }
 
@@ -158,9 +159,7 @@ class TipActivity : AppCompatActivity() {
                 // Getting Post failed, log a message
             }
         }
-        FBRef.bookmarkRef.child(FBAuth.getUid()).child(key).addValueEventListener(postListener)
-
-        return bookmarked
+        FBRef.bookmarkRef.child(FBAuth.getUid()).addValueEventListener(postListener)
     }
 
     private fun showDeleteCommentDialog(key: String, commentKey: String) {
@@ -226,9 +225,7 @@ class TipActivity : AppCompatActivity() {
         }
     }
 
-
-
-    private fun getCommentData(key: String) {
+    private fun bindCommentData(key: String) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 commentList.clear()

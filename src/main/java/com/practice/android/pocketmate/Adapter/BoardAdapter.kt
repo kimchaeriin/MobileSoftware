@@ -5,8 +5,6 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.Tip.TipActivity
@@ -14,14 +12,18 @@ import com.practice.android.pocketmate.databinding.ItemBoardBinding
 
 class BoardViewHolder(val binding: ItemBoardBinding) : RecyclerView.ViewHolder(binding.root)
 
-class BoardAdapter (val context: Context, val items: MutableList<BoardModel>, val keyList: MutableList<String>)
-    : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class BoardAdapter (val context: Context,
+                    val items: MutableList<BoardModel>,
+                    val keyList: MutableList<String>) : RecyclerView.Adapter<BoardViewHolder>() {
+    override fun getItemCount(): Int {
+        return items.size
+    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardViewHolder =
         BoardViewHolder(ItemBoardBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val binding = (holder as BoardViewHolder).binding
+    override fun onBindViewHolder(holder: BoardViewHolder, position: Int) {
+        val binding = holder.binding
         binding.boardTitle.text = items[position].title
         binding.boardContent.text = items[position].content
         if (items[position].image == 0) {
@@ -36,9 +38,5 @@ class BoardAdapter (val context: Context, val items: MutableList<BoardModel>, va
             }
             context.startActivity(intent)
         }
-    }
-
-    override fun getItemCount(): Int {
-        return items.size
     }
 }

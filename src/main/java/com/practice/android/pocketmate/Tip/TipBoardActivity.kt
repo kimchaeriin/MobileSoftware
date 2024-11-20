@@ -1,22 +1,15 @@
 package com.practice.android.pocketmate.Tip
 
 import android.animation.ObjectAnimator
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
-import androidx.navigation.ui.setupActionBarWithNavController
-import com.practice.android.pocketmate.Adapter.BoardAdapter
 import com.practice.android.pocketmate.R
 import com.practice.android.pocketmate.databinding.ActivityTipBoardBinding
-import com.practice.android.pocketmate.databinding.ContentMainBinding
 import com.practice.android.pocketmate.util.ScreenUtils
 
 class TipBoardActivity : AppCompatActivity() {
-
     lateinit var binding : ActivityTipBoardBinding
     private var isFabOpen = false
 
@@ -51,7 +44,7 @@ class TipBoardActivity : AppCompatActivity() {
         })
     }
 
-    fun handleBtns() {
+    private fun handleBtns() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
 
         binding.fabMain.setOnClickListener {

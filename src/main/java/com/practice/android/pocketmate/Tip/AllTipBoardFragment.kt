@@ -12,9 +12,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.practice.android.pocketmate.Adapter.BoardAdapter
-import com.practice.android.pocketmate.Adapter.SearchAdapter
 import com.practice.android.pocketmate.Model.BoardModel
+import com.practice.android.pocketmate.R
+import com.practice.android.pocketmate.databinding.ActivityTipBoardBinding
 import com.practice.android.pocketmate.databinding.FragmentAllTipBoardBinding
+import com.practice.android.pocketmate.util.FBAuth
 import com.practice.android.pocketmate.util.FBRef
 
 // TODO: Rename parameter arguments, choose names that match
@@ -28,10 +30,10 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class AllTipBoardFragment : Fragment() {
-
     private var _binding : FragmentAllTipBoardBinding? = null
-
     private val binding get() = _binding!!
+    private val tipList = mutableListOf<BoardModel>()
+    private val keyList = mutableListOf<String>()
     lateinit var boardAdapter: BoardAdapter
 
     override fun onCreateView(
@@ -41,8 +43,8 @@ class AllTipBoardFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentAllTipBoardBinding.inflate(inflater, container, false)
 
-        val tipList = getTipList()
-        val keyList = getKeyList()
+        getTipList()
+
         if (tipList.isNotEmpty()) {
             binding.noTipText.visibility = View.GONE
         }
@@ -54,40 +56,20 @@ class AllTipBoardFragment : Fragment() {
         return binding.root
     }
 
-    private fun getTipList() : MutableList<BoardModel> {
-        val tipList = mutableListOf<BoardModel>()
-
+    private fun getTipList() {
         FBRef.tipRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 tipList.clear()
+                keyList.clear()
 
                 for (data in dataSnapshot.children) {
                     binding.noTipText.visibility = View.GONE
                     val tip = data.getValue(BoardModel::class.java)
                     tipList.add(tip!!)
-                }
-                binding.recycler.adapter?.notifyDataSetChanged()
-                tipList.reverse()
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                //읽기 실패
-            }
-        })
-
-        return tipList
-    }
-
-    private fun getKeyList() : MutableList<String> {
-        val keyList = mutableListOf<String>()
-
-        FBRef.tipRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                keyList.clear()
-                for (data in dataSnapshot.children) {
                     keyList.add(data.key.toString())
                 }
                 binding.recycler.adapter?.notifyDataSetChanged()
+                tipList.reverse()
                 keyList.reverse()
             }
 
@@ -95,16 +77,5 @@ class AllTipBoardFragment : Fragment() {
                 //읽기 실패
             }
         })
-
-        return keyList
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-//        binding.buttonFirst.setOnClickListener {
-//            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-//        }
-    }
-
 }

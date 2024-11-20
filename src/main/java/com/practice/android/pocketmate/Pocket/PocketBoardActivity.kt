@@ -1,24 +1,11 @@
 package com.practice.android.pocketmate.Pocket
 
-import PocketAdapter
 import android.animation.ObjectAnimator
-import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
-import android.view.View
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.practice.android.pocketmate.Model.PocketModel
 import com.practice.android.pocketmate.R
-import com.practice.android.pocketmate.Tip.TipSearchFragment
-import com.practice.android.pocketmate.Tip.WriteTipActivity
 import com.practice.android.pocketmate.databinding.ActivityPocketBoardBinding
-import com.practice.android.pocketmate.databinding.ActivityTipBoardBinding
 import com.practice.android.pocketmate.util.ScreenUtils
 
 class PocketBoardActivity : AppCompatActivity() {

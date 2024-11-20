@@ -31,7 +31,8 @@ class MyPocketBoardFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
+    private val pocketList = mutableListOf<BoardModel>()
+    private val keyList = mutableListOf<String>()
     lateinit var binding : FragmentMyPocketBoardBinding
     lateinit var boardAdapter: BoardAdapter
     lateinit var searchAdapter: SearchAdapter
@@ -49,8 +50,7 @@ class MyPocketBoardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMyPocketBoardBinding.inflate(inflater, container, false)
-        val pocketList = getMyPocketList()
-        val keyList = getMyPocketKeyList()
+        getMyPocketList()
         boardAdapter = BoardAdapter(requireContext(), pocketList, keyList)
         searchAdapter = SearchAdapter(requireContext(), pocketList, keyList)
 
@@ -59,43 +59,21 @@ class MyPocketBoardFragment : Fragment() {
         return binding.root
     }
 
-    private fun getMyPocketList() : MutableList<BoardModel> {
-        val pocketList = mutableListOf<BoardModel>()
+    private fun getMyPocketList() {
         FBRef.pocketRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 pocketList.clear()
+                keyList.clear()
                 for (data in dataSnapshot.children) {
                     binding.noPocketText.visibility = View.GONE
                     val pocket = data.getValue(BoardModel::class.java)
                     if (pocket!!.uid == FBAuth.getUid()) {
                         pocketList.add(pocket)
-                    }
-                }
-                binding.recycler.adapter?.notifyDataSetChanged()
-                pocketList.reverse()
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                //읽기 실패
-            }
-        })
-
-        return pocketList
-    }
-
-    private fun getMyPocketKeyList(): MutableList<String> {
-        val keyList = mutableListOf<String>()
-        FBRef.pocketRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                keyList.clear()
-
-                for (data in dataSnapshot.children) {
-                    val pocket = data.getValue(BoardModel::class.java)
-                    if (pocket!!.uid.equals(FBAuth.getUid())) {
                         keyList.add(data.key.toString())
                     }
                 }
                 binding.recycler.adapter?.notifyDataSetChanged()
+                pocketList.reverse()
                 keyList.reverse()
             }
 
@@ -103,6 +81,5 @@ class MyPocketBoardFragment : Fragment() {
                 //읽기 실패
             }
         })
-        return keyList
     }
 }

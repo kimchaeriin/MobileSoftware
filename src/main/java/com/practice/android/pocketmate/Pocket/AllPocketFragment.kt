@@ -27,8 +27,9 @@ private const val ARG_PARAM2 = "param2"
  */
 class AllPocketFragment : Fragment() {
     private var _binding : FragmentAllPocketBinding? = null
-
     private val binding get() = _binding!!
+    private val keyList = mutableListOf<String>()
+    private val pocketList = mutableListOf<BoardModel>()
     lateinit var boardAdapter: BoardAdapter
 
     override fun onCreateView(
@@ -38,53 +39,33 @@ class AllPocketFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentAllPocketBinding.inflate(inflater, container, false)
 
-        val pocketList = getPocketList()
-        val keyList = getKeyList()
+        getPocketList()
+
         if (pocketList.isNotEmpty()) {
             binding.noPocketText.visibility = View.GONE
         }
-        boardAdapter = BoardAdapter(requireContext(), pocketList, keyList)
 
+        boardAdapter = BoardAdapter(requireContext(), pocketList, keyList)
         binding.recycler.adapter = boardAdapter
         binding.recycler.layoutManager = LinearLayoutManager(context)
 
         return binding.root
     }
 
-    private fun getPocketList() : MutableList<BoardModel> {
-        val pocketList = mutableListOf<BoardModel>()
-
+    private fun getPocketList() {
         FBRef.pocketRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 pocketList.clear()
+                keyList.clear()
 
                 for (data in dataSnapshot.children) {
                     binding.noPocketText.visibility = View.GONE
                     val pocket = data.getValue(BoardModel::class.java)
                     pocketList.add(pocket!!)
-                }
-                binding.recycler.adapter?.notifyDataSetChanged()
-                pocketList.reverse()
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                //읽기 실패
-            }
-        })
-
-        return pocketList
-    }
-
-    private fun getKeyList() : MutableList<String> {
-        val keyList = mutableListOf<String>()
-
-        FBRef.pocketRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                keyList.clear()
-                for (data in dataSnapshot.children) {
                     keyList.add(data.key.toString())
                 }
                 binding.recycler.adapter?.notifyDataSetChanged()
+                pocketList.reverse()
                 keyList.reverse()
             }
 
@@ -92,15 +73,5 @@ class AllPocketFragment : Fragment() {
                 //읽기 실패
             }
         })
-
-        return keyList
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-//        binding.buttonFirst.setOnClickListener {
-//            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-//        }
     }
 }

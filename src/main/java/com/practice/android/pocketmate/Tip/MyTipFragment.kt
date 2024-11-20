@@ -28,9 +28,9 @@ class MyTipFragment : Fragment() {
     private var param2: String? = null
 
     private var _binding: FragmentMyTipBinding? = null
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+    private val tipList = mutableListOf<BoardModel>()
+    private val keyList = mutableListOf<String>()
     lateinit var boardAdapter: BoardAdapter
     lateinit var searchAdapter: SearchAdapter
 
@@ -49,8 +49,8 @@ class MyTipFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentMyTipBinding.inflate(inflater, container, false)
 
-        val tipList = getMyTipList()
-        val keyList = getMyTipKeyList()
+        getMyTipList()
+
         boardAdapter = BoardAdapter(requireContext(), tipList, keyList)
         searchAdapter = SearchAdapter(requireContext(), tipList, keyList)
 
@@ -65,19 +65,22 @@ class MyTipFragment : Fragment() {
     }
 
     private fun getMyTipList() : MutableList<BoardModel> {
-        val tipList = mutableListOf<BoardModel>()
         FBRef.tipRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                keyList.clear()
                 tipList.clear()
+
                 for (data in dataSnapshot.children) {
                     binding.noTipText.visibility = View.GONE
                     val tip = data.getValue(BoardModel::class.java)
                     if (tip!!.uid == FBAuth.getUid()) {
                         tipList.add(tip)
+                        keyList.add(data.key.toString())
                     }
                 }
                 binding.recycler.adapter?.notifyDataSetChanged()
                 tipList.reverse()
+                keyList.reverse()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -86,28 +89,5 @@ class MyTipFragment : Fragment() {
         })
 
         return tipList
-    }
-
-    private fun getMyTipKeyList(): MutableList<String> {
-        val keyList = mutableListOf<String>()
-        FBRef.tipRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                keyList.clear()
-
-                for (data in dataSnapshot.children) {
-                    val tip = data.getValue(BoardModel::class.java)
-                    if (tip!!.uid.equals(FBAuth.getUid())) {
-                        keyList.add(data.key.toString())
-                    }
-                }
-                binding.recycler.adapter?.notifyDataSetChanged()
-                keyList.reverse()
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                //읽기 실패
-            }
-        })
-        return keyList
     }
 }
