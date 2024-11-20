@@ -20,6 +20,12 @@
     </item>
 
     <item
+        android:icon="@drawable/baseline_bookmarked_24"
+        android:title="북마크 팁"
+        android:id="@+id/nav_bookmark">
+    </item>
+
+    <item
         android:id="@+id/nav_profile"
         android:title="내 프로필"
         android:icon="@drawable/baseline_face_24">
