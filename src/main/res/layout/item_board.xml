@@ -39,6 +39,16 @@
         android:layout_height="80dp"
         android:id="@+id/boardImage" />
 
+    <ImageButton
+        android:id="@+id/bookmarkBtn"
+        android:visibility="gone"
+        android:layout_margin="10dp"
+        android:layout_gravity="end"
+        android:background="@null"
+        android:src="@drawable/baseline_not_bookmarked_24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
