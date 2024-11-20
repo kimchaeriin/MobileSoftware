@@ -16,6 +16,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.practice.android.pocketmate.Adapter.CommentAdapter
+import com.practice.android.pocketmate.Bookmark.BookmarkModel
 import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.Model.CommentModel
 import com.practice.android.pocketmate.R
@@ -54,13 +55,7 @@ class TipActivity : AppCompatActivity() {
     private fun bindItems(key: String) {
         bindTipData(key)
         bindCommentData(key)
-        getBookmarkedIdList()
-        if (bookmarkedIdList.contains(key)) {
-            binding.bookmarkBtn.setImageResource(R.drawable.baseline_bookmarked_24)
-        }
-        else {
-            binding.bookmarkBtn.setImageResource(R.drawable.baseline_not_bookmarked_24)
-        }
+        getBookmarkedIdList(key)
     }
 
     private fun checkAgreed(key: String): Boolean {
@@ -121,7 +116,6 @@ class TipActivity : AppCompatActivity() {
             updateAgreed(key)
         }
         binding.bookmarkBtn.setOnClickListener {
-            //수정 필요
             if (bookmarkedIdList.contains(key)) {
                 cancelBookmark(key)
                 binding.bookmarkBtn.setImageResource(R.drawable.baseline_not_bookmarked_24)
@@ -138,20 +132,28 @@ class TipActivity : AppCompatActivity() {
     }
 
     private fun bookmark(key: String) {
-        FBRef.bookmarkRef.child(FBAuth.getUid()).push().setValue(key)
+        bookmarkedIdList.add(key)
+        FBRef.bookmarkRef.child(FBAuth.getUid()).child(key).setValue(BookmarkModel(true))
     }
 
     private fun cancelBookmark(key: String) {
+        bookmarkedIdList.remove(key)
         FBRef.bookmarkRef.child(FBAuth.getUid()).child(key).removeValue()
     }
 
-    private fun getBookmarkedIdList() {
+    private fun getBookmarkedIdList(key: String) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                bookmarkedIdList.clear()
                 for (data in dataSnapshot.children) {
-                    val bookmarkedId = data.getValue().toString()
+                    bookmarkedIdList.add(data.key.toString())
+                }
 
-                    bookmarkedIdList.add(bookmarkedId)
+                if (bookmarkedIdList.contains(key)) {
+                    binding.bookmarkBtn.setImageResource(R.drawable.baseline_bookmarked_24)
+                }
+                else {
+                    binding.bookmarkBtn.setImageResource(R.drawable.baseline_not_bookmarked_24)
                 }
             }
 
