@@ -12,9 +12,9 @@ import com.practice.android.pocketmate.databinding.ItemBoardBinding
 
 class BoardViewHolder(val binding: ItemBoardBinding) : RecyclerView.ViewHolder(binding.root)
 
-class BoardAdapter (val context: Context,
-                    val items: MutableList<BoardModel>,
-                    val keyList: MutableList<String>) : RecyclerView.Adapter<BoardViewHolder>() {
+open class BoardAdapter(val context: Context,
+                      val items: MutableList<BoardModel>,
+                      val keyList: MutableList<String>) : RecyclerView.Adapter<BoardViewHolder>() {
     override fun getItemCount(): Int {
         return items.size
     }
