@@ -2,11 +2,13 @@ package com.practice.android.pocketmate.Adapter
 
 import android.app.Dialog
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.Model.CommentModel
 import com.practice.android.pocketmate.databinding.ItemCommentBinding
 import com.practice.android.pocketmate.util.FBAuth
@@ -14,7 +16,7 @@ import com.practice.android.pocketmate.util.FBRef
 
 class CommentViewHolder(val binding: ItemCommentBinding) : RecyclerView.ViewHolder(binding.root)
 
-class CommentAdapter(val context: Context, val boardKey: String, val comments: MutableList<CommentModel>, val commentKeyList: MutableList<String>) : RecyclerView.Adapter<CommentViewHolder>() {
+class CommentAdapter(val context: Context, val board: BoardModel, val comments: MutableList<CommentModel>, val commentKeyList: MutableList<String>) : RecyclerView.Adapter<CommentViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
         return CommentViewHolder(ItemCommentBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
@@ -25,7 +27,8 @@ class CommentAdapter(val context: Context, val boardKey: String, val comments: M
         FBAuth.getNickname(uid) { nickname ->
             holder.binding.nickname.text = nickname
         }
-        if (FBAuth.getUid() == comments[position].uid) {
+        if (board.uid == comments[position].uid) {
+            Log.d("CommentAdapter", "${board.uid == comments[position].uid}")
             holder.binding.writerMark.visibility = View.VISIBLE
         }
         if (FBAuth.getUid() == comments[position].uid) {
@@ -43,7 +46,7 @@ class CommentAdapter(val context: Context, val boardKey: String, val comments: M
             }
             .setPositiveButton("삭제") { dialog, which ->
                 comments.remove(comment)
-                FBRef.commentRef.child(boardKey).child(commentKey).removeValue()
+                FBRef.commentRef.child(board.uid).child(commentKey).removeValue()
             }
             .show()
     }
