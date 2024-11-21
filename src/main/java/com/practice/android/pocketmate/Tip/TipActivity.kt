@@ -33,6 +33,7 @@ class TipActivity : AppCompatActivity() {
     lateinit var commentBinding: ItemCommentBinding
     private val bookmarkedIdList = mutableListOf<String>()
     private val commentList = mutableListOf<CommentModel>()
+    private val commentKeyList = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,13 +48,16 @@ class TipActivity : AppCompatActivity() {
 
         bindItems(key)
         handleBtns(key)
+        setupCommentView(key)
+    }
 
-        binding.commentArea.adapter = CommentAdapter(commentList)
+    private fun setupCommentView(key: String) {
+        binding.commentArea.adapter = CommentAdapter(key, commentList, commentKeyList)
         binding.commentArea.layoutManager = LinearLayoutManager(this)
     }
 
     private fun bindItems(key: String) {
-        bindTipData(key)
+        getTip(key)
         bindCommentData(key)
         getBookmarkedIdList(key)
     }
@@ -63,7 +67,7 @@ class TipActivity : AppCompatActivity() {
         return agreed
     }
 
-    private fun bindTipData(key : String) {
+    private fun getTip(key : String) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val tip = dataSnapshot.getValue(BoardModel::class.java)!!
@@ -71,7 +75,8 @@ class TipActivity : AppCompatActivity() {
                 binding.date.text = tip.date
                 binding.content.text = tip.content
                 binding.content.setTextColor(tip.color)
-                getNickname(FBAuth.getUid()) { nickname ->
+                getNickname(tip.uid) { nickname ->
+                    Log.d("getTip", "nickname = ${nickname}")
                     binding.nickname.text = nickname
                 }
                 binding.agreeNumber.text = tip.agree.toString()
@@ -239,10 +244,11 @@ class TipActivity : AppCompatActivity() {
                             commentBinding.deleteBtn.visibility = View.GONE
                     }
                     binding.emptyCommentText.visibility = View.GONE
-                    getNickname(FBAuth.getUid()) { nickname ->
+                    getNickname(comment.uid) { nickname ->
                         binding.nickname.text = nickname
                     }
-                    commentList.add(comment!!)
+                    commentList.add(comment)
+                    commentKeyList.add(data.key.toString())
                 }
                 binding.commentArea.adapter?.notifyDataSetChanged()
             }
@@ -262,7 +268,7 @@ class TipActivity : AppCompatActivity() {
         else {
             val commentKey = FBRef.commentRef.child(key).push().key.toString()
             val commentContent = newComment
-            val comment = CommentModel(0, FBAuth.getUid(), commentContent)
+            val comment = CommentModel(FBAuth.getUid(), commentContent)
             FBRef.commentRef.child(key).child(commentKey).setValue(comment)
         }
     }
