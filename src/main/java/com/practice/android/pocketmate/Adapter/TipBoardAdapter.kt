@@ -23,6 +23,8 @@ class TipBoardAdapter(context: Context,
             binding.boardTitle.text = tip.title
             binding.boardContent.text = tip.content
             binding.bookmarkBtn.visibility = View.VISIBLE
+            binding.disagreeImage.visibility = View.GONE
+            binding.disagreeNumber.visibility = View.GONE
             if (tip.image == 0) {
                 binding.boardImage.visibility = View.GONE
             }
