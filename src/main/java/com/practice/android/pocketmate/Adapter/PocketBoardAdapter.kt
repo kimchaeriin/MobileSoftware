@@ -38,6 +38,7 @@ class PocketBoardAdapter(context: Context,
         else {
             binding.boardImage.setImageResource(tip.image)
         }
+        binding.bookmarkBtn.visibility = View.GONE
     }
 
     fun getAgreeNumber() {
