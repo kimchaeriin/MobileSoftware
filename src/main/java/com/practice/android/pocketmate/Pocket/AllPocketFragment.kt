@@ -46,11 +46,15 @@ class AllPocketFragment : Fragment() {
             binding.noPocketText.visibility = View.GONE
         }
 
+        setupRecyclerView()
+
+        return binding.root
+    }
+
+    private fun setupRecyclerView() {
         boardAdapter = PocketBoardAdapter(requireContext(), pocketList, keyList)
         binding.recycler.adapter = boardAdapter
         binding.recycler.layoutManager = LinearLayoutManager(context)
-
-        return binding.root
     }
 
     private fun getPocketList() {

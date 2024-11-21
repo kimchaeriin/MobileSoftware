@@ -54,10 +54,13 @@ class MyPocketBoardFragment : Fragment() {
         getMyPocketList()
         boardAdapter = PocketBoardAdapter(requireContext(), pocketList, keyList)
         searchAdapter = SearchAdapter(requireContext(), pocketList, keyList)
+        setupRecyclerView()
+        return binding.root
+    }
 
+    private fun setupRecyclerView() {
         binding.recycler.adapter = boardAdapter
         binding.recycler.layoutManager = LinearLayoutManager(context)
-        return binding.root
     }
 
     private fun getMyPocketList() {
