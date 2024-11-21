@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.database.DataSnapshot
@@ -16,6 +17,7 @@ import com.google.firebase.ktx.Firebase
 import com.practice.android.pocketmate.Adapter.CommentAdapter
 import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.Model.CommentModel
+import com.practice.android.pocketmate.Model.ReactionModel
 import com.practice.android.pocketmate.R
 import com.practice.android.pocketmate.databinding.ActivityPocketBinding
 import com.practice.android.pocketmate.databinding.ItemCommentBinding
@@ -24,13 +26,19 @@ import com.practice.android.pocketmate.util.FBAuth.Companion.getNickname
 import com.practice.android.pocketmate.util.FBRef
 import com.practice.android.pocketmate.util.ScreenUtils
 
+data class ReactionNumber (
+    var agree : Int,
+    var disagree : Int
+)
 
 class PocketActivity : AppCompatActivity() {
     lateinit var binding : ActivityPocketBinding
     lateinit var commentBinding: ItemCommentBinding
-    private var pocket = BoardModel()
     private val commentList = mutableListOf<CommentModel>()
     private val commentKeyList = mutableListOf<String>()
+    private var reactionNumber = ReactionNumber(0, 0)
+    private val agree = true
+    private val disagree = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,31 +52,64 @@ class PocketActivity : AppCompatActivity() {
 
         bindItems(key)
         handleBtns(key)
-        setupCommentView(key)
     }
 
-    private fun setupCommentView(key: String) {
-        binding.commentArea.adapter = CommentAdapter(this, pocket, commentList, commentKeyList)
+    private fun setupCommentView(uid: String) {
+        binding.commentArea.adapter = CommentAdapter(this, uid, commentList, commentKeyList)
         binding.commentArea.layoutManager = LinearLayoutManager(this)
     }
 
     private fun bindItems(key: String) {
-        getPocket(key)
+        val uid = getPocket(key)
+        getReaction(key)
         getCommentData(key)
+
+        setupCommentView(uid)
     }
 
-    private fun getPocket(key : String) {
+    private fun getReaction(key: String) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                pocket = dataSnapshot.getValue(BoardModel::class.java)!!
+                reactionNumber.agree = 0
+                reactionNumber.disagree = 0
+                for (data in dataSnapshot.children) {
+                    val reaction = data.getValue(ReactionModel::class.java)!!
+                    if (reaction.react == agree) {
+                        reactionNumber.agree ++
+                    }
+                    else {
+                        reactionNumber.disagree ++
+                    }
+                    if (data.key.toString() == FBAuth.getUid()) {
+                        if (reaction.react == agree) {
+                            binding.agreeBtn.setImageResource(R.drawable.baseline_thumb_up_24)
+                        }
+                        else {
+                            binding.disagreeBtn.setImageResource(R.drawable.baseline_thumb_down_24)
+                        }
+                    }
+                }
+                binding.agreeNumber.text = reactionNumber.agree.toString()
+                binding.disagreeNumber.text = reactionNumber.disagree.toString()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+            }
+        }
+        FBRef.reactionRef.child(key).addValueEventListener(postListener)
+    }
+
+    private fun getPocket(key : String) : String {
+        var uid = ""
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val pocket = dataSnapshot.getValue(BoardModel::class.java)!!
                 binding.title.text = pocket.title
                 binding.date.text = pocket.date
                 binding.content.text = pocket.content
                 binding.content.setTextColor(pocket.color)
                 getNickname(pocket.uid) { nickname -> binding.nickname.text = nickname }
-                binding.agreeNumber.text = pocket.agree.toString()
-                binding.disagreeNumber.text = pocket.disagree.toString()
-
                 if (pocket.image == 0) {
                     binding.image.visibility = View.GONE
                 }
@@ -76,6 +117,7 @@ class PocketActivity : AppCompatActivity() {
                     binding.editBtn.visibility = View.GONE
                     binding.deleteBtn.visibility = View.GONE
                 }
+                uid = pocket.uid
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -83,6 +125,7 @@ class PocketActivity : AppCompatActivity() {
             }
         }
         FBRef.pocketRef.child(key).addValueEventListener(postListener)
+        return uid
     }
 
     private fun handleBtns(key: String) {
@@ -99,37 +142,41 @@ class PocketActivity : AppCompatActivity() {
             showDeleteDialog(key)
         }
 
-//        binding.agreeBtn.setOnClickListener {
-//            if (disagreed) {
+        binding.agreeBtn.setOnClickListener {
+//            if (reaction?.react != null) {
 //                Toast.makeText(this, "추천과 비추천을 동시에 할 수 없습니다.", Toast.LENGTH_SHORT).show()
 //            }
 //            else {
-//                if (agreed) {
+//                if(reaction?.react == agree) {
+//                    reacted = false
 //                    reduceAgree(key)
 //                    binding.agreeBtn.setImageResource(R.drawable.baseline_thumb_up_border_24)
-//                } else {
+//                }
+//                else {
+//                    reacted = false
 //                    raiseAgree(key)
 //                    binding.agreeBtn.setImageResource(R.drawable.baseline_thumb_up_24)
 //                }
-//                agreed = !agreed
+//                reacted != reacted
 //            }
-//        }
-//
-//        binding.disagreeBtn.setOnClickListener {
-//            if (agreed) {
+//            Log.d("PocketActivity", reacted.toString())
+        }
+
+        binding.disagreeBtn.setOnClickListener {
+//            if (!reacted) {
 //                Toast.makeText(this, "추천과 비추천을 동시에 할 수 없습니다.", Toast.LENGTH_SHORT).show()
 //            }
 //            else {
-//                if (disagreed) {
+//                if (reacted) {
 //                    reduceDisagree(key)
-//                    binding.agreeBtn.setImageResource(R.drawable.baseline_thumb_down_border_24)
+//                    binding.disagreeBtn.setImageResource(R.drawable.baseline_thumb_down_border_24)
 //                } else {
 //                    raiseDisagree(key)
-//                    binding.agreeBtn.setImageResource(R.drawable.baseline_thumb_down_24)
+//                    binding.disagreeBtn.setImageResource(R.drawable.baseline_thumb_down_24)
 //                }
-//                disagreed = !disagreed
+//                reacted != reacted
 //            }
-//        }
+        }
     }
 
     private fun showDeleteCommentDialog(key: String, commentKey: String) {
@@ -166,63 +213,19 @@ class PocketActivity : AppCompatActivity() {
     }
 
     private fun raiseAgree(key: String) {
-//        val agree = binding.agreeNumber.text.toString().toInt() + 1
-//        val childUpdates = hashMapOf<String, Any>(
-//            "/PocketBoard/$key/agree" to agree,
-//        )
-//        val databaseRef = Firebase.database.reference
-//        databaseRef.updateChildren(childUpdates).addOnCompleteListener { task ->
-//            if (task.isSuccessful) {
-//                binding.agreeNumber.text = agree.toString()
-//            } else {
-//                Log.e("com.practice.android.pocketmate.Pocket.PocketActivity", "Failed to update agree count.")
-//            }
-//        }
+        FBRef.reactionRef.child(key).child(FBAuth.getUid()).setValue(ReactionModel(agree))
     }
 
     private fun reduceAgree(key: String) {
-//        val agree = binding.agreeNumber.text.toString().toInt() - 1
-//        val childUpdates = hashMapOf<String, Any>(
-//            "/PocketBoard/$key/agree" to agree,
-//        )
-//        val databaseRef = Firebase.database.reference
-//        databaseRef.updateChildren(childUpdates).addOnCompleteListener { task ->
-//            if (task.isSuccessful) {
-//                binding.agreeNumber.text = agree.toString()
-//            } else {
-//                Log.e("com.practice.android.pocketmate.Pocket.PocketActivity", "Failed to update agree count.")
-//            }
-//        }
+        FBRef.reactionRef.child(key).child(FBAuth.getUid()).removeValue()
     }
 
     private fun raiseDisagree(key: String) {
-//        val disagree = binding.disagreeNumber.text.toString().toInt() + 1
-//        val childUpdates = hashMapOf<String, Any>(
-//            "/PocketBoard/$key/disagree" to disagree,
-//        )
-//        val databaseRef = Firebase.database.reference
-//        databaseRef.updateChildren(childUpdates).addOnCompleteListener { task ->
-//            if (task.isSuccessful) {
-//                binding.disagreeNumber.text = disagree.toString()
-//            } else {
-//                Log.e("com.practice.android.pocketmate.Pocket.PocketActivity", "Failed to update disagree count.")
-//            }
-//        }
+        FBRef.reactionRef.child(key).child(FBAuth.getUid()).setValue(ReactionModel(disagree))
     }
 
     private fun reduceDisagree(key: String) {
-//        val disagree = binding.disagreeNumber.text.toString().toInt() - 1
-//        val childUpdates = hashMapOf<String, Any>(
-//            "/PocketBoard/$key/disagree" to disagree,
-//        )
-//        val databaseRef = Firebase.database.reference
-//        databaseRef.updateChildren(childUpdates).addOnCompleteListener { task ->
-//            if (task.isSuccessful) {
-//                binding.disagreeNumber.text = disagree.toString()
-//            } else {
-//                Log.e("com.practice.android.pocketmate.Pocket.PocketActivity", "Failed to update disagree count.")
-//            }
-//        }
+        FBRef.reactionRef.child(key).child(FBAuth.getUid()).removeValue()
     }
 
     private fun getCommentData(key: String) {
