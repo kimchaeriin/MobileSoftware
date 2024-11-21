@@ -53,7 +53,7 @@ class TipActivity : AppCompatActivity() {
     }
 
     private fun setupCommentView(key: String) {
-        binding.commentArea.adapter = CommentAdapter(this, tip, commentList, commentKeyList)
+        binding.commentArea.adapter = CommentAdapter(this, tip.uid, commentList, commentKeyList)
         binding.commentArea.layoutManager = LinearLayoutManager(this)
     }
 

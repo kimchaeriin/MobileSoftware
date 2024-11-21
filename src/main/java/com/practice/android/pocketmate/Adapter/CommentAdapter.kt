@@ -16,7 +16,7 @@ import com.practice.android.pocketmate.util.FBRef
 
 class CommentViewHolder(val binding: ItemCommentBinding) : RecyclerView.ViewHolder(binding.root)
 
-class CommentAdapter(val context: Context, val board: BoardModel, val comments: MutableList<CommentModel>, val commentKeyList: MutableList<String>) : RecyclerView.Adapter<CommentViewHolder>() {
+class CommentAdapter(val context: Context, val uid: String, val comments: MutableList<CommentModel>, val commentKeyList: MutableList<String>) : RecyclerView.Adapter<CommentViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
         return CommentViewHolder(ItemCommentBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
@@ -27,8 +27,8 @@ class CommentAdapter(val context: Context, val board: BoardModel, val comments: 
         FBAuth.getNickname(uid) { nickname ->
             holder.binding.nickname.text = nickname
         }
-        if (board.uid == comments[position].uid) {
-            Log.d("CommentAdapter", "${board.uid == comments[position].uid}")
+        if (uid == comments[position].uid) {
+            Log.d("CommentAdapter", "${uid == comments[position].uid}")
             holder.binding.writerMark.visibility = View.VISIBLE
         }
         if (FBAuth.getUid() == comments[position].uid) {
@@ -46,7 +46,7 @@ class CommentAdapter(val context: Context, val board: BoardModel, val comments: 
             }
             .setPositiveButton("삭제") { dialog, which ->
                 comments.remove(comment)
-                FBRef.commentRef.child(board.uid).child(commentKey).removeValue()
+                FBRef.commentRef.child(uid).child(commentKey).removeValue() //문제 발생
             }
             .show()
     }
