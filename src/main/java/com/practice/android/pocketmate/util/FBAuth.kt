@@ -21,8 +21,7 @@ class FBAuth {
                     callback(nickname)
                 }
                 override fun onCancelled(databaseError: DatabaseError) {
-                    // Getting Post failed, log a message
-                    callback("") // 에러가 발생한 경우 빈 문자열을 콜백으로 전달
+                    callback("")
                 }
             }
             FBRef.nicknameRef.child(uid).addListenerForSingleValueEvent(postListener)

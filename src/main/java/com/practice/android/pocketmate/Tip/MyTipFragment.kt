@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.practice.android.pocketmate.Adapter.BoardAdapter
 import com.practice.android.pocketmate.Adapter.SearchAdapter
+import com.practice.android.pocketmate.Adapter.TipBoardAdapter
 import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.databinding.FragmentMyTipBinding
 import com.practice.android.pocketmate.util.FBAuth
@@ -31,6 +32,7 @@ class MyTipFragment : Fragment() {
     private val binding get() = _binding!!
     private val tipList = mutableListOf<BoardModel>()
     private val keyList = mutableListOf<String>()
+    private val bookmarkedIdList = mutableListOf<String>()
     lateinit var boardAdapter: BoardAdapter
     lateinit var searchAdapter: SearchAdapter
 
@@ -50,8 +52,9 @@ class MyTipFragment : Fragment() {
         _binding = FragmentMyTipBinding.inflate(inflater, container, false)
 
         getMyTipList()
+        getBookmarkedIdList()
 
-        boardAdapter = BoardAdapter(requireContext(), tipList, keyList)
+        boardAdapter = TipBoardAdapter(requireContext(), tipList, keyList, bookmarkedIdList)
         searchAdapter = SearchAdapter(requireContext(), tipList, keyList)
 
         binding.recycler.adapter = boardAdapter
@@ -89,5 +92,22 @@ class MyTipFragment : Fragment() {
         })
 
         return tipList
+    }
+
+    private fun getBookmarkedIdList() {
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                bookmarkedIdList.clear()
+                for (data in dataSnapshot.children) {
+                    bookmarkedIdList.add(data.key.toString())
+                }
+                binding.recycler.adapter?.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+            }
+        }
+        FBRef.bookmarkRef.child(FBAuth.getUid()).addValueEventListener(postListener)
     }
 }
