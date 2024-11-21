@@ -8,24 +8,24 @@
     android:orientation="vertical">
 
     <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="15dp"
+        android:id="@+id/boardTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxLines="1"
         android:ellipsize="end"
+        android:maxLines="1"
         android:text="제목"
-        android:textSize="18sp"
-        android:layout_marginLeft="15dp"
-        android:textStyle="bold"
-        android:layout_marginTop="13dp"
-        android:layout_marginRight="15dp"
-        android:id="@+id/boardTitle" />
+        android:textSize="13sp"
+        android:textStyle="bold" />
 
     <TextView
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="7dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
+        android:layout_marginBottom="3dp"
         android:ellipsize="end"
+        android:textSize="13sp"
         android:id="@+id/boardContent"
         android:text="내용"
         android:maxLines="3"
@@ -41,85 +41,94 @@
         android:id="@+id/boardImage" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/commentImage"
+        <LinearLayout
+            android:layout_marginLeft="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/baseline_comment_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/commentNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="3"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/commentImage"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/commentImage"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_comment_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/agreeImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/baseline_thumb_up_border_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/commentNumber"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/commentNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/commentImage"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/agreeNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="3"
-            android:layout_marginLeft="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/agreeImage"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/agreeImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:src="@drawable/baseline_thumb_up_border_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/commentNumber"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/disagreeImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/baseline_thumb_down_border_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/agreeNumber"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/agreeNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/agreeImage"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/disagreeNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="3"
-            android:layout_marginLeft="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/disagreeImage"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/disagreeImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:src="@drawable/baseline_thumb_down_border_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/agreeNumber"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/disagreeNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/disagreeImage"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </LinearLayout>
 
         <ImageButton
-            android:visibility="gone"
             android:id="@+id/bookmarkBtn"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_gravity="end"
-            android:scaleType="fitXY"
-            android:layout_margin="10dp"
+            android:layout_marginRight="10dp"
             android:background="@null"
+            android:scaleType="fitXY"
             android:src="@drawable/baseline_not_bookmarked_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -50,8 +50,8 @@
 
                 <ImageView
                     android:id="@+id/profileImage"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:src="@drawable/baseline_face_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -65,13 +65,14 @@
                     android:layout_gravity="center"
                     android:background="@null"
                     android:text="닉네임"
-                    android:textSize="15sp"
+                    android:textSize="13sp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/profileImage"
                     app:layout_scrollFlags="scroll|enterAlways" />
 
                 <TextView
                     android:layout_marginLeft="10dp"
+                    android:textSize="13sp"
                     android:text="날짜"
                     android:id="@+id/date"
                     android:layout_width="wrap_content"
@@ -99,11 +100,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="5dp"
                 android:background="@null"
                 android:text="제목"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 app:layout_scrollFlags="scroll|enterAlways" />
 
             <TextView
@@ -126,14 +127,14 @@
                 app:layout_scrollFlags="scroll|enterAlways" />
 
             <LinearLayout
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="wrap_content">
 
                 <ImageButton
                     android:scaleType="fitXY"
                     android:id="@+id/agreeBtn"
                     android:layout_marginLeft="10dp"
-                    android:layout_gravity="center"
                     android:background="@color/colorBackgroundWhite"
                     android:src="@drawable/baseline_thumb_up_border_24"
                     android:layout_width="25dp"
@@ -142,23 +143,23 @@
                 <TextView
                     android:id="@+id/agreeNumber"
                     android:text="숫자"
-                    android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
                 <LinearLayout
+                    android:layout_marginTop="5dp"
                     android:layout_marginRight="15dp"
                     android:gravity="end"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <ImageButton
                         android:src="@drawable/baseline_mode_edit_24"
                         android:background="@drawable/baseline_circle_24"
                         android:id="@+id/editBtn"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_marginRight="10dp"
                         app:layout_scrollFlags="scroll|enterAlways" />
 
@@ -166,8 +167,8 @@
                         android:src="@drawable/baseline_delete_24"
                         android:id="@+id/deleteBtn"
                         android:background="@drawable/baseline_circle_24"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:text="삭제"
                         app:layout_scrollFlags="scroll|enterAlways" />
 
