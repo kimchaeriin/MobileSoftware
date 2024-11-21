@@ -58,7 +58,7 @@ class PocketBoardActivity : AppCompatActivity() {
 
         binding.fabMine.setOnClickListener {
             if (navController.currentDestination?.id == R.id.allPocketFragment) {
-                navController.navigate(R.id.action_AllTipBoardFragment_to_MyTipFragment)
+                navController.navigate(R.id.action_allPocketFragment_to_myPocketBoardFragment)
             }
             else if (navController.currentDestination?.id == R.id.friendsPocketFragment) {
                 navController.navigate(R.id.action_friendsPocketFragment_to_myPocketBoardFragment)
@@ -70,7 +70,7 @@ class PocketBoardActivity : AppCompatActivity() {
                 navController.navigate(R.id.action_allPocketFragment_to_friendsPocketFragment)
             }
             else if (navController.currentDestination?.id == R.id.myPocketBoardFragment) {
-                navController.navigate(R.id.action_MyTipFragment_to_tipSearchFragment)
+                navController.navigate(R.id.action_myPocketBoardFragment_to_friendsPocketFragment)
             }
             toggleFab()
         }
