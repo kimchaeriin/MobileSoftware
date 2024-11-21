@@ -80,6 +80,9 @@ class AllTipBoardFragment : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 tipList.clear()
                 keyList.clear()
+                if (tipList.isEmpty()) {
+                    binding.noTipText.visibility = View.VISIBLE
+                }
 
                 for (data in dataSnapshot.children) {
                     binding.noTipText.visibility = View.GONE

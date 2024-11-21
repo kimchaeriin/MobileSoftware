@@ -50,8 +50,11 @@ class BookmarkTipListActivity : AppCompatActivity() {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 bookmarkIdList.clear()
+                if (bookmarkIdList.isEmpty()) {
+                    binding.noTipText.visibility = View.VISIBLE
+                }
                 for (data in dataSnapshot.children) {
-                    binding.noTipText.visibility = View.GONE //있었다가 취소하면 문구가 안 보임
+                    binding.noTipText.visibility = View.GONE
                     bookmarkIdList.add(data.key.toString())
                 }
                 binding.recycler.adapter?.notifyDataSetChanged()

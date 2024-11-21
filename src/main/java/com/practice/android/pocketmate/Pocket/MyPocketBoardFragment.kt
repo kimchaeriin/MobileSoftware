@@ -76,6 +76,9 @@ class MyPocketBoardFragment : Fragment() {
                         keyList.add(data.key.toString())
                     }
                 }
+                if (pocketList.isEmpty()) {
+                    binding.noPocketText.visibility = View.VISIBLE
+                }
                 binding.recycler.adapter?.notifyDataSetChanged()
                 pocketList.reverse()
                 keyList.reverse()

@@ -62,6 +62,9 @@ class AllPocketFragment : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 pocketList.clear()
                 keyList.clear()
+                if (pocketList.isEmpty()) {
+                    binding.noPocketText.visibility = View.VISIBLE
+                }
 
                 for (data in dataSnapshot.children) {
                     binding.noPocketText.visibility = View.GONE
