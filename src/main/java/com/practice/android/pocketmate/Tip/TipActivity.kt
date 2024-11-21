@@ -31,6 +31,7 @@ import kotlin.properties.Delegates
 class TipActivity : AppCompatActivity() {
     lateinit var binding : ActivityTipBinding
     lateinit var commentBinding: ItemCommentBinding
+    private var tip = BoardModel()
     private val bookmarkedIdList = mutableListOf<String>()
     private val commentList = mutableListOf<CommentModel>()
     private val commentKeyList = mutableListOf<String>()
@@ -52,7 +53,7 @@ class TipActivity : AppCompatActivity() {
     }
 
     private fun setupCommentView(key: String) {
-        binding.commentArea.adapter = CommentAdapter(this, key, commentList, commentKeyList)
+        binding.commentArea.adapter = CommentAdapter(this, tip, commentList, commentKeyList)
         binding.commentArea.layoutManager = LinearLayoutManager(this)
     }
 
@@ -70,7 +71,7 @@ class TipActivity : AppCompatActivity() {
     private fun getTip(key : String) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val tip = dataSnapshot.getValue(BoardModel::class.java)!!
+                tip = dataSnapshot.getValue(BoardModel::class.java)!!
                 binding.title.text = tip.title
                 binding.date.text = tip.date
                 binding.content.text = tip.content

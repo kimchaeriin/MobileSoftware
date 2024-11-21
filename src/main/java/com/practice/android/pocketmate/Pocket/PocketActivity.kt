@@ -28,6 +28,7 @@ import com.practice.android.pocketmate.util.ScreenUtils
 class PocketActivity : AppCompatActivity() {
     lateinit var binding : ActivityPocketBinding
     lateinit var commentBinding: ItemCommentBinding
+    private var pocket = BoardModel()
     private val commentList = mutableListOf<CommentModel>()
     private val commentKeyList = mutableListOf<String>()
 
@@ -47,7 +48,7 @@ class PocketActivity : AppCompatActivity() {
     }
 
     private fun setupCommentView(key: String) {
-        binding.commentArea.adapter = CommentAdapter(this, key, commentList, commentKeyList)
+        binding.commentArea.adapter = CommentAdapter(this, pocket, commentList, commentKeyList)
         binding.commentArea.layoutManager = LinearLayoutManager(this)
     }
 
@@ -59,7 +60,7 @@ class PocketActivity : AppCompatActivity() {
     private fun getPocket(key : String) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val pocket = dataSnapshot.getValue(BoardModel::class.java)!!
+                pocket = dataSnapshot.getValue(BoardModel::class.java)!!
                 binding.title.text = pocket.title
                 binding.date.text = pocket.date
                 binding.content.text = pocket.content
