@@ -10,6 +10,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.practice.android.pocketmate.Adapter.BoardAdapter
+import com.practice.android.pocketmate.Adapter.PocketBoardAdapter
 import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.R
 import com.practice.android.pocketmate.databinding.FragmentAllPocketBinding
@@ -45,7 +46,7 @@ class AllPocketFragment : Fragment() {
             binding.noPocketText.visibility = View.GONE
         }
 
-        boardAdapter = BoardAdapter(requireContext(), pocketList, keyList)
+        boardAdapter = PocketBoardAdapter(requireContext(), pocketList, keyList)
         binding.recycler.adapter = boardAdapter
         binding.recycler.layoutManager = LinearLayoutManager(context)
 

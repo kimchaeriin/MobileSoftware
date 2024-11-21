@@ -10,6 +10,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.practice.android.pocketmate.Adapter.BoardAdapter
+import com.practice.android.pocketmate.Adapter.PocketBoardAdapter
 import com.practice.android.pocketmate.Adapter.SearchAdapter
 import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.R
@@ -51,7 +52,7 @@ class MyPocketBoardFragment : Fragment() {
     ): View? {
         binding = FragmentMyPocketBoardBinding.inflate(inflater, container, false)
         getMyPocketList()
-        boardAdapter = BoardAdapter(requireContext(), pocketList, keyList)
+        boardAdapter = PocketBoardAdapter(requireContext(), pocketList, keyList)
         searchAdapter = SearchAdapter(requireContext(), pocketList, keyList)
 
         binding.recycler.adapter = boardAdapter

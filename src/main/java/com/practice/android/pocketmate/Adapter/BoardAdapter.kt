@@ -24,20 +24,5 @@ open class BoardAdapter(val context: Context,
         BoardViewHolder(ItemBoardBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun onBindViewHolder(holder: BoardViewHolder, position: Int) {
-        val binding = holder.binding
-        binding.boardTitle.text = items[position].title
-        binding.boardContent.text = items[position].content
-        if (items[position].image == 0) {
-            binding.boardImage.visibility = View.GONE
-        }
-        else {
-            binding.boardImage.setImageResource(items[position].image)
-        }
-        binding.root.setOnClickListener {
-            val intent = Intent(context, PocketActivity::class.java).apply {
-                putExtra("key", keyList[position])
-            }
-            context.startActivity(intent)
-        }
     }
 }
