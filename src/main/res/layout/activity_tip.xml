@@ -79,6 +79,18 @@
                     app:layout_constraintTop_toBottomOf="@+id/nickname"
                     app:layout_constraintStart_toEndOf="@+id/profileImage"/>
 
+                <ImageButton
+                    android:scaleType="fitXY"
+                    android:id="@+id/bookmarkBtn"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:background="@null"
+                    android:src="@drawable/baseline_not_bookmarked_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
@@ -115,19 +127,23 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="50dp">
 
                 <ImageButton
+                    android:scaleType="fitXY"
                     android:id="@+id/agreeBtn"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center"
                     android:background="@color/colorBackgroundWhite"
                     android:src="@drawable/baseline_thumb_up_border_24"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"/>
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"/>
 
                 <TextView
                     android:id="@+id/agreeNumber"
                     android:text="숫자"
                     android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -136,15 +152,6 @@
                     android:gravity="end"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-
-                    <ImageButton
-                        android:src="@drawable/baseline_not_bookmarked_24"
-                        android:background="@null"
-                        android:layout_marginRight="10dp"
-                        android:id="@+id/bookmarkBtn"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="center"/>
 
                     <ImageButton
                         android:src="@drawable/baseline_mode_edit_24"
