@@ -39,4 +39,12 @@ class PocketBoardAdapter(context: Context,
             binding.boardImage.setImageResource(tip.image)
         }
     }
+
+    fun getAgreeNumber() {
+
+    }
+
+    fun getDisagreeNumber() {
+
+    }
 }
