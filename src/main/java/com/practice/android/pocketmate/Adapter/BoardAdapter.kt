@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.practice.android.pocketmate.Model.BoardModel
+import com.practice.android.pocketmate.Pocket.PocketActivity
 import com.practice.android.pocketmate.Tip.TipActivity
 import com.practice.android.pocketmate.databinding.ItemBoardBinding
 
@@ -33,7 +34,7 @@ open class BoardAdapter(val context: Context,
             binding.boardImage.setImageResource(items[position].image)
         }
         binding.root.setOnClickListener {
-            val intent = Intent(context, TipActivity::class.java).apply {
+            val intent = Intent(context, PocketActivity::class.java).apply {
                 putExtra("key", keyList[position])
             }
             context.startActivity(intent)
