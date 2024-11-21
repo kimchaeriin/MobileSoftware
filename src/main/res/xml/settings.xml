@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        app:key="pocket_category"
+        app:title="소비 계획">
+
+        <SwitchPreferenceCompat
+            app:key = "comment_pocket"
+            app:title = "댓글 알림"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="tip_category"
+        app:title="팁 게시판">
+
+        <SwitchPreferenceCompat
+            app:key = "comment_tip"
+            app:title = "댓글 알림"/>
+    </PreferenceCategory>
+
+    <Preference
+        app:key = "feedback"
+        app:title = "피드백 전송"/>
+
+</PreferenceScreen>
