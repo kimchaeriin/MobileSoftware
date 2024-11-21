@@ -32,6 +32,20 @@
             app:layout_constraintStart_toEndOf="@+id/image"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:visibility="gone"
+            android:background="@drawable/round_corner_rectangle_border"
+            android:padding="7dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/writerMark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10dp"
+            android:text="작성자"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/nickname"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageButton
             android:visibility="gone"
             android:id="@+id/deleteBtn"
