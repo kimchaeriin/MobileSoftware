@@ -1,5 +1,6 @@
 package com.practice.android.pocketmate.Tip
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -19,6 +20,7 @@ import com.practice.android.pocketmate.Adapter.CommentAdapter
 import com.practice.android.pocketmate.Bookmark.BookmarkModel
 import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.Model.CommentModel
+import com.practice.android.pocketmate.Model.ReactionModel
 import com.practice.android.pocketmate.R
 import com.practice.android.pocketmate.databinding.ActivityTipBinding
 import com.practice.android.pocketmate.databinding.ItemCommentBinding
@@ -31,10 +33,13 @@ import kotlin.properties.Delegates
 class TipActivity : AppCompatActivity() {
     lateinit var binding : ActivityTipBinding
     lateinit var commentBinding: ItemCommentBinding
-    private var tip = BoardModel()
+    private var reacted : Boolean? = null
+    private var reactionNumber = 0
     private val bookmarkedIdList = mutableListOf<String>()
     private val commentList = mutableListOf<CommentModel>()
     private val commentKeyList = mutableListOf<String>()
+    private val agree = true
+    private var tip = BoardModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,30 +50,53 @@ class TipActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val key = intent.getStringExtra("key").toString()
-        val agreed = checkAgreed(key)
 
-        bindItems(key)
+        getItems(key)
         handleBtns(key)
-        setupCommentView(key)
     }
 
-    private fun setupCommentView(key: String) {
-        binding.commentArea.adapter = CommentAdapter(this, tip.uid, commentList, commentKeyList)
+    private fun getReaction(key: String) {
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                reactionNumber = 0
+                reacted = null
+                for (data in dataSnapshot.children) {
+                    val reaction = data.getValue(ReactionModel::class.java)!!
+                    if (reaction.react == agree) {
+                        reactionNumber++
+                    }
+                    if (currentUserHasResponded(data)) {
+                        reacted = reaction.react
+                        binding.agreeBtn.setImageResource(R.drawable.baseline_thumb_up_24)
+                    }
+                }
+                binding.agreeNumber.text = reactionNumber.toString()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+            }
+        }
+        FBRef.reactionRef.child(key).addValueEventListener(postListener)
+    }
+
+    private fun currentUserHasResponded(data: DataSnapshot) : Boolean {
+        return data.key.toString() == FBAuth.getUid()
+    }
+
+    private fun setupCommentView(writerUid: String, key: String) {
+        binding.commentArea.adapter = CommentAdapter(this, writerUid, commentList, commentKeyList, key)
         binding.commentArea.layoutManager = LinearLayoutManager(this)
     }
 
-    private fun bindItems(key: String) {
+    private fun getItems(key: String) {
         getTip(key)
-        bindCommentData(key)
+        getReaction(key)
         getBookmarkedIdList(key)
+        bindCommentData(key)
     }
 
-    private fun checkAgreed(key: String): Boolean {
-        var agreed = false
-        return agreed
-    }
-
-    private fun getTip(key : String) {
+    private fun getTip(key : String)  {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 tip = dataSnapshot.getValue(BoardModel::class.java)!!
@@ -77,7 +105,6 @@ class TipActivity : AppCompatActivity() {
                 binding.content.text = tip.content
                 binding.content.setTextColor(tip.color)
                 getNickname(tip.uid) { nickname ->
-                    Log.d("getTip", "nickname = ${nickname}")
                     binding.nickname.text = nickname
                 }
                 binding.agreeNumber.text = tip.agree.toString()
@@ -89,6 +116,7 @@ class TipActivity : AppCompatActivity() {
                     binding.editBtn.visibility = View.GONE
                     binding.deleteBtn.visibility = View.GONE
                 }
+                setupCommentView(tip.uid, dataSnapshot.key.toString())
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -99,7 +127,6 @@ class TipActivity : AppCompatActivity() {
     }
 
     private fun handleBtns(key: String) {
-        val agreed = checkAgreed(key)
         binding.writeCommentBtn.setOnClickListener {
             writeComment(key)
             binding.writeCommentArea.text.clear()
@@ -111,15 +138,16 @@ class TipActivity : AppCompatActivity() {
             showDeleteDialog(key)
         }
         binding.agreeBtn.setOnClickListener {
-            if (agreed) { //게시글에 나왔다 들어가면 다시 agree를 할 수 있는 오류 발생
+            if (reacted == agree) {
+                reacted = null
                 reduceAgree(key)
                 binding.agreeBtn.setImageResource(R.drawable.baseline_thumb_up_border_24)
             }
             else {
+                reacted = agree
                 raiseAgree(key)
                 binding.agreeBtn.setImageResource(R.drawable.baseline_thumb_up_24)
             }
-            updateAgreed(key)
         }
         binding.bookmarkBtn.setOnClickListener {
             if (bookmarkedIdList.contains(key)) {
@@ -131,10 +159,6 @@ class TipActivity : AppCompatActivity() {
                 binding.bookmarkBtn.setImageResource(R.drawable.baseline_bookmarked_24)
             }
         }
-    }
-
-    private fun updateAgreed(key: String) {
-        //수정
     }
 
     private fun bookmark(key: String) {
@@ -170,17 +194,13 @@ class TipActivity : AppCompatActivity() {
         FBRef.bookmarkRef.child(FBAuth.getUid()).addValueEventListener(postListener)
     }
 
-    private fun showDeleteCommentDialog(key: String, commentKey: String) {
-
-    }
-
     private fun showEditDialog(key: String) {
         MaterialAlertDialogBuilder(this)
             .setMessage("수정하시겠습니까?")
-            .setNegativeButton("취소") { dialog, which ->
+            .setNegativeButton(R.string.cancel) { dialog, which ->
                 //do nothing.
             }
-            .setPositiveButton("수정") { dialog, which ->
+            .setPositiveButton(R.string.edit) { dialog, which ->
                 val intent = Intent(this, EditTipActivity::class.java)
                 intent.putExtra("key", key)
                 startActivity(intent)
@@ -192,10 +212,10 @@ class TipActivity : AppCompatActivity() {
     private fun showDeleteDialog(key: String) {
         MaterialAlertDialogBuilder(this)
             .setMessage("삭제하시겠습니까?")
-            .setNegativeButton("취소") { dialog, which ->
+            .setNegativeButton(R.string.cancel) { dialog, which ->
                 //do nothing.
             }
-            .setPositiveButton("삭제") { dialog, which ->
+            .setPositiveButton(R.string.delete) { dialog, which ->
                 ScreenUtils.switchScreen(this, TipBoardActivity::class.java)
                 FBRef.tipRef.child(key).removeValue()
                 finish()
@@ -204,37 +224,16 @@ class TipActivity : AppCompatActivity() {
     }
 
     private fun raiseAgree(key: String) {
-        val agree = binding.agreeNumber.text.toString().toInt() + 1
-        val childUpdates = hashMapOf<String, Any>(
-                "/TipBoard/$key/agree" to agree,
-            )
-        val databaseRef = Firebase.database.reference
-        databaseRef.updateChildren(childUpdates).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                binding.agreeNumber.text = agree.toString()
-            } else {
-                Log.e("TipActivity", "Failed to update agree count.")
-            }
-        }
+        FBRef.reactionRef.child(key).child(FBAuth.getUid()).setValue(ReactionModel(agree))
     }
 
     private fun reduceAgree(key: String) {
-        val agree = binding.agreeNumber.text.toString().toInt() - 1
-        val childUpdates = hashMapOf<String, Any>(
-            "/TipBoard/$key/agree" to agree,
-        )
-        val databaseRef = Firebase.database.reference
-        databaseRef.updateChildren(childUpdates).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                binding.agreeNumber.text = agree.toString()
-            } else {
-                Log.e("TipActivity", "Failed to update agree count.")
-            }
-        }
+        FBRef.reactionRef.child(key).child(FBAuth.getUid()).removeValue()
     }
 
     private fun bindCommentData(key: String) {
         val postListener = object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 commentList.clear()
 
@@ -246,7 +245,7 @@ class TipActivity : AppCompatActivity() {
                     }
                     binding.emptyCommentText.visibility = View.GONE
                     getNickname(comment.uid) { nickname ->
-                        binding.nickname.text = nickname
+                        commentBinding.nickname.text = nickname
                     }
                     commentList.add(comment)
                     commentKeyList.add(data.key.toString())
@@ -268,8 +267,7 @@ class TipActivity : AppCompatActivity() {
         }
         else {
             val commentKey = FBRef.commentRef.child(key).push().key.toString()
-            val commentContent = newComment
-            val comment = CommentModel(FBAuth.getUid(), commentContent)
+            val comment = CommentModel(FBAuth.getUid(), newComment)
             FBRef.commentRef.child(key).child(commentKey).setValue(comment)
         }
     }
