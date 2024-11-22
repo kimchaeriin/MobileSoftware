@@ -5,19 +5,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import com.practice.android.pocketmate.Adapter.CommentAdapter
-import com.practice.android.pocketmate.Bookmark.BookmarkModel
+import com.practice.android.pocketmate.Model.BookmarkModel
 import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.Model.CommentModel
 import com.practice.android.pocketmate.Model.ReactionModel
@@ -28,7 +24,6 @@ import com.practice.android.pocketmate.util.ScreenUtils
 import com.practice.android.pocketmate.util.FBAuth
 import com.practice.android.pocketmate.util.FBAuth.Companion.getNickname
 import com.practice.android.pocketmate.util.FBRef
-import kotlin.properties.Delegates
 
 class TipActivity : AppCompatActivity() {
     lateinit var binding : ActivityTipBinding

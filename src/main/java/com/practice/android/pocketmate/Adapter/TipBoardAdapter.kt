@@ -2,19 +2,16 @@ package com.practice.android.pocketmate.Adapter
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.View
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.practice.android.pocketmate.Bookmark.BookmarkModel
+import com.practice.android.pocketmate.Model.BookmarkModel
 import com.practice.android.pocketmate.Model.BoardModel
-import com.practice.android.pocketmate.Model.CommentModel
 import com.practice.android.pocketmate.R
 import com.practice.android.pocketmate.Tip.TipActivity
 import com.practice.android.pocketmate.databinding.ItemBoardBinding
 import com.practice.android.pocketmate.util.FBAuth
-import com.practice.android.pocketmate.util.FBAuth.Companion.getNickname
 import com.practice.android.pocketmate.util.FBRef
 
 class TipBoardAdapter(context: Context,
