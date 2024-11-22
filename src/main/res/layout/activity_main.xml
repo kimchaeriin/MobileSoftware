@@ -63,38 +63,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <LinearLayout
-                android:background="@drawable/round_corner_rectangle"
-                android:id="@+id/pocket"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/pocketViewPager"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_marginTop="15dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:id="@+id/pocketTitle"
-                    android:textStyle="bold"
-                    android:layout_gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"/>
-
-                <TextView
-                    android:id="@+id/pocketContent"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-
-            </LinearLayout>
+                android:layout_height="wrap_content"/>
 
             <TextView
                 android:text="Tip Board"
@@ -103,38 +75,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <LinearLayout
-                android:background="@drawable/round_corner_rectangle"
-                android:id="@+id/tip"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/tipViewPager"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_marginTop="15dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:id="@+id/tipTitle"
-                    android:textStyle="bold"
-                    android:layout_gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"/>
-
-                <TextView
-                    android:id="@+id/tipContent"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-
-            </LinearLayout>
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 
