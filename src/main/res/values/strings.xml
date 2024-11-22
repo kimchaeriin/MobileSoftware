@@ -52,4 +52,5 @@
     <string name="NATIVE_APP_KEY">faf4d36560ab4d829c6f4ba0b0b6e96f</string>
     <string name="drawer_opened">drawer_opened</string>
     <string name="drawer_closed">drawer_closed</string>
+    <string name="msg_token_fmt">message</string>
 </resources>
