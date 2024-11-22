@@ -1,16 +1,20 @@
 package com.practice.android.pocketmate
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.gms.tasks.OnCompleteListener
 import com.practice.android.pocketmate.Tip.TipBoardActivity
 import com.practice.android.pocketmate.databinding.ActivityMainBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.practice.android.pocketmate.Adapter.ViewPagerAdapter
 import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.Pocket.PocketBoardActivity
@@ -34,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     private var currentTipPosition = 0
     private var currentPocketPosition = 0
 
+    @SuppressLint("StringFormatInvalid")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -57,7 +62,23 @@ class MainActivity : AppCompatActivity() {
         binding.tipViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
         ScreenUtils.setBottomNavigationBar(this, binding.navigation)
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+            Log.d("token", token)
+
+            // Log and toast
+            val msg = getString(R.string.msg_token_fmt, token)
+            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+        })
     }
+
+
 
     override fun onDestroy() {
         super.onDestroy()
