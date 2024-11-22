@@ -36,7 +36,6 @@
 
             <EditText
                 android:background="@null"
-                android:text="제목"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_marginRight="10dp"
