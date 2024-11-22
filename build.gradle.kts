@@ -42,6 +42,7 @@ android {
 }
 
 dependencies {
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
     implementation ("com.jakewharton.threetenabp:threetenabp:1.3.0")
     implementation("com.google.firebase:firebase-database")
     implementation ("com.kakao.sdk:v2-user:2.20.6") // 카카오 로그인 API 모듈
