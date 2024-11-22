@@ -65,6 +65,7 @@ class TipActivity : AppCompatActivity() {
                     if (reaction.react == agree) {
                         reactionNumber++
                     }
+                    binding.agreeNumber.text = reactionNumber.toString()
                     if (currentUserHasResponded(data)) {
                         reacted = reaction.react
                         binding.agreeBtn.setImageResource(R.drawable.baseline_thumb_up_24)
@@ -107,7 +108,6 @@ class TipActivity : AppCompatActivity() {
                 getNickname(tip.uid) { nickname ->
                     binding.nickname.text = nickname
                 }
-                binding.agreeNumber.text = tip.agree.toString()
 
                 if (tip.image == 0) {
                     binding.image.visibility = View.GONE

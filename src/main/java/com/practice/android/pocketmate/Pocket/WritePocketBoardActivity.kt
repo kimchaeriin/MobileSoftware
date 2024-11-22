@@ -93,7 +93,7 @@ class WritePocketBoardActivity : AppCompatActivity() {
         }
         else {
             val key = FBRef.pocketRef.push().key.toString()
-            val pocket = BoardModel(user, date, title, content, color, image, agree, disagree)
+            val pocket = BoardModel(user, date, title, content, color, image)
             FBRef.pocketRef.child(key).setValue(pocket)
             ScreenUtils.switchScreen(this, PocketBoardActivity::class.java)
         }
