@@ -18,7 +18,6 @@ import com.practice.android.pocketmate.util.FBRef
 
 
 class MainActivity : AppCompatActivity() {
-
     lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
