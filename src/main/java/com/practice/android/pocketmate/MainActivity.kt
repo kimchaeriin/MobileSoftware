@@ -17,11 +17,22 @@ import com.practice.android.pocketmate.Pocket.PocketBoardActivity
 import com.practice.android.pocketmate.friends.FriendsListActivity
 import com.practice.android.pocketmate.util.ScreenUtils
 import com.practice.android.pocketmate.util.FBRef
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
-    lateinit var binding: ActivityMainBinding
+    private lateinit var tipAdapter : ViewPagerAdapter
+    private lateinit var pocketAdapter: ViewPagerAdapter
+    private lateinit var binding: ActivityMainBinding
     private val pocket = false
     private val tip = true
+    private val scope = CoroutineScope(Dispatchers.Main)
+    private var currentTipPosition = 0
+    private var currentPocketPosition = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +59,36 @@ class MainActivity : AppCompatActivity() {
         ScreenUtils.setBottomNavigationBar(this, binding.navigation)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        scope.cancel()
+        scope.cancel()
+    }
+
+    private fun startAutoTipScroll() {
+        scope.launch {
+            while (isActive) {
+                delay(3000)
+                if (tipAdapter.itemCount > 0) {
+                    currentTipPosition = (currentTipPosition + 1) % tipAdapter.itemCount
+                    binding.tipViewPager.setCurrentItem(currentTipPosition, true)
+                }
+            }
+        }
+    }
+
+    private fun startAutoPocketScroll() {
+        scope.launch {
+            while (isActive) {
+                delay(3000)
+                if (pocketAdapter.itemCount > 0) {
+                    currentPocketPosition = (currentPocketPosition + 1) % pocketAdapter.itemCount
+                    binding.pocketViewPager.setCurrentItem(currentPocketPosition, true)
+                }
+            }
+        }
+    }
+
     private fun getRecentTip() {
         val tipList = mutableListOf<BoardModel>()
         val tipKeyList = mutableListOf<String>()
@@ -61,7 +102,9 @@ class MainActivity : AppCompatActivity() {
                     tipList.add(tip!!)
                     tipKeyList.add(data.key.toString())
                 }
-                binding.tipViewPager.adapter = ViewPagerAdapter(this@MainActivity, tipList, tipKeyList, tip)
+                tipAdapter = ViewPagerAdapter(this@MainActivity, tipList, tipKeyList, tip)
+                binding.tipViewPager.adapter = tipAdapter
+                startAutoTipScroll()
             }
             override fun onCancelled(error: DatabaseError) {
                 //읽기 실패
@@ -82,7 +125,9 @@ class MainActivity : AppCompatActivity() {
                     pocketList.add(pocket!!)
                     pocketKeyList.add(data.key.toString())
                 }
-                binding.pocketViewPager.adapter = ViewPagerAdapter(this@MainActivity, pocketList, pocketKeyList, pocket)
+                pocketAdapter = ViewPagerAdapter(this@MainActivity, pocketList, pocketKeyList, pocket)
+                binding.pocketViewPager.adapter = pocketAdapter
+                startAutoPocketScroll()
             }
 
             override fun onCancelled(error: DatabaseError) {
