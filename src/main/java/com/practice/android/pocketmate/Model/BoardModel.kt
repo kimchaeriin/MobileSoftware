@@ -9,8 +9,6 @@ data class BoardModel (
     var content : String = "",
     var color: Int = 0,
     var image : Int = 0,
-    var agree : Int = 0,
-    var disagree : Int = 0
 ) {
     @Exclude
     fun toMap(): Map<String, Any?> {
@@ -21,8 +19,6 @@ data class BoardModel (
             "content" to content,
             "color" to color,
             "image" to image,
-            "agree" to agree,
-            "disagree" to disagree,
         )
     }
 }
