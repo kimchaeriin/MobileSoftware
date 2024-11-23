@@ -34,8 +34,7 @@ open class BoardAdapter(val context: Context,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardViewHolder =
         BoardViewHolder(ItemBoardBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
-    override fun onBindViewHolder(holder: BoardViewHolder, position: Int) {
-    }
+    override fun onBindViewHolder(holder: BoardViewHolder, position: Int) {}
 
 
     fun showPostReaction(key: String, binding: ItemBoardBinding) {

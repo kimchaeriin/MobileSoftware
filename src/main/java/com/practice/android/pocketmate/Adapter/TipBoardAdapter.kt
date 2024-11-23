@@ -41,26 +41,6 @@ class TipBoardAdapter(context: Context,
         showPostReaction(key, binding)
     }
 
-    fun getCommentNumber(key: String) : String {
-        var commentNumber = 0
-        val postListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                commentNumber = 0
-
-                for (data in dataSnapshot.children) {
-                        commentNumber++
-                }
-//                CommentAdapter?.notifyDataSetChanged()
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-            // Getting Post failed, log a message
-            }
-        }
-        FBRef.commentRef.child(key).addValueEventListener(postListener)
-        return commentNumber.toString()
-    }
-
     private fun bookmark(binding: ItemBoardBinding, key: String) {
         FBRef.bookmarkRef.child(FBAuth.getUid()).child(key).setValue(BookmarkModel(true))
         bookmarkIdList.add(key)
@@ -83,7 +63,6 @@ class TipBoardAdapter(context: Context,
     private fun bindItems(binding:ItemBoardBinding, tip: BoardModel, key: String) {
         binding.boardTitle.text = tip.title
         binding.boardContent.text = tip.content
-        binding.commentNumber.text = getCommentNumber(key)
         binding.bookmarkBtn.visibility = View.VISIBLE
         binding.disagreeImage.visibility = View.GONE
         binding.disagreeNumber.visibility = View.GONE
