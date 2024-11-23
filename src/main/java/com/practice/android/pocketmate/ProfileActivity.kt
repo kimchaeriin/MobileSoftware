@@ -24,6 +24,7 @@ import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.user.UserApiClient
 import com.practice.android.pocketmate.Auth.IntroActivity
 import com.practice.android.pocketmate.databinding.ActivityProfileBinding
+import com.practice.android.pocketmate.friends.FriendsListActivity
 import com.practice.android.pocketmate.util.ScreenUtils
 import com.practice.android.pocketmate.util.FBAuth
 import com.practice.android.pocketmate.util.FBRef
@@ -71,7 +72,7 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         binding.friendListBtn.setOnClickListener {
-            ScreenUtils.switchScreen(this, SearchIDActivity::class.java)
+            ScreenUtils.switchScreen(this, FriendsListActivity::class.java)
         }
 
         binding.logoutBtn.setOnClickListener {
