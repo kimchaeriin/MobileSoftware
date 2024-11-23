@@ -37,6 +37,8 @@ class TipBoardAdapter(context: Context,
                 bookmark(binding, key)
             }
         }
+        showCommentCount(key, binding)
+        showPostReaction(key, binding)
     }
 
     fun getCommentNumber(key: String) : String {
@@ -57,11 +59,6 @@ class TipBoardAdapter(context: Context,
         }
         FBRef.commentRef.child(key).addValueEventListener(postListener)
         return commentNumber.toString()
-    }
-
-
-    fun getAgreeNumber() {
-
     }
 
     private fun bookmark(binding: ItemBoardBinding, key: String) {

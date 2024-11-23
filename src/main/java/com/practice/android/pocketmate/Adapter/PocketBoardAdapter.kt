@@ -16,7 +16,7 @@ class PocketBoardAdapter(context: Context,
         val binding = holder.binding
         val key = keyList[position]
         val tip = items[position]
-        bindItems(binding, tip)
+        bindItems(binding, tip, key)
         binding.root.setOnClickListener {
             switchScreenToPocket(key)
         }
@@ -29,7 +29,7 @@ class PocketBoardAdapter(context: Context,
         context.startActivity(intent)
     }
 
-    private fun bindItems(binding: ItemBoardBinding, tip: BoardModel) {
+    private fun bindItems(binding: ItemBoardBinding, tip: BoardModel, key: String) {
         binding.boardTitle.text = tip.title
         binding.boardContent.text = tip.content
         if (tip.image == 0) {
@@ -39,13 +39,9 @@ class PocketBoardAdapter(context: Context,
             binding.boardImage.setImageResource(tip.image)
         }
         binding.bookmarkBtn.visibility = View.GONE
-    }
 
-    fun getAgreeNumber() {
-
-    }
-
-    fun getDisagreeNumber() {
+        showCommentCount(key, binding)
+        showPostReaction(key, binding)
 
     }
 }
