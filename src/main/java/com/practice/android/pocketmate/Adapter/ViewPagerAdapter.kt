@@ -35,7 +35,7 @@ class ViewPagerAdapter(val context: AppCompatActivity,
         binding.itemContent.text = item.content
         binding.root.setOnClickListener {
             if (isTip) {
-                if (key.isEmpty()) {
+                if (key.isBlank()) {
                     switchScreen(context, TipBoardActivity::class.java)
                 } else {
                     val intent: Intent = Intent(context, TipActivity::class.java)
@@ -44,7 +44,7 @@ class ViewPagerAdapter(val context: AppCompatActivity,
                 }
             }
             else {
-                if (key.isEmpty()) {
+                if (key.isBlank()) {
                     switchScreen(context, PocketBoardActivity::class.java)
                 } else {
                     val intent: Intent = Intent(context, PocketActivity::class.java)
