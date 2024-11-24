@@ -63,19 +63,19 @@ class MainActivity : AppCompatActivity() {
 
         ScreenUtils.setBottomNavigationBar(this, binding.navigation)
 
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                return@OnCompleteListener
-            }
-
-            // Get new FCM registration token
-            val token = task.result
-            Log.d("token", token)
-
-            // Log and toast
-            val msg = getString(R.string.msg_token_fmt, token)
-            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
-        })
+//        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+//            if (!task.isSuccessful) {
+//                return@OnCompleteListener
+//            }
+//
+//            // Get new FCM registration token
+//            val token = task.result
+//            Log.d("token", token)
+//
+//            // Log and toast
+//            val msg = getString(R.string.msg_token_fmt, token)
+//            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+//        })
     }
 
 
@@ -123,7 +123,13 @@ class MainActivity : AppCompatActivity() {
                     tipList.add(tip!!)
                     tipKeyList.add(data.key.toString())
                 }
+                if (tipList.isEmpty()) {
+                    tipKeyList.add("")
+                    tipList.add(BoardModel(content = "\t\t\t\t\t\t\t\t\t\t\t\t지금은 게시글이 없어요.\n\t\t\t\t\t\t\t\t\t\t\t\t첫 게시글을 써주세요!"))
+                }
+
                 tipAdapter = ViewPagerAdapter(this@MainActivity, tipList, tipKeyList, tip)
+
                 binding.tipViewPager.adapter = tipAdapter
                 startAutoTipScroll()
             }
@@ -145,6 +151,10 @@ class MainActivity : AppCompatActivity() {
                     val pocket = data.getValue(BoardModel::class.java)
                     pocketList.add(pocket!!)
                     pocketKeyList.add(data.key.toString())
+                }
+                if (pocketList.isEmpty()) {
+                    pocketKeyList.add("")
+                    pocketList.add(BoardModel(content = "\t\t\t\t\t\t\t\t\t\t\t지금은 게시글이 없어요.\n\t\t\t\t\t\t\t\t\t\t\t\t첫 게시글을 써주세요!"))
                 }
                 pocketAdapter = ViewPagerAdapter(this@MainActivity, pocketList, pocketKeyList, pocket)
                 binding.pocketViewPager.adapter = pocketAdapter
