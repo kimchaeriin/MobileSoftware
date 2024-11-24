@@ -34,7 +34,6 @@ class TipActivity : AppCompatActivity() {
     private val commentList = mutableListOf<CommentModel>()
     private val commentKeyList = mutableListOf<String>()
     private val agree = true
-    private var tip = BoardModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,23 +94,25 @@ class TipActivity : AppCompatActivity() {
     private fun getTip(key : String)  {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                tip = dataSnapshot.getValue(BoardModel::class.java)!!
-                binding.title.text = tip.title
-                binding.date.text = tip.date
-                binding.content.text = tip.content
-                binding.content.setTextColor(tip.color)
-                getNickname(tip.uid) { nickname ->
-                    binding.nickname.text = nickname
+                val tip = dataSnapshot.getValue(BoardModel::class.java)
+                binding.title.text = tip?.title
+                binding.date.text = tip?.date
+                binding.content.text = tip?.content
+                tip?.color?.let { binding.content.setTextColor(it) }
+                tip?.uid?.let {
+                    getNickname(it) { nickname ->
+                        binding.nickname.text = nickname
+                    }
                 }
 
-                if (tip.image == 0) {
+                if (tip?.image == 0) {
                     binding.image.visibility = View.GONE
                 }
-                if (tip.uid != FBAuth.getUid()) {
+                if (tip?.uid != FBAuth.getUid()) {
                     binding.editBtn.visibility = View.GONE
                     binding.deleteBtn.visibility = View.GONE
                 }
-                setupCommentView(tip.uid, dataSnapshot.key.toString())
+                tip?.uid?.let { setupCommentView(it, dataSnapshot.key.toString()) }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -213,6 +214,8 @@ class TipActivity : AppCompatActivity() {
             .setPositiveButton(R.string.delete) { dialog, which ->
                 ScreenUtils.switchScreen(this, TipBoardActivity::class.java)
                 FBRef.tipRef.child(key).removeValue()
+                FBRef.commentRef.child(key).child(FBAuth.getUid()).removeValue()
+                FBRef.reactionRef.child(key).child(FBAuth.getUid()).removeValue()
                 finish()
             }
             .show()

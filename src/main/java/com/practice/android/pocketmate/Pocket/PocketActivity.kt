@@ -109,20 +109,22 @@ class PocketActivity : AppCompatActivity() {
     private fun getPocket(key : String) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val pocket = dataSnapshot.getValue(BoardModel::class.java)!!
-                binding.title.text = pocket.title
-                binding.date.text = pocket.date
-                binding.content.text = pocket.content
-                binding.content.setTextColor(pocket.color)
-                getNickname(pocket.uid) { nickname -> binding.nickname.text = nickname }
-                if (pocket.image == 0) {
+                val pocket = dataSnapshot.getValue(BoardModel::class.java)
+                binding.title.text = pocket?.title
+                binding.date.text = pocket?.date
+                binding.content.text = pocket?.content
+                pocket?.color?.let { binding.content.setTextColor(it) }
+                pocket?.uid?.let { getNickname(it) { nickname -> binding.nickname.text = nickname } }
+                if (pocket?.image == 0) {
                     binding.image.visibility = View.GONE
                 }
-                if (pocket.uid != FBAuth.getUid()) {
+                if (pocket?.uid != FBAuth.getUid()) {
                     binding.editBtn.visibility = View.GONE
                     binding.deleteBtn.visibility = View.GONE
                 }
-                setupCommentView(pocket.uid, dataSnapshot.key.toString())
+                if (pocket != null) {
+                    setupCommentView(pocket.uid, dataSnapshot.key.toString())
+                }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -206,6 +208,8 @@ class PocketActivity : AppCompatActivity() {
             .setPositiveButton(R.string.delete) { dialog, which ->
                 ScreenUtils.switchScreen(this, PocketBoardActivity::class.java)
                 FBRef.pocketRef.child(key).removeValue()
+                FBRef.commentRef.child(key).child(FBAuth.getUid()).removeValue()
+                FBRef.reactionRef.child(key).child(FBAuth.getUid()).removeValue()
                 finish()
             }
             .show()
