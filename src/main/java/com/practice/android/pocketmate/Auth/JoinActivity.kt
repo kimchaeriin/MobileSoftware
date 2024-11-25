@@ -18,6 +18,8 @@ class JoinActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityJoinBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbarJoin)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         auth = Firebase.auth
 
