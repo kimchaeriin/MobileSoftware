@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_main"
+        android:title="홈 화면"
+        android:icon="@drawable/baseline_home_24">
+    </item>
+
+    <item
+        android:id="@+id/nav_pocket"
+        android:title="오늘의 소비 계획"
+        android:icon="@drawable/baseline_attach_money_24">
+    </item>
+
+    <item
+        android:icon="@drawable/baseline_tips_and_updates_24"
+        android:title="팁 게시판"
+        android:id="@+id/nav_tip">
+    </item>
+
+    <item
+        android:icon="@drawable/baseline_bookmarked_24"
+        android:title="북마크 팁"
+        android:id="@+id/nav_bookmark">
+    </item>
+
+    <item
+        android:id="@+id/nav_profile"
+        android:title="내 프로필"
+        android:icon="@drawable/baseline_face_24">
+    </item>
+
+</menu>

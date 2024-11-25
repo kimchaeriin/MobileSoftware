@@ -1,5 +1,6 @@
 package com.practice.android.pocketmate.Tip
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,8 +12,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.practice.android.pocketmate.Adapter.BoardAdapter
+import com.practice.android.pocketmate.Adapter.SearchAdapter
+import com.practice.android.pocketmate.Adapter.TipBoardAdapter
 import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.databinding.FragmentMyTipBinding
+import com.practice.android.pocketmate.util.FBAuth
 import com.practice.android.pocketmate.util.FBRef
 import kotlinx.coroutines.NonCancellable.children
 
@@ -25,10 +29,12 @@ class MyTipFragment : Fragment() {
     private var param2: String? = null
 
     private var _binding: FragmentMyTipBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+    private val tipList = mutableListOf<BoardModel>()
+    private val keyList = mutableListOf<String>()
+    private val bookmarkedIdList = mutableListOf<String>()
+    lateinit var boardAdapter: BoardAdapter
+    lateinit var searchAdapter: SearchAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,17 +51,39 @@ class MyTipFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentMyTipBinding.inflate(inflater, container, false)
 
-        val itemList = mutableListOf<BoardModel>()
+        getMyTipList()
+        getBookmarkedIdList()
 
+        boardAdapter = TipBoardAdapter(requireContext(), tipList, keyList, bookmarkedIdList)
+        searchAdapter = SearchAdapter(requireContext(), tipList, keyList)
+
+        binding.recycler.adapter = boardAdapter
+        binding.recycler.layoutManager = LinearLayoutManager(context)
+
+        return binding.root
+    }
+
+    fun filter(query: String) {
+        searchAdapter.filter(query)
+    }
+
+    private fun getMyTipList() : MutableList<BoardModel> {
         FBRef.tipRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                itemList.clear()
+                keyList.clear()
+                tipList.clear()
 
                 for (data in dataSnapshot.children) {
-                    val item = data.getValue(BoardModel::class.java)
-                    itemList.add(item!!)
+                    binding.noTipText.visibility = View.GONE
+                    val tip = data.getValue(BoardModel::class.java)
+                    if (tip!!.uid == FBAuth.getUid()) {
+                        tipList.add(tip)
+                        keyList.add(data.key.toString())
+                    }
                 }
                 binding.recycler.adapter?.notifyDataSetChanged()
+                tipList.reverse()
+                keyList.reverse()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -63,9 +91,23 @@ class MyTipFragment : Fragment() {
             }
         })
 
-        binding.recycler.adapter = BoardAdapter(itemList)
-        binding.recycler.layoutManager = LinearLayoutManager(context)
+        return tipList
+    }
 
-        return binding.root
+    private fun getBookmarkedIdList() {
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                bookmarkedIdList.clear()
+                for (data in dataSnapshot.children) {
+                    bookmarkedIdList.add(data.key.toString())
+                }
+                binding.recycler.adapter?.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+            }
+        }
+        FBRef.bookmarkRef.child(FBAuth.getUid()).addValueEventListener(postListener)
     }
 }

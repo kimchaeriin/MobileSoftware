@@ -6,6 +6,10 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="main_search_hint">제목 검색</string>
+    <string name="delete">삭제</string>
+    <string name="edit">수정</string>
+    <string name="cancel">취소</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
@@ -46,4 +50,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="NATIVE_APP_KEY">faf4d36560ab4d829c6f4ba0b0b6e96f</string>
+    <string name="drawer_opened">drawer_opened</string>
+    <string name="drawer_closed">drawer_closed</string>
+    <string name="msg_token_fmt">message</string>
 </resources>

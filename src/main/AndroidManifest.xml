@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:name=".GlobalApplication"
@@ -15,19 +17,65 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PocketMate"
         tools:targetApi="31">
+
+        <service
+            android:name=".util.MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="TODO">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity
-            android:name=".JoinActivity"
+            android:name=".SettingsActivity"
             android:exported="false" />
+        <activity
+            android:name=".Bookmark.BookmarkTipListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Pocket.EditPocketActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Auth.SettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Tip.EditTipActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Tip.TipActivity"
+            android:exported="false"
+            android:parentActivityName=".Tip.TipBoardActivity" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="faf4d36560ab4d829c6f4ba0b0b6e96f" />
 
         <activity
-            android:name=".AuthCodeHandlerActivity"
+            android:name=".friends.FriendsListActivity"
+            android:exported="false"
+            android:parentActivityName=".Pocket.PocketBoardActivity" />
+        <activity
+            android:name=".Pocket.PocketActivity"
+            android:exported="false"
+            android:parentActivityName=".Pocket.PocketBoardActivity" />
+        <activity
+            android:name=".Pocket.WritePocketBoardActivity"
+            android:exported="false"
+            android:parentActivityName=".Pocket.PocketBoardActivity" />
+        <activity
+            android:name=".Pocket.PocketBoardActivity"
             android:exported="false" />
         <activity
-            android:name=".IntroActivity"
+            android:name=".Auth.JoinActivity"
+            android:exported="false"
+            android:parentActivityName=".Auth.LoginActivity" />
+        <activity
+            android:name=".Auth.AuthCodeHandlerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Auth.IntroActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
@@ -39,8 +87,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
-            android:exported="false" />
+            android:name=".Auth.LoginActivity"
+            android:exported="false"
+            android:parentActivityName=".Auth.IntroActivity" />
+        <activity
+            android:name=".Tip.TipBoardActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".Tip.WriteTipActivity"
             android:exported="false"
@@ -51,7 +104,9 @@
             android:parentActivityName=".ProfileActivity" />
         <activity
             android:name=".ProfileActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
