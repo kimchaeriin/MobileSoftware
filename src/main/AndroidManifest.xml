@@ -29,8 +29,9 @@
         </service>
 
         <activity
-            android:name=".SettingsActivity"
-            android:exported="false" />
+            android:name=".Settings.SettingsActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".Bookmark.BookmarkTipListActivity"
             android:exported="false" />
@@ -55,7 +56,7 @@
         <activity
             android:name=".friends.FriendsListActivity"
             android:exported="false"
-            android:parentActivityName=".Pocket.PocketBoardActivity" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".Pocket.PocketActivity"
             android:exported="false"
