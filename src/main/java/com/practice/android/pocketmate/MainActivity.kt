@@ -27,11 +27,18 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import com.practice.android.pocketmate.util.FBAuth
+import com.practice.android.pocketmate.Settings.SettingsActivity
+import com.practice.android.pocketmate.databinding.NavigationHeaderBinding
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 
 class MainActivity : AppCompatActivity() {
     private lateinit var tipAdapter : ViewPagerAdapter
     private lateinit var pocketAdapter: ViewPagerAdapter
     private lateinit var binding: ActivityMainBinding
+    private lateinit var headerBinding: NavigationHeaderBinding
     private val pocket = false
     private val tip = true
     private val scope = CoroutineScope(Dispatchers.Main)
@@ -56,6 +63,17 @@ class MainActivity : AppCompatActivity() {
             binding.drawerMain.closeDrawers()
             true
         }
+        val navView = binding.navigationDrawer
+        val headerView = navView.getHeaderView(0)
+        headerBinding = NavigationHeaderBinding.bind(headerView)
+
+        headerBinding.navCopyBtn.setOnClickListener{
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip: ClipData = ClipData.newPlainText("회원 아이디", headerBinding.navUid.text.toString())
+            clipboard.setPrimaryClip(clip)
+        }
+        getProfile()
+        
         getRecentTip()
         getRecentPocket()
         binding.pocketViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
@@ -165,5 +183,28 @@ class MainActivity : AppCompatActivity() {
                 //읽기 실패
             }
         })
+    }
+
+    private fun getProfile() {
+        val uid = FBAuth.getUid()
+        headerBinding.navUid.text = uid
+        getNickname { nickname ->
+            headerBinding.navNickname.setText(nickname)
+        }
+    }
+
+    private fun getNickname(callback: (String) -> Unit) {
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val nickname = dataSnapshot.getValue(String::class.java) ?: ""
+                callback(nickname)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                callback("") // 에러가 발생한 경우 빈 문자열을 콜백으로 전달
+            }
+        }
+        FBRef.nicknameRef.child(FBAuth.getUid()).addListenerForSingleValueEvent(postListener)
     }
 }
