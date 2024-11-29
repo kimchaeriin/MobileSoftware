@@ -16,11 +16,13 @@ import com.practice.android.pocketmate.Model.BoardModel
 import com.practice.android.pocketmate.R
 import com.practice.android.pocketmate.databinding.ActivityTipBoardBinding
 import com.practice.android.pocketmate.databinding.FragmentTipSearchBinding
+import com.practice.android.pocketmate.util.FBAuth
 import com.practice.android.pocketmate.util.FBRef
 
 class TipSearchFragment : Fragment() {
     private val tipList = mutableListOf<BoardModel>()
     private val keyList = mutableListOf<String>()
+    private val bookmarkedIdList = mutableListOf<String>()
     private lateinit var binding: FragmentTipSearchBinding
     private lateinit var searchAdapter: SearchAdapter
 
@@ -30,10 +32,27 @@ class TipSearchFragment : Fragment() {
     ): View {
         binding = FragmentTipSearchBinding.inflate(inflater, container, false)
 
-        // 데이터 가져오기
         getTipList()
+        getBookmarkedIdList()
 
         return binding.root
+    }
+
+    private fun getBookmarkedIdList() {
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                bookmarkedIdList.clear()
+                for (data in dataSnapshot.children) {
+                    bookmarkedIdList.add(data.key.toString())
+                }
+                binding.recycler.adapter?.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+            }
+        }
+        FBRef.bookmarkRef.child(FBAuth.getUid()).addValueEventListener(postListener)
     }
 
     private fun getTipList() {
