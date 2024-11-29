@@ -55,7 +55,6 @@ class MyTipFragment : Fragment() {
         getBookmarkedIdList()
 
         boardAdapter = TipBoardAdapter(requireContext(), tipList, keyList, bookmarkedIdList)
-        searchAdapter = SearchAdapter(requireContext(), tipList, keyList)
 
         binding.recycler.adapter = boardAdapter
         binding.recycler.layoutManager = LinearLayoutManager(context)
