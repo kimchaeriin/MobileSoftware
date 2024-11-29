@@ -13,13 +13,15 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     private val TAG = "FirebaseMessagingService"
 
     override fun onNewToken(token: String) {
+        super.onNewToken(token)
         Log.d(TAG, "Refreshed token: $token")
 //        sendRegistrationToServer(token)
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        // TODO(developer): Handle FCM messages here.
-        Log.d(TAG, "From: ${remoteMessage.from}")
+        super.onMessageReceived(remoteMessage)
+
+        Log.d(TAG, "From: ${remoteMessage.data}")
         val notification : Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
         val intent = Intent(this, MainActivity::class.java)

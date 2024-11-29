@@ -63,4 +63,3 @@ class SearchAdapter(
         notifyDataSetChanged()
     }
 }
-

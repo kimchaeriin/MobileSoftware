@@ -8,21 +8,21 @@ import com.practice.android.pocketmate.Pocket.PocketActivity
 import com.practice.android.pocketmate.databinding.ItemBoardBinding
 
 class PocketBoardAdapter(context: Context,
-                         items: MutableList<BoardModel>,
+                         itemList: MutableList<BoardModel>,
                          keyList: MutableList<String>)
-    : BoardAdapter(context, items, keyList) {
+    : BoardAdapter(context, itemList, keyList) {
 
     override fun onBindViewHolder(holder: BoardViewHolder, position: Int) {
         val binding = holder.binding
         val key = keyList[position]
-        val tip = items[position]
+        val tip = itemList[position]
         bindItems(binding, tip, key)
         binding.root.setOnClickListener {
-            switchScreenToPocket(key)
+            switchScreenWithKey(key)
         }
     }
 
-    private fun switchScreenToPocket(key: String) {
+    private fun switchScreenWithKey(key: String) {
         val intent = Intent(context, PocketActivity::class.java).apply {
             putExtra("key", key)
         }
