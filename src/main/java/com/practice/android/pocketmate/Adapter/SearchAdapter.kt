@@ -29,6 +29,7 @@ class SearchAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val binding = (holder as SearchViewHolder).binding
         val currentItem = filteredItemList[position]
+        val key = filteredKeyList[position]
 
         binding.boardTitle.text = currentItem.title
         binding.boardContent.text = currentItem.content
@@ -41,7 +42,7 @@ class SearchAdapter(
 
         binding.root.setOnClickListener {
             val intent = Intent(context, TipActivity::class.java).apply {
-                putExtra("key", filteredKeyList[position])
+                putExtra("key", key)
             }
             context.startActivity(intent)
         }
