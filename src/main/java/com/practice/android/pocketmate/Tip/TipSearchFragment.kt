@@ -71,7 +71,7 @@ class TipSearchFragment : Fragment() {
                 keyList.reverse()
 
                 binding.searchView.visibility = View.VISIBLE
-                searchAdapter = SearchAdapter(requireContext(), tipList, keyList)
+                searchAdapter = SearchAdapter(requireContext(), tipList, keyList, bookmarkedIdList)
                 binding.recycler.adapter = searchAdapter
                 binding.recycler.layoutManager = LinearLayoutManager(requireContext())
                 // 어댑터에 데이터 변경 알림
