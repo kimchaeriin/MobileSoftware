@@ -53,7 +53,6 @@ class MyPocketBoardFragment : Fragment() {
         binding = FragmentMyPocketBoardBinding.inflate(inflater, container, false)
         getMyPocketList()
         boardAdapter = PocketBoardAdapter(requireContext(), pocketList, keyList)
-        searchAdapter = SearchAdapter(requireContext(), pocketList, keyList)
         setupRecyclerView()
         return binding.root
     }

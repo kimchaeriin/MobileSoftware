@@ -22,13 +22,15 @@ import com.practice.android.pocketmate.util.FBRef
 class BoardViewHolder(val binding: ItemBoardBinding) : RecyclerView.ViewHolder(binding.root)
 
 open class BoardAdapter(val context: Context,
-                      val items: MutableList<BoardModel>,
+                      val itemList: MutableList<BoardModel>,
                       val keyList: MutableList<String>) : RecyclerView.Adapter<BoardViewHolder>() {
     val agree = true
     val disagree = false
+//    var filteredItemList: MutableList<BoardModel> = itemList.toMutableList()
+//    var filteredKeyList: MutableList<String> = keyList.toMutableList()
 
     override fun getItemCount(): Int {
-        return items.size
+        return itemList.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardViewHolder =
@@ -79,4 +81,18 @@ open class BoardAdapter(val context: Context,
             }
         })
     }
+
+//    fun filter(query: String) {
+//        if (query.isNotEmpty()) {
+//            val filteredPairs = itemList.zip(keyList).filter {
+//                it.first.title.contains(query, ignoreCase = true)
+//            }
+//            filteredItemList = filteredPairs.map { it.first }.toMutableList()
+//            filteredKeyList = filteredPairs.map { it.second }.toMutableList()
+//        } else {
+//            filteredItemList = itemList.toMutableList()
+//            filteredKeyList = keyList.toMutableList()
+//        }
+//        notifyDataSetChanged()
+//    }
 }

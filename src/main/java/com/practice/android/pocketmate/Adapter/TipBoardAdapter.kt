@@ -15,16 +15,18 @@ import com.practice.android.pocketmate.util.FBAuth
 import com.practice.android.pocketmate.util.FBRef
 
 class TipBoardAdapter(context: Context,
-                      items: MutableList<BoardModel>,
+                      itemList: MutableList<BoardModel>,
                       keyList: MutableList<String>,
                       val bookmarkIdList: MutableList<String>)
-    : BoardAdapter(context, items, keyList) {
+    : BoardAdapter(context, itemList, keyList) {
 
     override fun onBindViewHolder(holder: BoardViewHolder, position: Int) {
         val binding = holder.binding
+        val tip = itemList[position]
         val key = keyList[position]
-        val tip = items[position]
+
         bindItems(binding, tip, key)
+
         binding.root.setOnClickListener {
             switchScreenToTip(key)
         }
@@ -79,5 +81,4 @@ class TipBoardAdapter(context: Context,
             binding.bookmarkBtn.setImageResource(R.drawable.baseline_not_bookmarked_24)
         }
     }
-
 }

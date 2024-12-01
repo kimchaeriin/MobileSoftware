@@ -58,6 +58,7 @@ class BookmarkTipListActivity : AppCompatActivity() {
                     bookmarkIdList.add(data.key.toString())
                 }
                 binding.recycler.adapter?.notifyDataSetChanged()
+                bookmarkIdList.reverse()
                 getTipList()
             }
 

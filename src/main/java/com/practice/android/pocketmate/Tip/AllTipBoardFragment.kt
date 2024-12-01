@@ -91,6 +91,16 @@ class AllTipBoardFragment : Fragment() {
                     keyList.add(data.key.toString())
                 }
                 binding.recycler.adapter?.notifyDataSetChanged()
+//                binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//                    override fun onQueryTextSubmit(query: String?): Boolean {
+//                        return false
+//                    }
+//
+//                    override fun onQueryTextChange(newText: String?): Boolean {
+//                        boardAdapter.filter(newText ?: "") // 검색어 변경 시 필터 호출
+//                        return true
+//                    }
+//                })
                 tipList.reverse()
                 keyList.reverse()
                 if (tipList.isNotEmpty()) {
