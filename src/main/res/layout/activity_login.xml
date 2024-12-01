@@ -34,12 +34,14 @@
                 android:id="@+id/emailArea"
                 android:layout_width="225dp"
                 android:layout_height="50dp"
+                android:inputType="textEmailAddress"
                 android:hint="이메일" />
 
             <EditText
                 android:id="@+id/passwordArea"
                 android:layout_width="225dp"
                 android:layout_height="50dp"
+                android:inputType="textPassword"
                 android:hint="비밀번호" />
 
             <LinearLayout
@@ -70,7 +72,9 @@
             android:id="@+id/loginBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"/>
+            android:layout_margin="20dp"
+            android:backgroundTint="@color/colorBackgroundBlack"
+            android:textColor="@color/white"/>
 
     </LinearLayout>
 
