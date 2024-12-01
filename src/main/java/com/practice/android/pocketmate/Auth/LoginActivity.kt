@@ -47,6 +47,9 @@ class LoginActivity : AppCompatActivity() {
         binding.loginBtn.setOnClickListener {
             login()
         }
+        binding.findBtn.setOnClickListener{
+            ScreenUtils.switchScreen(this,FindPwActivity::class.java)
+        }
     }
 
     private fun login() {
