@@ -7,9 +7,6 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="main_search_hint">제목 검색</string>
-    <string name="delete">삭제</string>
-    <string name="edit">수정</string>
-    <string name="cancel">취소</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
@@ -52,5 +49,18 @@
     <string name="NATIVE_APP_KEY">faf4d36560ab4d829c6f4ba0b0b6e96f</string>
     <string name="drawer_opened">drawer_opened</string>
     <string name="drawer_closed">drawer_closed</string>
-    <string name="msg_token_fmt">message</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
 </resources>
