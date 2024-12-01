@@ -1,11 +1,18 @@
 package com.practice.android.pocketmate.friends
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.SearchView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.google.firebase.Firebase
+import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.auth
+import com.practice.android.pocketmate.R
 import com.practice.android.pocketmate.databinding.ActivityFriendsListBinding
 import com.practice.android.pocketmate.util.FBAuth
 import com.practice.android.pocketmate.util.FBRef
@@ -20,40 +27,105 @@ class FriendsListActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbarFriends)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        replaceFragment(FriendsListFragment())
 
-        supportFragmentManager.beginTransaction()
-            .replace(binding.fragmentFriends.id, FriendsListFragment())
-            .addToBackStack(null)
-            .commit()
-
-    }
-
-    private fun setOnQueryTextListener() {
-        binding.searchFriend.setOnQueryTextListener(object: androidx.appcompat.widget.SearchView.OnQueryTextListener{
+        binding.searchFriend.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
+                replaceFragment(FriendsOnSearchFragment())
+
+                val fid = query.toString().trim()
+
+                val eventHandlerDel = object : DialogInterface.OnClickListener {
+                    override fun onClick(dialogInterface: DialogInterface?,whilch:Int){
+                        if(whilch == DialogInterface.BUTTON_POSITIVE) {
+                            delFriend(fid)
+                            Toast.makeText(this@FriendsListActivity, "삭제하였습니다", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+                }
+
+                val eventHandlerAdd = object : DialogInterface.OnClickListener {
+                    override fun onClick(dialogInterface: DialogInterface?,whilch:Int){
+                        if(whilch == DialogInterface.BUTTON_POSITIVE) {
+                            addFriends(fid)
+                            Toast.makeText(this@FriendsListActivity,"추가하였습니다",Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+
+                if (query != null) {
+                    alreadyFriendAdded(fid){ isadded ->
+                        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_friends) as? FriendsOnSearchFragment
+                        FBRef.nicknameRef.child(fid).get()
+                            .addOnSuccessListener { snapshot ->
+                            if(snapshot.exists()) {
+                                val nickname = snapshot.getValue(String::class.java)
+
+                                if (nickname != null)
+                                    fragment?.changeNickname(nickname)
+                            }
+                        }
+
+                        if(isadded) {
+                            fragment?.delFriend()
+                            fragment?.setDelButtonClickListener(View.OnClickListener {
+
+                                AlertDialog.Builder(this@FriendsListActivity).run {
+                                    setTitle("친구 삭제")
+                                    setMessage("정말로 친구를 삭제하시겠습니까?")
+                                    setPositiveButton("확인",eventHandlerDel)
+                                    setNegativeButton("취소"){d, w ->Toast.makeText(this@FriendsListActivity,"취소하였습니다",Toast.LENGTH_SHORT).show()}
+                                    show()
+                                }
+                            })
+                        }
+                        else{
+                            fragment?.addFriend()
+                            fragment?.setAddButtonClickListener(View.OnClickListener {
+
+                                AlertDialog.Builder(this@FriendsListActivity).run {
+                                    setTitle("친구 추가")
+                                    setMessage("정말로 친구를 추가하시겠습니까?")
+                                    setPositiveButton("확인",eventHandlerAdd)
+                                    setNegativeButton("취소"){d,w -> Toast.makeText(this@FriendsListActivity,"취소하였습니다",Toast.LENGTH_SHORT).show() }
+                                    show()
+                                }
+                            })
+                        }
+                    }
+
+                }
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-
                 return true
             }
         })
     }
+    private fun replaceFragment(fragment: Fragment){
+        supportFragmentManager.beginTransaction()
+            .replace(binding.fragmentFriends.id, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
 
     private fun addFriends(friendId:String){
-        val user = Firebase.auth.currentUser
-        val uid = FBAuth.getUid()
+        val user = Firebase.auth.currentUser //현재 로그인한 사용자 가져오기
 
         if(user != null){
             // User is signed in
+            val uid = FBAuth.getUid()
+            var userRef = FBRef.friendsRef.child(uid)
 
-            FBRef.friendsRef.child(uid).child("friends").push().setValue(friendId)
+            userRef.child(friendId).setValue(true)
                 .addOnSuccessListener {
-                    Log.d(uid,"친구 추가 성공")
-                    FBRef.friendsRef.child(friendId).child("friends").push().setValue(uid)
+                    Toast.makeText(this,"친구를 추가하였습니다",Toast.LENGTH_SHORT).show()
+                    userRef = FBRef.friendsRef.child(friendId)
+                    userRef.child(uid).setValue(true)
                 }
-                .addOnFailureListener{ Log.d(uid,"친구 추가 실패")}
+                .addOnFailureListener{ Toast.makeText(this,"친구 추가 실패",Toast.LENGTH_LONG).show()}
 
         } else{
             Toast.makeText(this,"로그인을 해주세요",Toast.LENGTH_SHORT).show()
@@ -61,18 +133,41 @@ class FriendsListActivity : AppCompatActivity() {
 
     }
 
-    private fun getFriendsList(callback: (List<String>) -> Unit){
-        val uid = FBAuth.getUid()
-        FBRef.friendsRef.child(uid).child("friends").get()
-            .addOnSuccessListener { snapshot ->
+    private fun delFriend(friendId: String){
+        alreadyFriendAdded(friendId){ isadded ->
+            if(isadded){
+                var userRef = FBRef.friendsRef.child(FBAuth.getUid()).child(friendId)
+                userRef.removeValue()
+                    .addOnSuccessListener {
+                        Toast.makeText(this,"친구를 삭제했습니다",Toast.LENGTH_SHORT).show()
+                        userRef = FBRef.friendsRef.child(friendId).child(FBAuth.getUid())
+                        userRef.removeValue()
+                    }
+                    .addOnFailureListener{
+                        Toast.makeText(this,"친구 삭제를 실패했습니다",Toast.LENGTH_SHORT).show()
+                    }
+            }
+            else{
+                Toast.makeText(this,"해당하는 친구가 없습니다",Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun alreadyFriendAdded(friendId: String,callback: (Boolean) -> Unit){
+        val userRef = FBRef.friendsRef.child(FBAuth.getUid()).child(friendId)
+
+        userRef.get().addOnSuccessListener { snapshot ->
             if(snapshot.exists()){
-                val friends = snapshot.children.mapNotNull { it.key }
-                callback(friends)
+                callback(true)
+            }
+            else{
+                callback(false)
             }
         }
             .addOnFailureListener {
-                Log.d("listFriends","fail")
-                callback(emptyList())
+                Log.d("alreadyFriendAdded","checkFailure")
+                callback(false)
             }
     }
+
 }

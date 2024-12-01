@@ -5,14 +5,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.practice.android.pocketmate.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.practice.android.pocketmate.Adapter.FriendAdapter
 import com.practice.android.pocketmate.databinding.FragmentFriendsListBinding
 
 class FriendsListFragment : Fragment() {
-    lateinit var binding : FragmentFriendsListBinding
+    private lateinit var binding : FragmentFriendsListBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.friendsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        getFriendsList { friends ->
+            val adapter = FriendAdapter(friends)
+            binding.friendsRecyclerView.adapter = adapter
+        }
     }
 
     override fun onCreateView(
@@ -22,5 +29,6 @@ class FriendsListFragment : Fragment() {
         binding = FragmentFriendsListBinding.inflate(layoutInflater)
         return binding.root
     }
+
 
 }
