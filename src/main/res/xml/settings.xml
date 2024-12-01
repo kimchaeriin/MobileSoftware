@@ -2,24 +2,9 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory
-        app:key="personal_category"
-        app:title="계정">
-
-        <Preference
-            app:key="show_nickname"
-            app:title="닉네임"
-            app:summary=" "/>
-
-        <EditTextPreference
-            app:key="change_pw"
-            app:title="비밀번호 변경"/>
-
-        <EditTextPreference
-            app:key="change_email"
-            app:title="이메일 변경"/>
-
-    </PreferenceCategory>
+    <Preference
+        app:key="setting_account"
+        app:title="계정 관리" />
 
     <PreferenceCategory
         app:key="settings_app"
@@ -29,12 +14,8 @@
             app:key="theme"
             app:title="테마 선택"
             android:entries="@array/my_theme"
-            android:entryValues="@array/my_theme_values"/>
-
-        <Preference
-            app:key="alarm"
-            app:title="알림 설정"
-            android:fragment="com.practice.android.pocketmate.Settings.SettingsAlarmFragment"/>
+            android:entryValues="@array/my_theme_values"
+            android:defaultValue="value2"/>
 
     </PreferenceCategory>
 
@@ -51,28 +32,7 @@
             app:key="feedback"
             app:title="문의하기"/>
 
-        <Preference
-            app:key="notice"
-            app:title="공지사항"/>
-
-        <Preference
-            app:key="using_terms"
-            app:title="이용약관"/>
-
     </PreferenceCategory>
 
-    <PreferenceCategory
-        app:key="account"
-        app:title="계정 관리">
-
-        <Preference
-            app:key="member_quit"
-            app:title="회원 탈퇴"/>
-
-        <Preference
-            app:key="log_out"
-            app:title="로그아웃"/>
-
-    </PreferenceCategory>
 
 </PreferenceScreen>
