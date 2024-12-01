@@ -49,7 +49,9 @@
             android:text="이메일로 로그인"
             android:background="@drawable/item_black_rectangle_btn"
             android:layout_width="300dp"
-            android:layout_height="50dp"/>
+            android:layout_height="50dp"
+            android:backgroundTint="@color/colorBackgroundBlack"
+            android:textColor="@color/white"/>
 
 
     </LinearLayout>
