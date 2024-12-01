@@ -27,7 +27,13 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
+        <activity
+            android:name=".StatisticsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Auth.FindPwActivity"
+            android:exported="false"
+            android:parentActivityName=".Auth.LoginActivity" />
         <activity
             android:name=".Settings.SettingsActivity"
             android:exported="false"
