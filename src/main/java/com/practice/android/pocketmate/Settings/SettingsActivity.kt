@@ -32,36 +32,4 @@ class SettingsActivity : AppCompatActivity() {
         }
         return super.onSupportNavigateUp()
     }
-
-    /* 이메일 변경
-    val user = Firebase.auth.currentUser
-
-    user!!.updateEmail("user@example.com")
-    .addOnCompleteListener { task ->
-        if (task.isSuccessful) {
-            Log.d(TAG, "User email address updated.")
-        }
-    }
-
-     비밀번호 변경
-    val user = Firebase.auth.currentUser
-    val newPassword = "SOME-SECURE-PASSWORD"
-
-    user!!.updatePassword(newPassword)
-    .addOnCompleteListener { task ->
-        if (task.isSuccessful) {
-            Log.d(TAG, "User password updated.")
-        }
-    }
-
-    회원 탈퇴
-    val user = Firebase.auth.currentUser!!
-
-    user.delete()
-    .addOnCompleteListener { task ->
-        if (task.isSuccessful) {
-            Log.d(TAG, "User account deleted.")
-        }
-    }
-    */
 }
