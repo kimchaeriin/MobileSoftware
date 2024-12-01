@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/nav_drawer_bookmark"
-        android:title="북마크"
-        android:icon="@drawable/baseline_not_bookmarked_24">
-    </item>
 
     <item
         android:id="@+id/nav_drawer_friends"
         android:title="친구 목록"
         android:icon="@drawable/baseline_group_24">
+    </item>
+
+    <item
+        android:id="@+id/nav_drawer_statistics"
+        android:title="통계"
+        android:icon="@drawable/baseline_pie_chart_24">
     </item>
 
     <item
