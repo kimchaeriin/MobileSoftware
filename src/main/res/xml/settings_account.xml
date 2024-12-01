@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:key="change_account"
+        app:title="계정 설정">
+
+        <EditTextPreference
+            app:key="change_email"
+            app:title="이메일 변경"
+            android:defaultValue="Default Value"/>
+
+        <EditTextPreference
+            app:key="change_pw"
+            app:title="비밀번호 변경"
+            android:defaultValue="Default Value"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="manage_account"
+        app:title="계정 관리">
+
+        <Preference
+            app:key="log_out"
+            app:title="로그아웃" />
+
+        <Preference
+            app:key="account_del"
+            app:title="계정 탈퇴"/>
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>
