@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.nav_drawer_friends -> { ScreenUtils.switchScreen(this, FriendsListActivity::class.java)}
                 R.id.nav_drawer_settings -> { ScreenUtils.switchScreen(this, SettingsActivity::class.java) }
+                R.id.nav_drawer_statistics -> {ScreenUtils.switchScreen(this,StatisticsActivity::class.java)}
             }
             binding.drawerMain.closeDrawers()
             true
