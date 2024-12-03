@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="black">#ececec</color>
-    <color name="white">#2B2B2B</color>
-    <color name="colorOnComment">#202027</color>
-    <color name="colorBackgroundWhite">#202027</color>
-    <color name="colorBackgroundBlack">#DADAE5</color>
-    <color name="colorBackgroundPoint">#3A28AD</color>
-</resources>
