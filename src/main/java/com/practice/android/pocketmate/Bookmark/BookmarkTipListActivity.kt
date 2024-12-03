@@ -1,6 +1,7 @@
 package com.practice.android.pocketmate.Bookmark
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -59,11 +60,12 @@ class BookmarkTipListActivity : AppCompatActivity() {
                 }
                 binding.recycler.adapter?.notifyDataSetChanged()
                 bookmarkIdList.reverse()
+                Log.e("BookmarkTipListActivity", "load bookmarkedTipList")
                 getTipList()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                ///
+                Log.e("BookmarkTipListActivity", "failed to get bookmarkedTipList")
             }
         }
         bookmarkRef.child(FBAuth.getUid()).addValueEventListener(postListener)
@@ -81,12 +83,16 @@ class BookmarkTipListActivity : AppCompatActivity() {
                         tipList.add(tip!!)
                         keyList.add(data.key.toString())
                     }
+                    if (tipList.isEmpty()) {
+                        binding.noTipText.visibility = View.VISIBLE
+                    }
                 }
                 binding.recycler.adapter?.notifyDataSetChanged()
+                Log.e("BookmarkTipListActivity", "get tipList")
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-
+                Log.e("BookmarkTipListActivity", "failed to get TipList")
             }
         }
         tipRef.addValueEventListener(postListener)
