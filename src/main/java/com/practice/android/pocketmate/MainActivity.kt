@@ -57,17 +57,7 @@ class MainActivity : AppCompatActivity() {
             binding.drawerMain.closeDrawers()
             true
         }
-        val navView = binding.navigationDrawer
-        val headerView = navView.getHeaderView(0)
-        headerBinding = NavigationHeaderBinding.bind(headerView)
 
-        headerBinding.navCopyBtn.setOnClickListener{
-            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip: ClipData = ClipData.newPlainText("회원 아이디", headerBinding.navUid.text.toString())
-            clipboard.setPrimaryClip(clip)
-        }
-        getProfile()
-        
         getRecentTip()
         getRecentPocket()
         binding.pocketViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
@@ -179,26 +169,4 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun getProfile() {
-        val uid = FBAuth.getUid()
-        headerBinding.navUid.text = uid
-        getNickname { nickname ->
-            headerBinding.navNickname.setText(nickname)
-        }
-    }
-
-    private fun getNickname(callback: (String) -> Unit) {
-        val postListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val nickname = dataSnapshot.getValue(String::class.java) ?: ""
-                callback(nickname)
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Getting Post failed, log a message
-                callback("") // 에러가 발생한 경우 빈 문자열을 콜백으로 전달
-            }
-        }
-        FBRef.nicknameRef.child(FBAuth.getUid()).addListenerForSingleValueEvent(postListener)
-    }
 }
