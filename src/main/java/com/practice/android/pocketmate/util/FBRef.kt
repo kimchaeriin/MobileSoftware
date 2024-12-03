@@ -13,7 +13,6 @@ class FBRef {
     companion object {
         private val database = Firebase.database
 
-        val kakaoRef = database.getReference("kakaoUsers")
         val tipRef = database.getReference("TipBoard")
         val pocketRef = database.getReference("PocketBoard")
         val friendsRef = database.getReference("FriendsList")

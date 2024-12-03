@@ -3,7 +3,7 @@ package com.practice.android.pocketmate.Adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+//import com.bumptech.glide.Glide
 import com.practice.android.pocketmate.Model.FriendModel
 import com.practice.android.pocketmate.databinding.ItemProfileBinding
 

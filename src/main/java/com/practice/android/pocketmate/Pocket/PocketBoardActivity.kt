@@ -21,28 +21,9 @@ class PocketBoardActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         binding.navigation.selectedItemId = R.id.nav_pocket
         ScreenUtils.setBottomNavigationBar(this, binding.navigation)
-//        setOnQueryTextListener()
 
         handleBtns()
     }
-
-//    private fun setOnQueryTextListener() {
-//        binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
-//            override fun onQueryTextSubmit(query: String?): Boolean {
-//                return false
-//            }
-//
-//            override fun onQueryTextChange(newText: String?): Boolean {
-//                val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
-//                val currentFragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
-//
-//                if (currentFragment is PocketSearchFragment) {
-//                    currentFragment.filter(newText.orEmpty())
-//                }
-//                return true
-//            }
-//        })
-//    }
 
     fun handleBtns() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)

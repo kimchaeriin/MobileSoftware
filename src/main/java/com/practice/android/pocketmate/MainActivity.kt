@@ -1,23 +1,16 @@
 package com.practice.android.pocketmate
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.gms.tasks.OnCompleteListener
-import com.practice.android.pocketmate.Tip.TipBoardActivity
 import com.practice.android.pocketmate.databinding.ActivityMainBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.messaging.FirebaseMessaging
 import com.practice.android.pocketmate.Adapter.ViewPagerAdapter
 import com.practice.android.pocketmate.Model.BoardModel
-import com.practice.android.pocketmate.Pocket.PocketBoardActivity
 import com.practice.android.pocketmate.friends.FriendsListActivity
 import com.practice.android.pocketmate.util.ScreenUtils
 import com.practice.android.pocketmate.util.FBRef
@@ -28,11 +21,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import com.practice.android.pocketmate.util.FBAuth
-import com.practice.android.pocketmate.Settings.SettingsActivity
 import com.practice.android.pocketmate.databinding.NavigationHeaderBinding
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import com.practice.android.pocketmate.Settings.SettingsActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var tipAdapter : ViewPagerAdapter
@@ -59,7 +52,7 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.nav_drawer_friends -> { ScreenUtils.switchScreen(this, FriendsListActivity::class.java)}
                 R.id.nav_drawer_settings -> { ScreenUtils.switchScreen(this, SettingsActivity::class.java) }
-                R.id.nav_drawer_statistics -> {ScreenUtils.switchScreen(this,StatisticsActivity::class.java)}
+//                R.id.nav_drawer_statistics -> {ScreenUtils.switchScreen(this, StatisticsActivity::class.java)}
             }
             binding.drawerMain.closeDrawers()
             true

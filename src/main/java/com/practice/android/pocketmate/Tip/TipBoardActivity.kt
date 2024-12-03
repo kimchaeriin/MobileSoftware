@@ -46,28 +46,15 @@ class TipBoardActivity : AppCompatActivity() {
             }
             toggleFab()
         }
-
-//        binding.fabSearch.setOnClickListener{
-//            if (navController.currentDestination?.id == R.id.AllTipBoardFragment) {
-//                navController.navigate(R.id.action_AllTipBoardFragment_to_tipSearchFragment)
-//            }
-//            else {
-//                navController.navigate(R.id.action_MyTipFragment_to_tipSearchFragment)
-//            }
-//            toggleFab()
-//        }
     }
 
     private fun toggleFab() {
         if (isFabOpen) {
             ObjectAnimator.ofFloat(binding.fabMine, "translationY", -200f).apply { start() }
-//            ObjectAnimator.ofFloat(binding.fabSearch, "translationY", -400f).apply { start() }
             ObjectAnimator.ofFloat(binding.fabWrite, "translationY", -400f).apply { start() }
             binding.fabMain.setImageResource(R.drawable.baseline_close_24)
-            // 플로팅 액션 버튼 열기 - 닫혀있는 플로팅 버튼 꺼내는 애니메이션 세팅
         } else {
             ObjectAnimator.ofFloat(binding.fabMine, "translationY", 0f).apply { start() }
-//            ObjectAnimator.ofFloat(binding.fabSearch, "translationY", 0f).apply { start() }
             ObjectAnimator.ofFloat(binding.fabWrite, "translationY", 0f).apply { start() }
             binding.fabMain.setImageResource(R.drawable.baseline_add_24)
         }

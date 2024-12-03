@@ -62,10 +62,6 @@ class MyTipFragment : Fragment() {
         return binding.root
     }
 
-    fun filter(query: String) {
-        searchAdapter.filter(query)
-    }
-
     private fun getMyTipList() : MutableList<BoardModel> {
         FBRef.tipRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {

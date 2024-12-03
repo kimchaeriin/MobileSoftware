@@ -43,7 +43,7 @@ class ReAuthenFragment : Fragment() {
 
             user.reauthenticate(credential)
                 .addOnSuccessListener {
-                    Toast.makeText(requireContext(),"인증에 성공했습니다",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),"인증에 성공했습니다", Toast.LENGTH_SHORT).show()
 
                     val transaction = parentFragmentManager.beginTransaction()
                     transaction.replace(R.id.fragment_settings,SettingsAccountFragment())

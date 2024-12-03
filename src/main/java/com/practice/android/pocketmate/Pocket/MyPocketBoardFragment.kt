@@ -36,7 +36,6 @@ class MyPocketBoardFragment : Fragment() {
     private val keyList = mutableListOf<String>()
     lateinit var binding : FragmentMyPocketBoardBinding
     lateinit var boardAdapter: BoardAdapter
-    lateinit var searchAdapter: SearchAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

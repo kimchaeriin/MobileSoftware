@@ -29,7 +29,6 @@ class FindPwActivity : AppCompatActivity() {
                         Toast.makeText(this,"비밀번호 재설정 이메일을 전송하였습니다",Toast.LENGTH_SHORT).show()
                     }
                 }
-
         }
     }
 }
