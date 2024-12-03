@@ -1,19 +1,17 @@
 package com.practice.android.pocketmate.Pocket
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.practice.android.pocketmate.Adapter.BoardAdapter
 import com.practice.android.pocketmate.Adapter.PocketBoardAdapter
-import com.practice.android.pocketmate.Adapter.SearchAdapter
 import com.practice.android.pocketmate.Model.BoardModel
-import com.practice.android.pocketmate.R
 import com.practice.android.pocketmate.databinding.FragmentMyPocketBoardBinding
 import com.practice.android.pocketmate.util.FBAuth
 import com.practice.android.pocketmate.util.FBRef
@@ -34,8 +32,8 @@ class MyPocketBoardFragment : Fragment() {
     private var param2: String? = null
     private val pocketList = mutableListOf<BoardModel>()
     private val keyList = mutableListOf<String>()
-    lateinit var binding : FragmentMyPocketBoardBinding
-    lateinit var boardAdapter: BoardAdapter
+    private lateinit var binding : FragmentMyPocketBoardBinding
+    private lateinit var boardAdapter: BoardAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
