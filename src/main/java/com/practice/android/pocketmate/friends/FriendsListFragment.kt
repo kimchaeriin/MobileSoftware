@@ -17,9 +17,12 @@ class FriendsListFragment : Fragment() {
         binding.friendsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         getFriendsList { friends ->
-            val adapter = FriendAdapter(friends)
+            val adapter = context?.let {
+                FriendAdapter(it,friends)
+            }
             binding.friendsRecyclerView.adapter = adapter
         }
+
     }
 
     override fun onCreateView(
@@ -29,6 +32,5 @@ class FriendsListFragment : Fragment() {
         binding = FragmentFriendsListBinding.inflate(layoutInflater)
         return binding.root
     }
-
 
 }
