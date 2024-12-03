@@ -8,6 +8,12 @@
     </item>
 
     <item
+        android:id="@+id/nav_drawer_statistics"
+        android:title="통계"
+        android:icon="@drawable/baseline_pie_chart_24">
+    </item>
+
+    <item
         android:id="@+id/nav_drawer_settings"
         android:title="설정"
         android:icon="@drawable/baseline_settings_24">

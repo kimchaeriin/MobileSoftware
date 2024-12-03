@@ -21,7 +21,9 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbarLogin)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        
 
         var moveToActivity : Class<out AppCompatActivity> = MainActivity::class.java
         val isJoin = intent.getStringExtra("join")
@@ -44,6 +46,9 @@ class LoginActivity : AppCompatActivity() {
         }
         binding.loginBtn.setOnClickListener {
             login()
+        }
+        binding.findBtn.setOnClickListener{
+            ScreenUtils.switchScreen(this,FindPwActivity::class.java)
         }
     }
 

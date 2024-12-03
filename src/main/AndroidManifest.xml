@@ -27,10 +27,17 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <activity
-            android:name=".SettingsActivity"
+            android:name=".StatisticsActivity"
             android:exported="false" />
+        <activity
+            android:name=".Auth.FindPwActivity"
+            android:exported="false"
+            android:parentActivityName=".Auth.LoginActivity" />
+        <activity
+            android:name=".Settings.SettingsActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".Bookmark.BookmarkTipListActivity"
             android:exported="false" />
@@ -55,7 +62,7 @@
         <activity
             android:name=".friends.FriendsListActivity"
             android:exported="false"
-            android:parentActivityName=".Pocket.PocketBoardActivity" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".Pocket.PocketActivity"
             android:exported="false"
