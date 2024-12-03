@@ -10,7 +10,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:id="@+id/onSearch_Img"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@drawable/baseline_face_24"
         android:layout_margin="10dp">
 
     </ImageView>
@@ -34,14 +34,5 @@
         android:text="추가"
         android:id="@+id/onSearch_btn_add"
         android:visibility="visible"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="20dp"
-        android:text="삭제"
-        android:id="@+id/onSearch_btn_del"
-        android:visibility="gone"/>
 
 </LinearLayout>
