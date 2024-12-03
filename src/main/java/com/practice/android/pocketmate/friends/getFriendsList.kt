@@ -4,7 +4,7 @@ import com.practice.android.pocketmate.Model.FriendModel
 import com.practice.android.pocketmate.util.FBAuth
 import com.practice.android.pocketmate.util.FBRef
 
- fun getFriendsList(callback: (List<FriendModel>) -> Unit){
+ fun getFriendsList(callback: (MutableList<FriendModel>) -> Unit){
 
     val uid = FBAuth.getUid()
      val fRef = FBRef.friendsRef.child(uid)
@@ -14,9 +14,11 @@ import com.practice.android.pocketmate.util.FBRef
             if(snapshot.exists()){
                 val friends = snapshot.children.mapNotNull { it.key }
                 val friendList = mutableListOf<FriendModel>()
+                val emptyList = emptyList<FriendModel>()
+                val mutableEmpty = emptyList.toMutableList()
 
                 if(friends.isEmpty()){
-                    callback(emptyList())
+                    callback(mutableEmpty)
                     return@addOnSuccessListener
                 }
 
@@ -26,7 +28,7 @@ import com.practice.android.pocketmate.util.FBRef
                             val nickname = snapshot.value.toString()
 
                             if (nickname != null) {
-                                friendList.add(FriendModel(0,nickname))
+                                friendList.add(FriendModel(0,fid,nickname))
                             }
 
                             if(friendList.size == friends.size)
@@ -36,7 +38,7 @@ import com.practice.android.pocketmate.util.FBRef
                 }
 
                 if(friends.isEmpty()){
-                    callback(emptyList())
+                    callback(mutableEmpty)
                 }
 
             }
