@@ -7,11 +7,6 @@
         app:title="계정 설정">
 
         <EditTextPreference
-            app:key="change_email"
-            app:title="이메일 변경"
-            android:defaultValue="Default Value"/>
-
-        <EditTextPreference
             app:key="change_pw"
             app:title="비밀번호 변경"
             android:defaultValue="Default Value"/>
