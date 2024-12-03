@@ -33,20 +33,14 @@ class FriendsOnSearchFragment : Fragment() {
 
     fun addFriend(){
         binding.onSearchBtnAdd.isVisible = true
-        binding.onSearchBtnDel.isVisible = false
     }
 
-    fun delFriend(){
+    fun addedFriend(){
         binding.onSearchBtnAdd.isVisible = false
-        binding.onSearchBtnDel.isVisible = true
     }
 
     fun setAddButtonClickListener(listener: View.OnClickListener){
         binding.onSearchBtnAdd.setOnClickListener(listener)
-    }
-
-    fun setDelButtonClickListener(listener: View.OnClickListener){
-        binding.onSearchBtnDel.setOnClickListener(listener)
     }
 
     fun changeNickname(nickname:String){
