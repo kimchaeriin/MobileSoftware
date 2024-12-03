@@ -49,7 +49,6 @@ class FriendsPocketFragment : Fragment() {
                 if (pocketList.isEmpty()) {
                     binding.noPocketText.visibility = View.VISIBLE
                 }
-                binding.recycler.adapter?.notifyDataSetChanged()
                 pocketList.reverse()
                 keyList.reverse()
             }
