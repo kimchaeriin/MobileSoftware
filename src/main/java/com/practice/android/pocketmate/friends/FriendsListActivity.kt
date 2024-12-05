@@ -4,13 +4,11 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.Firebase
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.auth
 import com.practice.android.pocketmate.R
 import com.practice.android.pocketmate.databinding.ActivityFriendsListBinding
@@ -35,16 +33,6 @@ class FriendsListActivity : AppCompatActivity() {
 
                 val fid = query.toString().trim()
 
-                val eventHandlerDel = object : DialogInterface.OnClickListener {
-                    override fun onClick(dialogInterface: DialogInterface?,whilch:Int){
-                        if(whilch == DialogInterface.BUTTON_POSITIVE) {
-                            delFriend(fid)
-                            Toast.makeText(this@FriendsListActivity, "삭제하였습니다", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    }
-                }
-
                 val eventHandlerAdd = object : DialogInterface.OnClickListener {
                     override fun onClick(dialogInterface: DialogInterface?,whilch:Int){
                         if(whilch == DialogInterface.BUTTON_POSITIVE) {
@@ -59,26 +47,16 @@ class FriendsListActivity : AppCompatActivity() {
                         val fragment = supportFragmentManager.findFragmentById(R.id.fragment_friends) as? FriendsOnSearchFragment
                         FBRef.nicknameRef.child(fid).get()
                             .addOnSuccessListener { snapshot ->
-                            if(snapshot.exists()) {
-                                val nickname = snapshot.getValue(String::class.java)
+                                if(snapshot.exists()) {
+                                    val nickname = snapshot.getValue(String::class.java)
 
-                                if (nickname != null)
-                                    fragment?.changeNickname(nickname)
+                                    if (nickname != null)
+                                        fragment?.changeNickname(nickname)
+                                }
                             }
-                        }
 
                         if(isadded) {
-                            fragment?.delFriend()
-                            fragment?.setDelButtonClickListener(View.OnClickListener {
-
-                                AlertDialog.Builder(this@FriendsListActivity).run {
-                                    setTitle("친구 삭제")
-                                    setMessage("정말로 친구를 삭제하시겠습니까?")
-                                    setPositiveButton("확인",eventHandlerDel)
-                                    setNegativeButton("취소"){d, w ->Toast.makeText(this@FriendsListActivity,"취소하였습니다",Toast.LENGTH_SHORT).show()}
-                                    show()
-                                }
-                            })
+                            fragment?.addedFriend()
                         }
                         else{
                             fragment?.addFriend()
@@ -131,26 +109,6 @@ class FriendsListActivity : AppCompatActivity() {
             Toast.makeText(this,"로그인을 해주세요",Toast.LENGTH_SHORT).show()
         }
 
-    }
-
-    private fun delFriend(friendId: String){
-        alreadyFriendAdded(friendId){ isadded ->
-            if(isadded){
-                var userRef = FBRef.friendsRef.child(FBAuth.getUid()).child(friendId)
-                userRef.removeValue()
-                    .addOnSuccessListener {
-                        Toast.makeText(this,"친구를 삭제했습니다",Toast.LENGTH_SHORT).show()
-                        userRef = FBRef.friendsRef.child(friendId).child(FBAuth.getUid())
-                        userRef.removeValue()
-                    }
-                    .addOnFailureListener{
-                        Toast.makeText(this,"친구 삭제를 실패했습니다",Toast.LENGTH_SHORT).show()
-                    }
-            }
-            else{
-                Toast.makeText(this,"해당하는 친구가 없습니다",Toast.LENGTH_SHORT).show()
-            }
-        }
     }
 
     private fun alreadyFriendAdded(friendId: String,callback: (Boolean) -> Unit){
