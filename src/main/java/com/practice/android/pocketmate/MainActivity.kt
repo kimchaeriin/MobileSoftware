@@ -49,6 +49,21 @@ class MainActivity : AppCompatActivity() {
         binding.drawerMain.addDrawerListener(toggle)
         toggle.syncState()
 
+        binding.toolbarMain.navigationIcon = null
+        val icon = ContextCompat.getDrawable(this,R.drawable.baseline_android_24)
+        val btn = ImageView(this).apply {
+            setImageDrawable(icon)
+            setOnClickListener{
+                if(binding.drawerMain.isDrawerOpen(GravityCompat.END)){
+                    binding.drawerMain.closeDrawer(GravityCompat.END)
+                }
+                else{
+                    binding.drawerMain.openDrawer(GravityCompat.END)
+                }
+            }
+        }
+        binding.toolbarMain.addView(btn,Toolbar.LayoutParams(Gravity.END))
+        
         binding.navigationDrawer.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_drawer_friends -> { ScreenUtils.switchScreen(this, FriendsListActivity::class.java)}
