@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbarMain)
         val toggle = ActionBarDrawerToggle(this, binding.drawerMain, binding.toolbarMain, R.string.drawer_opened, R.string.drawer_closed)
+        toggle.isDrawerIndicatorEnabled = false
         binding.drawerMain.addDrawerListener(toggle)
         toggle.syncState()
 
